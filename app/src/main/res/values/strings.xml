@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">成电微记</string>
+    <string name="diary">Diary</string>
+    <string name="bill">Bill</string>
+    <string name="todo">Todo</string>
+    <string name="settings">Settings</string>
 </resources>
