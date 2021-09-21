@@ -6,5 +6,5 @@ dependencyResolutionManagement {
         jcenter() // Warning: this repository is going to shut down soon
     }
 }
-rootProject.name = "Demo1"
+rootProject.name = "DiaryInUestc"
 include ':app'
