@@ -7,25 +7,25 @@
 
     <fragment
         android:id="@+id/nav_diary"
-        android:name="com.example.demo1.ui.diary.DiaryFragment"
+        android:name="com.example.DiaryInUESTC.ui.diary.DiaryFragment"
         android:label="Diary"
         tools:layout="@layout/fragment_diary" />
 
     <fragment
         android:id="@+id/nav_bill"
-        android:name="com.example.demo1.ui.bill.BillFragment"
+        android:name="com.example.DiaryInUESTC.ui.bill.BillFragment"
         android:label="Bill"
         tools:layout="@layout/fragment_bill" />
 
     <fragment
         android:id="@+id/nav_todo"
-        android:name="com.example.demo1.ui.todo.TodoFragment"
+        android:name="com.example.DiaryInUESTC.ui.todo.TodoFragment"
         android:label="Todo"
         tools:layout="@layout/fragment_notifications" />
 
     <fragment
         android:id="@+id/nav_settings"
-        android:name="com.example.demo1.ui.settings.SettingsFragment"
+        android:name="com.example.DiaryInUESTC.ui.settings.SettingsFragment"
         android:label="Settings"
         tools:layout="@layout/fragment_settings" />
 </navigation>

@@ -1,16 +1,16 @@
-package com.example.demo1.ui.diary;
+package com.example.DiaryInUESTC.ui.settings;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class DiaryViewModel extends ViewModel {
+public class SettingsViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public DiaryViewModel() {
+    public SettingsViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+        mText.setValue("This is Settings fragment");
     }
 
     public LiveData<String> getText() {

@@ -1,4 +1,4 @@
-package com.example.demo1;
+package com.example.DiaryInUESTC;
 
 import android.content.Context;
 

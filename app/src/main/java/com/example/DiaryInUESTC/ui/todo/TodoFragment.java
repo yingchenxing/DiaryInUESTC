@@ -1,4 +1,4 @@
-package com.example.demo1.ui.diary;
+package com.example.DiaryInUESTC.ui.todo;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,23 +12,23 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.demo1.databinding.FragmentDiaryBinding;
+import com.example.DiaryInUESTC.databinding.FragmentTodoBinding;
 
-public class DiaryFragment extends Fragment {
+public class TodoFragment extends Fragment {
 
-    private DiaryViewModel diaryViewModel;
-    private FragmentDiaryBinding binding;
+    private TodoViewModel todoViewModel;
+    private FragmentTodoBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        diaryViewModel =
-                new ViewModelProvider(this).get(DiaryViewModel.class);
+        todoViewModel =
+                new ViewModelProvider(this).get(TodoViewModel.class);
 
-        binding = FragmentDiaryBinding.inflate(inflater, container, false);
+        binding = FragmentTodoBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textDiary;
-        diaryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        final TextView textView = binding.textTodo;
+        todoViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

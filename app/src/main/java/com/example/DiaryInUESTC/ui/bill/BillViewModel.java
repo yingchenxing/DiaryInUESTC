@@ -1,4 +1,4 @@
-package com.example.demo1.ui.bill;
+package com.example.DiaryInUESTC.ui.bill;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
