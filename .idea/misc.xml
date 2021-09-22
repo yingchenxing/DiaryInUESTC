@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/96392/Desktop/Code/AndroidProgram/DiaryInUESTC/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/Users/96392/Desktop/Code/AndroidProgram/DiaryInUESTC/app/src/main/res/layout/diary_item.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/96392/Desktop/Code/AndroidProgram/DiaryInUESTC/app/src/main/res/layout/fragment_bill.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/96392/Desktop/Code/AndroidProgram/DiaryInUESTC/app/src/main/res/layout/fragment_diary.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/96392/Desktop/Code/AndroidProgram/DiaryInUESTC/app/src/main/res/layout/fragment_settings.xml" value="0.1296875" />
+      </map>
+    </option>
+  </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
+</project>

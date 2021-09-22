@@ -1,16 +1,16 @@
-package com.example.DiaryInUESTC.ui.todo;
+package edu.uestc.diaryinuestc.ui.settings;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class TodoViewModel extends ViewModel {
+public class SettingsViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public TodoViewModel() {
+    public SettingsViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is todo fragment");
+        mText.setValue("This is Settings fragment");
     }
 
     public LiveData<String> getText() {

@@ -1,4 +1,4 @@
-package com.example.DiaryInUESTC.ui.settings;
+package edu.uestc.diaryinuestc.ui.settings;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.DiaryInUESTC.databinding.FragmentSettingsBinding;
+import edu.uestc.diaryinuestc.databinding.FragmentSettingsBinding;
 
 public class SettingsFragment extends Fragment {
 

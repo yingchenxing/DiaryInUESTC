@@ -1,4 +1,4 @@
-package com.example.DiaryInUESTC;
+package edu.uestc.diaryinuestc;
 
 import android.os.Bundle;
 
@@ -10,7 +10,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.DiaryInUESTC.databinding.ActivityMainBinding;
+import edu.uestc.diaryinuestc.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
