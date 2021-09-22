@@ -1,4 +1,4 @@
-package com.example.DiaryInUESTC.ui.bill;
+package edu.uestc.diaryinuestc.ui.diary;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,23 +12,23 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.DiaryInUESTC.databinding.FragmentBillBinding;
+import edu.uestc.diaryinuestc.databinding.FragmentDiaryBinding;
 
-public class BillFragment extends Fragment {
+public class DiaryFragment extends Fragment {
 
-    private BillViewModel billViewModel;
-    private FragmentBillBinding binding;
+    private DiaryViewModel diaryViewModel;
+    private FragmentDiaryBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        billViewModel =
-                new ViewModelProvider(this).get(BillViewModel.class);
+        diaryViewModel =
+                new ViewModelProvider(this).get(DiaryViewModel.class);
 
-        binding = FragmentBillBinding.inflate(inflater, container, false);
+        binding = FragmentDiaryBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textBill;
-        billViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        final TextView textView = binding.textDiary;
+        diaryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

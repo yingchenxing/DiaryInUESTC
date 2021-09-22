@@ -1,16 +1,16 @@
-package com.example.DiaryInUESTC.ui.diary;
+package edu.uestc.diaryinuestc.ui.todo;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class DiaryViewModel extends ViewModel {
+public class TodoViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public DiaryViewModel() {
+    public TodoViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+        mText.setValue("This is todo fragment");
     }
 
     public LiveData<String> getText() {

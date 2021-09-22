@@ -1,4 +1,4 @@
-package com.example.DiaryInUESTC;
+package edu.uestc.diaryinuestc;
 
 import org.junit.Test;
 
