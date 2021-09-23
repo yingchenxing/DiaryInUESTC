@@ -4,20 +4,30 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.uestc.diaryinuestc.R;
 import edu.uestc.diaryinuestc.databinding.FragmentDiaryBinding;
 
 public class DiaryFragment extends Fragment {
 
     private DiaryViewModel diaryViewModel;
     private FragmentDiaryBinding binding;
+    private DiaryAdapter adapter;
+    private List<Diary> diaryList = new ArrayList<>();
+    private SwipeRefreshLayout swipeRefresh;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -27,13 +37,33 @@ public class DiaryFragment extends Fragment {
         binding = FragmentDiaryBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textDiary;
+        //final TextView textView = binding.textDiary;
         diaryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                textView.setText(s);
+                //textView.setText(s);
             }
         });
+
+        //加载日记的recyclerView
+        initDiary();
+        RecyclerView recyclerView = binding.diaryRecyclerView;
+        GridLayoutManager layoutManager = new GridLayoutManager(binding.getRoot().getContext(), 2);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new DiaryAdapter(diaryList);
+        recyclerView.setAdapter(adapter);
+
+
+        swipeRefresh = binding.diarySwipeRefresh;
+        swipeRefresh.setColorSchemeResources(R.color.design_default_color_on_primary);
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Toast.makeText(binding.getRoot().getContext(), "成功刷新！",Toast.LENGTH_SHORT).show();
+                refreshDiary();
+            }
+        });
+
         return root;
     }
 
@@ -41,5 +71,29 @@ public class DiaryFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    public void initDiary(){
+        for(int i =0;i<10;i++){
+            Diary diary = new Diary(i+"",R.drawable.cover);
+            diaryList.add(diary);
+        }
+    }
+
+    private void refreshDiary() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    Thread.sleep(200);
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                };
+            }
+        }).start();
+
+        initDiary();
+        adapter.notifyDataSetChanged();
+        swipeRefresh.setRefreshing(false);
     }
 }
