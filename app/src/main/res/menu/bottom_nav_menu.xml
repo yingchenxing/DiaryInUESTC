@@ -17,8 +17,8 @@
         android:title="@string/todo" />
 
     <item
-        android:id="@+id/nav_settings"
+        android:id="@+id/nav_me"
         android:icon="@drawable/setting"
-        android:title="@string/settings" />
+        android:title="@string/me" />
 
 </menu>

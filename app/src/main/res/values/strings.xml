@@ -3,5 +3,11 @@
     <string name="diary">Diary</string>
     <string name="bill">Bill</string>
     <string name="todo">Todo</string>
-    <string name="settings">Settings</string>
+    <string name="me">Me</string>
+    <string name="empty_user_name_hint">请输入用户名</string>
+    <string name="user_avatar_description">User\'s avatar</string>
+    <string name="my_info">我的信息</string>
+    <string name="mine_help">帮助</string>
+    <string name="mine_setting">设置</string>
+    <string name="mine_about">关于</string>
 </resources>
