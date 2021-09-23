@@ -25,7 +25,9 @@
                 android:layout_height="83dp"
                 android:layout_centerVertical="true"
                 android:background="@drawable/ic_baseline_person_24"
-                android:contentDescription="@string/user_avatar_description" />
+                android:clickable="true"
+                android:contentDescription="@string/user_avatar_description"
+                android:focusable="true" />
 
             <TextView
                 android:id="@+id/user_name"
@@ -56,7 +58,10 @@
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_marginTop="8dp"
-            android:background="@color/white">
+            android:background="@color/white"
+            android:backgroundTint="@color/white_to_grayd5"
+            android:clickable="true"
+            android:focusable="true">
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -95,7 +100,10 @@
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_marginTop="8dp"
-            android:background="@color/white">
+            android:background="@color/white"
+            android:backgroundTint="@color/white_to_grayd5"
+            android:clickable="true"
+            android:focusable="true">
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -133,7 +141,10 @@
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_marginTop="8dp"
-            android:background="@color/white">
+            android:background="@color/white"
+            android:backgroundTint="@color/white_to_grayd5"
+            android:clickable="true"
+            android:focusable="true">
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -165,12 +176,16 @@
 
 
         </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/mine_about"
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_marginTop="8dp"
-            android:background="@color/white">
+            android:background="@color/white"
+            android:backgroundTint="@color/white_to_grayd5"
+            android:clickable="true"
+            android:focusable="true">
 
             <RelativeLayout
                 android:layout_width="wrap_content"
