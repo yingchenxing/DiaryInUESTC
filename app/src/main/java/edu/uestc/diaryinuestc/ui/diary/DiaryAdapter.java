@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import edu.uestc.diaryinuestc.DiaryActivity;
 import edu.uestc.diaryinuestc.R;
 
 public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ViewHolder> {
