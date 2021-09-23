@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -52,7 +51,13 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ViewHolder> 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(parent.getContext(),"未设置点击事件",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(parent.getContext(),"未设置点击事件",Toast.LENGTH_SHORT).show();
+                int position = holder.getAdapterPosition();
+                Diary diary = mDiaryList.get(position);
+                Intent intent = new Intent(mContext, DiaryActivity.class);
+                intent.putExtra(DiaryActivity.DIARY_TITTLE,diary.getTittle());
+                intent.putExtra(DiaryActivity.DIARY_Cover_ID,diary.getCoverId());
+                mContext.startActivity(intent);
             }
         });
         return holder;
