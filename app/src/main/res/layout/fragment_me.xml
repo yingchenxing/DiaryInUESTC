@@ -52,6 +52,7 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/my_info"
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_marginTop="8dp"
@@ -90,6 +91,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/mine_help"
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_marginTop="8dp"
@@ -127,6 +129,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/mine_setting"
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_marginTop="8dp"
@@ -163,6 +166,7 @@
 
         </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/mine_about"
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_marginTop="8dp"
