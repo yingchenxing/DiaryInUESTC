@@ -3,6 +3,8 @@
 
     <external-path
         name="images"
-        path="edu.uestc.diaryinuestc" />
-
+        path="images/" />
+    <files-path
+        name="DiaryInUESTC"
+        path="DiaryInUESTC/" />
 </paths>
