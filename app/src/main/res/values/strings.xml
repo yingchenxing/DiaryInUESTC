@@ -10,4 +10,6 @@
     <string name="mine_help">帮助</string>
     <string name="mine_setting">设置</string>
     <string name="mine_about">关于</string>
+    <string name="camera">拍照</string>
+    <string name="album">从相册中选择</string>
 </resources>
