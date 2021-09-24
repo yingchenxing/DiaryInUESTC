@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
@@ -48,12 +49,12 @@ public class DiaryFragment extends Fragment {
         //加载日记的recyclerView
         initDiary();
         RecyclerView recyclerView = binding.diaryRecyclerView;
-        GridLayoutManager layoutManager = new GridLayoutManager(binding.getRoot().getContext(), 2);
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.VERTICAL);//
         recyclerView.setLayoutManager(layoutManager);
         adapter = new DiaryAdapter(diaryList);
         recyclerView.setAdapter(adapter);
 
-
+        //刷新页面
         swipeRefresh = binding.diarySwipeRefresh;
         swipeRefresh.setColorSchemeResources(R.color.design_default_color_on_primary);
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
