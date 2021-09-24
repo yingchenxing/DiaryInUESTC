@@ -2,11 +2,14 @@ package edu.uestc.diaryinuestc.ui.todo;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -59,6 +62,20 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Todo todo = mTodoList.get(position);
         holder.todoContent.setText(todo.getContent());
+//加入点击划线功能
+        holder.todoContent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    holder.todoContent.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                    holder.todoContent.setTextColor(Color.parseColor("#C0C0C0"));
+                }else{
+                    holder.todoContent.getPaint().setFlags(0);
+                    holder.todoContent.setTextColor(Color.parseColor("#000000"));
+                }
+            }
+        });
+
     }
 
     @Override
