@@ -12,7 +12,7 @@
     <string name="mine_about">关于</string>
     <string name="camera">拍照</string>
     <string name="album">从相册中选择</string>
-    <string name="change_border_color">选择边框颜色</string>
+    <string name="change_border_color">随机更换边框颜色</string>
     <string name="crop_image_activity_title">裁剪图片</string>
     <string name="crop_image_button_title">裁剪</string>
 
@@ -25,4 +25,18 @@
     <string name="toast_fail_save_avatar">保存头像失败</string>
     <string name="toast_null_picture">传入图片为空</string>
     <string name="toast_fail_create_dir">创建文件夹失败</string>
+
+    <!--for Color-->
+    <string name="white">简洁白</string>
+    <string name="gal_pink">少女粉</string>
+    <string name="high_red">高能红</string>
+    <string name="egg_yellow">咸蛋黄</string>
+    <string name="grass_green">早苗绿</string>
+    <string name="jewelry_blue">宝石蓝</string>
+    <string name="roland_purple">罗兰紫</string>
+    <string name="black">主题黑</string>
+    <string name="theme_color">主题颜色</string>
+    <string name="theme_setting">个性设置</string>
+    <string name="choose_color">选择颜色</string>
+
 </resources>

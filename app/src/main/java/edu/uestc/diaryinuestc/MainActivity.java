@@ -1,5 +1,7 @@
 package edu.uestc.diaryinuestc;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -11,6 +13,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import edu.uestc.diaryinuestc.databinding.ActivityMainBinding;
+import edu.uestc.diaryinuestc.ui.me.ThemeSelectActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,8 +37,11 @@ public class MainActivity extends AppCompatActivity {
                 (NavHostFragment) getSupportFragmentManager()
                         .findFragmentById(R.id.nav_host_fragment_activity_main);
         NavController navController = navHostFragment.getNavController();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+//        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+
+        //读取用户默认主题
+        SharedPreferences themePreferences = getSharedPreferences(ThemeSelectActivity.THEME, Context.MODE_PRIVATE);
     }
 
 }

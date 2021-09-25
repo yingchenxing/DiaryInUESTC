@@ -70,7 +70,6 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         loadUserInfo();
         setOnClickListener();
 
-
         return root;
     }
 
@@ -85,6 +84,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     private void setOnClickListener() {
         binding.userAvatar.setOnClickListener(this);
         binding.userName.setOnClickListener(this);
+        binding.theme.setOnClickListener(this);
         binding.myInfo.setOnClickListener(this);
         binding.mineSetting.setOnClickListener(this);
         binding.mineAbout.setOnClickListener(this);
@@ -103,6 +103,9 @@ public class MeFragment extends Fragment implements View.OnClickListener {
             popAvatarSelectorWindow();
         } else if (v.getId() == binding.userName.getId()) {
 
+        } else if (v.getId() == binding.theme.getId()) {
+            Intent intent = new Intent(activity, ThemeSelectActivity.class);
+            startActivity(intent);
         } else if (v.getId() == binding.myInfo.getId()) {
 
         } else if (v.getId() == binding.mineHelp.getId()) {
@@ -119,9 +122,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
             popupPhotoSelectorWindow.dismiss();
             getPicFromAlbum();
 
-        } else if(v.getId() == R.id.pop_change_border_color){
-            popupPhotoSelectorWindow.dismiss();
-        } else{
+        } else {
             Log.e(TAG, "Unsettled onClick view:" + v.toString());
             Toast.makeText(activity, getResources().getString(R.string.toast_unsettled_onclick)
                     + ":" + v.toString(), Toast.LENGTH_LONG).show();
@@ -145,10 +146,8 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         //设置弹出内容监听
         View popCameraBtn = popView.findViewById(R.id.pop_camera);
         View popAlbumBtn = popView.findViewById(R.id.pop_album);
-        View popColorBtn = popView.findViewById(R.id.pop_change_border_color);
         popCameraBtn.setOnClickListener(this);
         popAlbumBtn.setOnClickListener(this);
-        popColorBtn.setOnClickListener(this);
 
         //弹出窗口
         popupPhotoSelectorWindow.showAtLocation(binding.getRoot(), Gravity.CENTER, 0, 0);
