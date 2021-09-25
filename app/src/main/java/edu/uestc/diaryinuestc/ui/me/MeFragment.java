@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.FileUtils;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
@@ -26,12 +28,22 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
+import com.canhub.cropper.CropImage;
+import com.canhub.cropper.CropImageContract;
+import com.canhub.cropper.CropImageContractOptions;
+import com.canhub.cropper.CropImageOptions;
+import com.canhub.cropper.CropImageView;
+import com.canhub.cropper.PickImageContract;
+
+import com.bumptech.glide.Glide;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -47,6 +59,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     private Activity activity;
 
     private PopupWindow popupPhotoSelectorWindow;
+    private Bitmap userAvatarBitmap;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -54,10 +67,19 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         View root = binding.getRoot();
         activity = requireActivity();
 
+        loadUserInfo();
         setOnClickListener();
 
 
         return root;
+    }
+
+    private void loadUserInfo() {
+        File avatarFile = new File(activity.getFilesDir().getPath(), AppPathUtils.AVATAR_PATH);
+        if (avatarFile.exists()) {
+            userAvatarBitmap = BitmapFactory.decodeFile(avatarFile.getPath());
+            Glide.with(activity).load(userAvatarBitmap).into(binding.userAvatar);
+        }
     }
 
     private void setOnClickListener() {
@@ -151,13 +173,13 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     //最终存储图片
     File avatarFile;
 
-
     ActivityResultLauncher<Intent> picFromCameraIntentLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
+                    if (tempFile != null && tempFile.exists()) {
+                        Log.e(TAG, "成功获取拍照图片");
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                             Uri contentUri = FileProvider.getUriForFile(activity,
                                     BuildConfig.APPLICATION_ID + ".fileprovider", tempFile);
@@ -165,6 +187,9 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                         } else {
                             cropPicture(Uri.fromFile(tempFile));
                         }
+                    } else {
+                        assert tempFile != null;
+                        Log.e(TAG, "获取拍照图片失败" + "file:" + tempFile.toString() + " code:" + result.getResultCode());
                     }
                 }
             });
@@ -173,8 +198,10 @@ public class MeFragment extends Fragment implements View.OnClickListener {
      * 从相机获取图片
      */
     private void getPicFromCamera() {
+        //顺便删除其他AvatarPhoto
+
         //临时接收图片文件
-        File tempFile = new File(Environment.getExternalStorageDirectory().getPath(), "AvatarPhoto_" + System.currentTimeMillis() + ".png");
+        tempFile = new File(activity.getCacheDir() + "/AvatarPhoto_" + System.currentTimeMillis() + ".png");
         //intent连接image_capture 并用EXTRA_OUTPUT传入tempFile的Uri
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {   //如果在Android7.0以上,使用FileProvider获取Uri
@@ -210,63 +237,89 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         picFromAlbumIntentLauncher.launch(intent);
     }
 
-
-    ActivityResultLauncher<Intent> cropPictureIntentLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
+    private final ActivityResultLauncher<CropImageContractOptions> cropImage =
+            registerForActivityResult(new CropImageContract(), new ActivityResultCallback<CropImageView.CropResult>() {
                 @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getData() != null) {
-                        Bitmap bitmap = BitmapFactory.decodeFile(avatarFile.getPath());
-                        binding.userAvatar.setImageBitmap(bitmap);
-                        if (AppPathUtils.saveImage(avatarFile, bitmap))
-                            Toast.makeText(activity, getResources().getString(R.string.toast_success_avatar), Toast.LENGTH_SHORT).show();
-                        else
-                            Toast.makeText(activity, getResources().getString(R.string.toast_fail_avatar), Toast.LENGTH_LONG).show();
-
+                public void onActivityResult(CropImageView.CropResult result) {
+                    if (result.isSuccessful()) {
+                        userAvatarBitmap = BitmapFactory.decodeFile(result.getUriFilePath(activity, false));
+//                        userAvatarBitmap = result.getBitmap();
+                        if (userAvatarBitmap == null) {
+                            Log.e(TAG, "null bitmap! path=" + result.getUriFilePath(activity, false));
+                            Toast.makeText(activity, getResources().getString(R.string.toast_null_picture), Toast.LENGTH_LONG).show();
+                        } else {
+                            if (AppPathUtils.saveImage(avatarFile, userAvatarBitmap)) {
+                                Toast.makeText(activity, getResources().getString(R.string.toast_success_save_avatar), Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(activity, getResources().getString(R.string.toast_fail_save_avatar), Toast.LENGTH_LONG).show();
+                            }
+                            Glide.with(activity).load(userAvatarBitmap).into(binding.userAvatar);
+                        }
                     } else {
-                        Log.e(TAG, "传入图片为空");
-                        Toast.makeText(activity, getResources().getString(R.string.toast_null_picture), Toast.LENGTH_LONG).show();
+                        Log.e(TAG, "Error in CropImage" + Objects.requireNonNull(result.getError()).toString());
+                        Toast.makeText(activity, "Error in CropImage" + Objects.requireNonNull(result.getError()).toString(), Toast.LENGTH_LONG).show();
                     }
                 }
             });
 
     /**
-     * 裁剪图片
+     * 裁剪图片<br><br/>
      *
      * @param uri 图片资源
      */
     private void cropPicture(Uri uri) {
-        if (uri == null) return;
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-        intent.setDataAndType(uri, "image/*");
-        // 设置裁剪
-        intent.putExtra("crop", "true");
-        // 设置宽高比例
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        // 设置裁剪图片宽高
-        intent.putExtra("outputX", 100);
-        intent.putExtra("outputY", 100);
-        intent.putExtra("return-data", false);
+        avatarFile = new File(activity.getFilesDir().getPath(), AppPathUtils.AVATAR_PATH);
+        CropImageContractOptions options = new CropImageContractOptions(uri, new CropImageOptions())
+                .setScaleType(CropImageView.ScaleType.CENTER)
+                .setCropShape(CropImageView.CropShape.RECTANGLE)
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setAspectRatio(1, 1)
+                .setMaxZoom(8)
+                .setAutoZoomEnabled(false)
+                .setMultiTouchEnabled(true)
+                .setCenterMoveEnabled(true)
+                .setShowCropOverlay(true)
+                .setAllowFlipping(true)
+                .setSnapRadius(30f)
+                .setTouchRadius(48f)
+                .setInitialCropWindowPaddingRatio(0.1f)
+                .setBorderLineThickness(3f)
+                .setBorderLineColor(R.color.black)
+                .setBorderCornerThickness(2f)
+                .setBorderCornerOffset(2f)
+                .setBorderCornerLength(20f)
+//                .setBorderCornerColor(R.color.RED)
+                .setGuidelinesThickness(5f)
+//                .setGuidelinesColor(RED)
+//                .setBackgroundColor(Color.argb(119, 30, 60, 90))
+                .setMinCropWindowSize(42, 42)
+                .setMinCropResultSize(40, 40)
+                .setMaxCropResultSize(999, 999)
+                .setActivityTitle(getResources().getString(R.string.crop_image_activity_title))
+//                .setActivityMenuIconColor(RED)
+                /*
+                 * set out put settings
+                 * NONE uri will create a temp file
+                 * 不设置是避免从fileprovider获取uri
+                 * !!!
+                 */
+//                .setOutputUri()
+                .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
+                .setOutputCompressQuality(100)
+//                .setRequestedSize(100, 100)
+//                .setRequestedSize(100, 100, CropImageView.RequestSizeOptions.RESIZE_FIT)
+                .setInitialCropWindowRectangle(null)
+                .setInitialRotation(180)
+                .setAllowCounterRotation(true)
+                .setFlipHorizontally(true)
+                .setFlipVertically(true)
+                .setCropMenuCropButtonTitle(getResources().getString(R.string.crop_image_button_title))
+                .setCropMenuCropButtonIcon(R.drawable.ic_baseline_aspect_ratio_24)
+                .setAllowRotation(true)
+                .setNoOutputImage(false)
+                .setFixAspectRatio(true);
 
-        //设置输出文件
-        ArrayList<String> paths = new ArrayList<String>();
-        paths.add(Environment.getExternalStorageDirectory().getPath());
-        paths.add(AppPathUtils.APP_PATH);
-        paths.add(AppPathUtils.ME_PATH);
-        paths.add(AppPathUtils.AVATAR_PATH);
-        avatarFile = new File(AppPathUtils.connectPaths(paths));
-        if (!Objects.requireNonNull(avatarFile.getParentFile()).exists())
-            if (!avatarFile.getParentFile().mkdirs()) {
-                Log.e(TAG, "fail to make dirs in MeFragment cropPicture()");
-                Toast.makeText(activity, getResources().getString(R.string.toast_fail_create_dir), Toast.LENGTH_LONG).show();
-            }
-        //连接intent
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(avatarFile));
-        cropPictureIntentLauncher.launch(intent);
+        cropImage.launch(options);
     }
 
 }
