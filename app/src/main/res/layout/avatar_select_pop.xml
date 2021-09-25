@@ -50,27 +50,4 @@
             app:drawableLeftCompat="@drawable/ic_photo_album" />
 
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/pop_change_border_color"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="10dp"
-        android:paddingTop="10dp"
-        android:paddingEnd="10dp"
-        android:paddingBottom="10dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
-            android:drawablePadding="20dp"
-            android:gravity="center"
-            android:text="@string/change_border_color"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            app:drawableLeftCompat="@drawable/ic_color" />
-
-    </LinearLayout>
-
 </LinearLayout>
