@@ -119,7 +119,9 @@ public class MeFragment extends Fragment implements View.OnClickListener {
             popupPhotoSelectorWindow.dismiss();
             getPicFromAlbum();
 
-        } else {
+        } else if(v.getId() == R.id.pop_change_border_color){
+            popupPhotoSelectorWindow.dismiss();
+        } else{
             Log.e(TAG, "Unsettled onClick view:" + v.toString());
             Toast.makeText(activity, getResources().getString(R.string.toast_unsettled_onclick)
                     + ":" + v.toString(), Toast.LENGTH_LONG).show();
@@ -141,10 +143,12 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         popupPhotoSelectorWindow.setAnimationStyle(R.style.popupWindow_anim_style);
 
         //设置弹出内容监听
-        TextView popCameraBtn = popView.findViewById(R.id.pop_camera);
-        TextView popAlbumBtn = popView.findViewById(R.id.pop_album);
+        View popCameraBtn = popView.findViewById(R.id.pop_camera);
+        View popAlbumBtn = popView.findViewById(R.id.pop_album);
+        View popColorBtn = popView.findViewById(R.id.pop_change_border_color);
         popCameraBtn.setOnClickListener(this);
         popAlbumBtn.setOnClickListener(this);
+        popColorBtn.setOnClickListener(this);
 
         //弹出窗口
         popupPhotoSelectorWindow.showAtLocation(binding.getRoot(), Gravity.CENTER, 0, 0);

@@ -12,6 +12,7 @@
     <string name="mine_about">关于</string>
     <string name="camera">拍照</string>
     <string name="album">从相册中选择</string>
+    <string name="change_border_color">选择边框颜色</string>
     <string name="crop_image_activity_title">裁剪图片</string>
     <string name="crop_image_button_title">裁剪</string>
 
