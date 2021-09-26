@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navController);
 
         //读取用户默认主题
-        SharedPreferences themePreferences = getSharedPreferences(ThemeSelectActivity.THEME, Context.MODE_PRIVATE);
+        SharedPreferences themePreferences = getSharedPreferences(ThemeSelectActivity.THEME_KEY, Context.MODE_PRIVATE);
     }
 
 }
