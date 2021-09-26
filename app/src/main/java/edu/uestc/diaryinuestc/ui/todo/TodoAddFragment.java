@@ -1,6 +1,9 @@
 package edu.uestc.diaryinuestc.ui.todo;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,16 +21,14 @@ import edu.uestc.diaryinuestc.databinding.FragmentTodoBinding;
 
 public class TodoAddFragment extends Fragment {
 
-    private @NonNull FragmentAddTodoBinding binding;
 
-    @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        binding = FragmentAddTodoBinding.inflate(inflater,container,false);
+        View view = inflater.inflate(R.layout.fragment_add_todo,container,false);
         //保存按钮
-        Button button = binding.addTodoButton;
-        EditText editText = getActivity().findViewById(R.id.todo_edit);
+        Button button = view.findViewById(R.id.add_todo_button);
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -35,20 +36,24 @@ public class TodoAddFragment extends Fragment {
                 onStop();
             }
         });
-        return inflater.inflate(R.layout.fragment_add_todo,container,false);
-    }
+        //保存todo内容
+        EditText editText = view.findViewById(R.id.todo_edit);
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //保存按钮
-//        Button button = getActivity().findViewById(R.id.add_todo_button);
-//        EditText editText = getActivity().findViewById(R.id.todo_edit);
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                onDestroy();
-//            }
-//        });
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        return view;
     }
 }
