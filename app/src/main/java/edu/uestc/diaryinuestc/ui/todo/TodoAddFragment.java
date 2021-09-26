@@ -16,8 +16,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import edu.uestc.diaryinuestc.R;
-import edu.uestc.diaryinuestc.databinding.FragmentAddTodoBinding;
-import edu.uestc.diaryinuestc.databinding.FragmentTodoBinding;
 
 public class TodoAddFragment extends Fragment {
 
@@ -29,12 +27,9 @@ public class TodoAddFragment extends Fragment {
         //保存按钮
         Button button = view.findViewById(R.id.add_todo_button);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getContext(),"aaaa",Toast.LENGTH_SHORT).show();
-                onStop();
-            }
+        button.setOnClickListener(view1 -> {
+            Toast.makeText(getContext(),"aaaa",Toast.LENGTH_SHORT).show();
+            onStop();
         });
         //保存todo内容
         EditText editText = view.findViewById(R.id.todo_edit);
@@ -46,7 +41,7 @@ public class TodoAddFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                Log.d("todo content",charSequence.toString());
             }
 
             @Override
