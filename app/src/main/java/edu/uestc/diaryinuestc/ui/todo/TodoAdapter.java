@@ -26,33 +26,33 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
 
     private final List<Todo> mTodoList;
 
-    static class ViewHolder extends RecyclerView.ViewHolder{
+    static class ViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
         CheckBox todoContent;
 
-        public ViewHolder(View view){
+        public ViewHolder(View view) {
             super(view);
             cardView = (CardView) view;
             todoContent = view.findViewById(R.id.todo_content);
         }
     }
 
-    public TodoAdapter(List<Todo> todoList){
+    public TodoAdapter(List<Todo> todoList) {
         mTodoList = todoList;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if(mContext==null){
+        if (mContext == null) {
             mContext = parent.getContext();
         }
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_todo,parent,false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_todo, parent, false);
         final TodoAdapter.ViewHolder holder = new TodoAdapter.ViewHolder(view);
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(parent.getContext(),"未设置点击事件",Toast.LENGTH_SHORT).show();
+                Toast.makeText(parent.getContext(), "未设置点击事件", Toast.LENGTH_SHORT).show();
             }
         });
         return holder;
@@ -62,15 +62,17 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Todo todo = mTodoList.get(position);
         holder.todoContent.setText(todo.getContent());
-//加入点击划线功能
+        holder.todoContent.setChecked(todo.getSelected());
+
+        //加入点击划线功能
         holder.todoContent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
-                    holder.todoContent.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                if (b) {
+                    holder.todoContent.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);//添加中划线
                     holder.todoContent.setTextColor(Color.parseColor("#C0C0C0"));
-                }else{
-                    holder.todoContent.getPaint().setFlags(0);
+                } else {
+                    holder.todoContent.getPaint().setFlags(0);//回复划线
                     holder.todoContent.setTextColor(Color.parseColor("#000000"));
                 }
             }

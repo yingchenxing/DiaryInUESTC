@@ -1,22 +1,31 @@
 package edu.uestc.diaryinuestc.ui.todo;
 
 import android.os.Bundle;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.uestc.diaryinuestc.R;
 import edu.uestc.diaryinuestc.databinding.FragmentTodoBinding;
 import edu.uestc.diaryinuestc.ui.diary.DiaryAdapter;
 
@@ -35,13 +44,13 @@ public class TodoFragment extends Fragment {
         binding = FragmentTodoBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-//        final TextView textView = binding.textTodo;
-        todoViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-//                textView.setText(s);
-            }
-        });
+////        final TextView textView = binding.textTodo;
+//        todoViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+//            @Override
+//            public void onChanged(@Nullable String s) {
+////                textView.setText(s);
+//            }
+//        });
 
         //加载todo的recyclerView
         initTodo();
@@ -51,8 +60,22 @@ public class TodoFragment extends Fragment {
         adapter = new TodoAdapter(todoList);
         recyclerView.setAdapter(adapter);
 
+        //加载添加todo的fragment
+        FloatingActionButton fab = binding.todoFab;
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.fragment_todo,new TodoAddFragment());
+                transaction.addToBackStack(null);//添加到返回栈
+                transaction.commit();
+            }
+        });
+
         return root;
     }
+
 
     @Override
     public void onDestroyView() {
@@ -61,8 +84,13 @@ public class TodoFragment extends Fragment {
     }
 
     public void initTodo(){
-        for(int i =0;i<20;i++) {
+        for(int i =0;i<10;i++) {
             Todo todo = new Todo("11111111111");
+            todoList.add(todo);
+        }
+        for(int i =0;i<10;i++) {
+            Todo todo = new Todo("11111111111");
+            todo.setSelected(true);
             todoList.add(todo);
         }
     }
