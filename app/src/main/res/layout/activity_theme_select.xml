@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_E5"
+    tools:context=".ui.me.ThemeSelectActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/theme_select_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_back_32">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/theme_setting"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            tools:layout_editor_absoluteX="165dp"
+            tools:layout_editor_absoluteY="14dp" />
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/theme_select_toolbar">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/theme_color"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="5dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingTop="10dp"
+                android:text="@string/choose_color"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/color_card1"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="0dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintDimensionRatio="h,1:0.618"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <com.shehuan.niv.NiceImageView
+
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:src="@color/white"
+                                app:border_color="@color/gray_D5"
+                                app:border_width="2dp"
+                                app:cardCornerRadius="4dp"
+                                app:corner_radius="4dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHeight_percent="0.8"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintWidth_percent="0.8" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                        <CheckedTextView
+                            android:id="@+id/checkedTextView1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:checked="false"
+                            android:drawableEnd="@drawable/color_selector_checkbox"
+                            android:text="@string/white"
+                            android:textAlignment="center"
+                            android:textSize="15sp"
+                            app:layout_constraintTop_toBottomOf="@+id/color_card1" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/color_card2"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="0dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintDimensionRatio="h,1:0.618"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <com.shehuan.niv.NiceImageView
+
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:src="@color/gal_pink"
+                                app:border_color="@color/gray_D5"
+                                app:border_width="2dp"
+                                app:cardCornerRadius="4dp"
+                                app:corner_radius="4dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHeight_percent="0.8"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintWidth_percent="0.8" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                        <CheckedTextView
+                            android:id="@+id/checkedTextView2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:checked="false"
+                            android:drawableEnd="@drawable/color_selector_checkbox"
+                            android:text="@string/gal_pink"
+                            android:textAlignment="center"
+                            android:textSize="15sp"
+                            app:layout_constraintTop_toBottomOf="@+id/color_card2" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/color_card3"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="0dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintDimensionRatio="h,1:0.618"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <com.shehuan.niv.NiceImageView
+
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:src="@color/black"
+                                app:border_color="@color/gray_D5"
+                                app:border_width="2dp"
+                                app:cardCornerRadius="4dp"
+                                app:corner_radius="4dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHeight_percent="0.8"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintWidth_percent="0.8" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                        <CheckedTextView
+                            android:id="@+id/checkedTextView3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:checked="false"
+                            android:drawableEnd="@drawable/color_selector_checkbox"
+                            android:text="@string/black"
+                            android:textAlignment="center"
+                            android:textSize="15sp"
+                            app:layout_constraintTop_toBottomOf="@+id/color_card3" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@color/white"
+                        android:orientation="vertical">
+
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/color_card4"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="0dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintDimensionRatio="h,1:0.618"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <com.shehuan.niv.NiceImageView
+
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:src="@color/high_red"
+                                app:border_color="@color/gray_D5"
+                                app:border_width="2dp"
+                                app:cardCornerRadius="4dp"
+                                app:corner_radius="4dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHeight_percent="0.8"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintWidth_percent="0.8" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                        <CheckedTextView
+                            android:id="@+id/checkedTextView4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:checked="false"
+                            android:drawableEnd="@drawable/color_selector_checkbox"
+                            android:text="@string/high_red"
+                            android:textAlignment="center"
+                            android:textSize="15sp"
+                            app:layout_constraintTop_toBottomOf="@+id/color_card4" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:orientation="horizontal">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@color/white"
+                        android:orientation="vertical">
+
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/color_card5"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="0dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintDimensionRatio="h,1:0.618"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <com.shehuan.niv.NiceImageView
+
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:src="@color/egg_yellow"
+                                app:border_color="@color/gray_D5"
+                                app:border_width="2dp"
+                                app:cardCornerRadius="4dp"
+                                app:corner_radius="4dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHeight_percent="0.8"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintWidth_percent="0.8" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                        <CheckedTextView
+                            android:id="@+id/checkedTextView5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:checked="false"
+                            android:drawableEnd="@drawable/color_selector_checkbox"
+                            android:text="@string/egg_yellow"
+                            android:textAlignment="center"
+                            android:textSize="15sp"
+                            app:layout_constraintTop_toBottomOf="@+id/color_card5" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@color/white"
+                        android:orientation="vertical">
+
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/color_card6"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="0dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintDimensionRatio="h,1:0.618"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <com.shehuan.niv.NiceImageView
+
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:src="@color/grass_green"
+                                app:border_color="@color/gray_D5"
+                                app:border_width="2dp"
+                                app:cardCornerRadius="4dp"
+                                app:corner_radius="4dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHeight_percent="0.8"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintWidth_percent="0.8" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                        <CheckedTextView
+                            android:id="@+id/checkedTextView6"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:checked="false"
+                            android:drawableEnd="@drawable/color_selector_checkbox"
+                            android:text="@string/grass_green"
+                            android:textAlignment="center"
+                            android:textSize="15sp"
+                            app:layout_constraintTop_toBottomOf="@+id/color_card6" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@color/white"
+                        android:orientation="vertical">
+
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/color_card7"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="0dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintDimensionRatio="h,1:0.618"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <com.shehuan.niv.NiceImageView
+
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:src="@color/jewelry_blue"
+                                app:border_color="@color/gray_D5"
+                                app:border_width="2dp"
+                                app:cardCornerRadius="4dp"
+                                app:corner_radius="4dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHeight_percent="0.8"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintWidth_percent="0.8" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                        <CheckedTextView
+                            android:id="@+id/checkedTextView7"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:checked="false"
+                            android:drawableEnd="@drawable/color_selector_checkbox"
+                            android:text="@string/jewelry_blue"
+                            android:textAlignment="center"
+                            android:textSize="15sp"
+                            app:layout_constraintTop_toBottomOf="@+id/color_card7" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@color/white"
+                        android:orientation="vertical">
+
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/color_card8"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="0dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintDimensionRatio="h,1:0.618"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <com.shehuan.niv.NiceImageView
+
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:src="@color/roland_purple"
+                                app:border_color="@color/gray_D5"
+                                app:border_width="2dp"
+                                app:cardCornerRadius="4dp"
+                                app:corner_radius="4dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHeight_percent="0.8"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintWidth_percent="0.8" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                        <CheckedTextView
+                            android:id="@+id/checkedTextView8"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:checked="false"
+                            android:drawableEnd="@drawable/color_selector_checkbox"
+                            android:text="@string/roland_purple"
+                            android:textAlignment="center"
+                            android:textSize="15sp"
+                            app:layout_constraintTop_toBottomOf="@+id/color_card8" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

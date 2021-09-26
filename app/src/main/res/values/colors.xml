@@ -10,4 +10,13 @@
     <color name="gray_E5">#FFE5E5E5</color>
     <color name="gray_D5">#FFD5D5D5</color>
 
+    <color name="gal_pink">#FFF19EC2</color>
+    <color name="high_red">#FFF44436</color>
+    <color name="egg_yellow">#FFFFC108</color>
+    <color name="grass_green">#FF8BC24B</color>
+    <color name="jewelry_blue">#FF2195F3</color>
+    <color name="roland_purple">#FF9B27B0</color>
+
+
+
 </resources>

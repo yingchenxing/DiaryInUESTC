@@ -27,5 +27,7 @@
         android:id="@+id/nav_me"
         android:name="edu.uestc.diaryinuestc.ui.me.MeFragment"
         android:label="Me"
-        tools:layout="@layout/fragment_me" />
+        tools:layout="@layout/fragment_me" >
+    </fragment>
+
 </navigation>

@@ -8,18 +8,19 @@
 
 
     <LinearLayout
+        android:id="@+id/pop_camera"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingStart="10dp"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:paddingStart="10dp">
+        android:paddingEnd="10dp"
+        android:paddingBottom="10dp">
 
         <TextView
-            android:id="@+id/pop_camera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:drawablePadding="20dp"
+            android:gravity="center"
             android:text="@string/camera"
             android:textColor="@color/black"
             android:textSize="20sp"
@@ -29,14 +30,15 @@
 
 
     <LinearLayout
+        android:id="@+id/pop_album"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingStart="10dp"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:paddingStart="10dp">
+        android:paddingEnd="10dp"
+        android:paddingBottom="10dp">
 
         <TextView
-            android:id="@+id/pop_album"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/white"
@@ -48,5 +50,4 @@
             app:drawableLeftCompat="@drawable/ic_photo_album" />
 
     </LinearLayout>
-
 </LinearLayout>
