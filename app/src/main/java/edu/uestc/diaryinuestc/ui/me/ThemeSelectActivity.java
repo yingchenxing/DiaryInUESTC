@@ -71,6 +71,8 @@ public class ThemeSelectActivity extends AppCompatActivity implements View.OnCli
         }
         colorCheckBoxes[colorCode].setChecked(true);
         colorCards[colorCode].setBackground(background);
+        binding.themeSelectToolbar.setBackgroundColor(getThemeColor(this));
+        binding.themeTitleText.setTextColor(getTextColor(this));
 
         //操作click
         setOnClickListener();
@@ -94,6 +96,8 @@ public class ThemeSelectActivity extends AppCompatActivity implements View.OnCli
             editor.putInt(COLOR_KEY, colorCode);
             editor.commit();
         }
+        binding.themeSelectToolbar.setBackgroundColor(Code2Color(code));
+        binding.themeTitleText.setTextColor(getTextColor(this));
     }
 
     private void setOnClickListener() {
@@ -104,7 +108,14 @@ public class ThemeSelectActivity extends AppCompatActivity implements View.OnCli
 
     public static int getThemeColor(Context context) {
         SharedPreferences themePreferences = context.getSharedPreferences(THEME_KEY, Context.MODE_PRIVATE);
-        return Code2Color(themePreferences.getInt(COLOR_KEY, 0));
+        return Code2Color(themePreferences.getInt(COLOR_KEY, 1));
+    }
+
+    public static int getTextColor(Context context) {
+        SharedPreferences themePreferences = context.getSharedPreferences(THEME_KEY, Context.MODE_PRIVATE);
+        int color = themePreferences.getInt(COLOR_KEY, 1);
+        if (color == 3 || color == 4 || color == 8) return Color.WHITE;
+        return Color.BLACK;
     }
 
     private static int Code2Color(int code) {
@@ -112,7 +123,7 @@ public class ThemeSelectActivity extends AppCompatActivity implements View.OnCli
             Log.e(TAG, "使用了非法code 函数返回默认值");
             return Color.WHITE;
         }
-        int[] array = new int[]{Color.WHITE, Color.WHITE, 0xFFF19EC2, Color.BLACK, 0xFFF44436, 0xFFFFC108, 0xFF8BC24B, 0xFF2195F3, 0xFF9B27B0};
+        int[] array = new int[]{Color.WHITE, Color.WHITE, 0xFFF19EC2, 0xFF282828, 0xFFF44436, 0xFFFFC108, 0xFF8BC24B, 0xFF2195F3, 0xFF9B27B0};
         return array[code];
     }
 

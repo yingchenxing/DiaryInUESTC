@@ -79,6 +79,8 @@ public class MeFragment extends Fragment implements View.OnClickListener {
             userAvatarBitmap = BitmapFactory.decodeFile(avatarFile.getPath());
             Glide.with(activity).load(userAvatarBitmap).into(binding.userAvatar);
         }
+        int color = ThemeSelectActivity.getThemeColor(activity);
+        binding.userAvatar.setBorderColor(color);
     }
 
     private void setOnClickListener() {
@@ -89,6 +91,12 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         binding.mineSetting.setOnClickListener(this);
         binding.mineAbout.setOnClickListener(this);
         binding.mineSetting.setOnClickListener(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadUserInfo();
     }
 
     @Override
