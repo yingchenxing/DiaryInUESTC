@@ -79,6 +79,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:orientation="vertical">
 
 
@@ -111,11 +113,11 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                    <CheckedTextView
+                    <CheckBox
                         android:id="@+id/checkedTextView1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:checkMark="@drawable/color_selector_checkbox"
+                        android:button="@drawable/color_selector_checkbox"
                         android:checked="false"
                         android:filterTouchesWhenObscured="true"
                         android:text="@string/white"
@@ -164,11 +166,11 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                    <CheckedTextView
+                    <CheckBox
                         android:id="@+id/checkedTextView2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:checkMark="@drawable/color_selector_checkbox"
+                        android:button="@drawable/color_selector_checkbox"
                         android:checked="false"
                         android:text="@string/gal_pink"
                         android:textAlignment="center"
@@ -214,11 +216,11 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                    <CheckedTextView
+                    <CheckBox
                         android:id="@+id/checkedTextView3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:checkMark="@drawable/color_selector_checkbox"
+                        android:button="@drawable/color_selector_checkbox"
                         android:checked="false"
                         android:text="@string/black"
                         android:textAlignment="center"
@@ -265,11 +267,11 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                    <CheckedTextView
+                    <CheckBox
                         android:id="@+id/checkedTextView4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:checkMark="@drawable/color_selector_checkbox"
+                        android:button="@drawable/color_selector_checkbox"
                         android:checked="false"
                         android:text="@string/high_red"
                         android:textAlignment="center"
@@ -326,11 +328,11 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                    <CheckedTextView
+                    <CheckBox
                         android:id="@+id/checkedTextView5"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:checkMark="@drawable/color_selector_checkbox"
+                        android:button="@drawable/color_selector_checkbox"
                         android:checked="false"
                         android:text="@string/egg_yellow"
                         android:textAlignment="center"
@@ -377,11 +379,11 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                    <CheckedTextView
+                    <CheckBox
                         android:id="@+id/checkedTextView6"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:checkMark="@drawable/color_selector_checkbox"
+                        android:button="@drawable/color_selector_checkbox"
                         android:checked="false"
                         android:text="@string/grass_green"
                         android:textAlignment="center"
@@ -428,11 +430,11 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                    <CheckedTextView
+                    <CheckBox
                         android:id="@+id/checkedTextView7"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:checkMark="@drawable/color_selector_checkbox"
+                        android:button="@drawable/color_selector_checkbox"
                         android:checked="false"
                         android:text="@string/jewelry_blue"
                         android:textAlignment="center"
@@ -479,11 +481,11 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                    <CheckedTextView
+                    <CheckBox
                         android:id="@+id/checkedTextView8"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:checkMark="@drawable/color_selector_checkbox"
+                        android:button="@drawable/color_selector_checkbox"
                         android:checked="false"
                         android:text="@string/roland_purple"
                         android:textAlignment="center"
