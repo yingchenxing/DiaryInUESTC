@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray_E5"
+    android:background="?android:colorBackground"
     android:orientation="vertical"
     tools:context=".ui.me.MeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="8"
+        android:layout_weight="7"
         android:background="@color/white">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -48,25 +49,26 @@
                 android:layout_marginTop="24dp"
                 android:hint="@string/empty_user_name_hint"
                 android:text=""
+                android:textColor="?android:textColor"
                 android:textSize="20sp"
                 app:layout_constraintStart_toEndOf="@+id/user_avatar"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="TextContrastCheck" />
 
-            <com.shehuan.niv.NiceImageView
-                android:id="@+id/theme"
-                android:layout_width="34dp"
-                android:layout_height="34dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:src="@drawable/ic_clothes"
-                app:corner_radius="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.shehuan.niv.NiceImageView
+            android:id="@+id/theme"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_clothes"
+            app:corner_radius="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -96,9 +98,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:layout_centerVertical="true"
                     android:text="@string/my_info"
-                    android:textColor="@color/black"
+                    android:textColor="?android:attr/textColor"
                     android:textSize="15sp" />
             </RelativeLayout>
 
@@ -139,7 +140,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:text="@string/mine_help"
-                    android:textColor="@color/black"
+                    android:textColor="?android:attr/textColor"
                     android:textSize="15sp" />
             </RelativeLayout>
 
@@ -180,7 +181,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:text="@string/mine_setting"
-                    android:textColor="@color/black"
+                    android:textColor="?android:attr/textColor"
                     android:textSize="15sp" />
             </RelativeLayout>
 
@@ -221,7 +222,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:text="@string/mine_about"
-                    android:textColor="@color/black"
+                    android:textColor="?android:attr/textColor"
                     android:textSize="15sp" />
             </RelativeLayout>
 
@@ -241,5 +242,6 @@
 
 
         </RelativeLayout>
+
     </LinearLayout>
 </LinearLayout>
