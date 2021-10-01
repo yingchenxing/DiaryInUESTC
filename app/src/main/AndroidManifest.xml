@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.White">
         <activity
+            android:name=".ui.todo.TodoAddActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.me.ThemeSelectActivity"
             android:exported="true" />
         <activity
