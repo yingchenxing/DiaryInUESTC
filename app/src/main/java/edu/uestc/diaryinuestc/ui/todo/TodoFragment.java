@@ -1,6 +1,5 @@
 package edu.uestc.diaryinuestc.ui.todo;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,38 +8,30 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.Toast;
-import android.widget.PopupWindow;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
-import edu.uestc.diaryinuestc.MainActivity;
 import edu.uestc.diaryinuestc.R;
 import edu.uestc.diaryinuestc.databinding.FragmentTodoBinding;
+import edu.uestc.diaryinuestc.ui.todo.SimpleItemTouchHelper;
 
 public class TodoFragment extends Fragment {
 
@@ -48,7 +39,7 @@ public class TodoFragment extends Fragment {
     private FragmentTodoBinding binding;
     private List<Todo> todoList = new ArrayList<>();
     private TodoAdapter adapter;
-    private SwipeRefreshLayout swipeRefresh;
+//    private SwipeRefreshLayout swipeRefresh;
     private PopupWindow popupTodoAdd;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -70,10 +61,19 @@ public class TodoFragment extends Fragment {
         //加载todo的recyclerView
         initTodo();
         RecyclerView recyclerView = binding.todoRecyclerView;
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.VERTICAL);//
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,true);
+        layoutManager.setStackFromEnd(true);
+//        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.VERTICAL);//
         recyclerView.setLayoutManager(layoutManager);
         adapter = new TodoAdapter(todoList);
         recyclerView.setAdapter(adapter);
+
+        //实现diary的拖拽
+        SimpleItemTouchHelper callback = new SimpleItemTouchHelper(adapter);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
+
 
         //加载添加todo的fragment
         FloatingActionButton fab = binding.todoFab;
@@ -102,13 +102,13 @@ public class TodoFragment extends Fragment {
         });
 
         //滑动刷新
-        swipeRefresh = binding.todoSwipeRefresh;
-        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refreshTodo();
-            }
-        });
+//        swipeRefresh = binding.todoSwipeRefresh;
+//        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                refreshTodo();
+//            }
+//        });
 
         //传递数据
 //        EventBus.getDefault().register(this);
@@ -127,40 +127,21 @@ public class TodoFragment extends Fragment {
 
     public void initTodo(){
         for(int i =0;i<10;i++) {
-            Todo todo = new Todo("11111111111");
+            Todo todo = new Todo(i+"");
             todoList.add(todo);
         }
         for(int i =0;i<10;i++) {
-            Todo todo = new Todo("11111111111");
+            Todo todo = new Todo(i+"");
             todo.setSelected(true);
             todoList.add(todo);
         }
     }
 
-    @Subscribe
-    public void onEvent(String data) {
-        Todo todo = new Todo(data);
-        todoList.add(todo);
-        Log.d("todo",data);
-    }
 
     public void refreshTodo(){
         adapter.notifyDataSetChanged();
-        swipeRefresh.setRefreshing(false);
-
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Toast.makeText(getContext(),"destroy",Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        Toast.makeText(getContext(),"pause",Toast.LENGTH_SHORT).show();
-    }
 
     public void load_popupwindow(){
         View popView = getLayoutInflater().inflate(R.layout.fragment_add_todo, null);
@@ -196,8 +177,9 @@ public class TodoFragment extends Fragment {
         button.setOnClickListener(view1 -> {
             Toast.makeText(getContext(),"已保存",Toast.LENGTH_SHORT).show();
 //            EventBus.getDefault().post(editText.getText().toString());
-            todoList.add(0,new Todo(editText.getText().toString()));//将todo添加到第一个
-            refreshTodo();
+            Todo todo = new Todo(editText.getText().toString());
+            todoList.add(todo);//将todo添加
+            adapter.notifyItemRangeInserted(adapter.getItemCount(),1);
             popupTodoAdd.dismiss();
         });
 

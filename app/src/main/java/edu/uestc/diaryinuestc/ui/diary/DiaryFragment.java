@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -53,6 +54,10 @@ public class DiaryFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new DiaryAdapter(diaryList);
         recyclerView.setAdapter(adapter);
+
+        DiaryItemTouchHelper callback = new DiaryItemTouchHelper(adapter);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
 
         //刷新页面
         swipeRefresh = binding.diarySwipeRefresh;

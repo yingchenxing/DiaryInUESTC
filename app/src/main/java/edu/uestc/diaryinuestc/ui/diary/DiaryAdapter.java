@@ -14,12 +14,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.Collections;
 import java.util.List;
 
 
 import edu.uestc.diaryinuestc.R;
+import edu.uestc.diaryinuestc.ui.ItemTouchHelperAdapter;
 
-public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ViewHolder> {
+public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ViewHolder> implements ItemTouchHelperAdapter {
     private Context mContext;
 
     private List<Diary> mDiaryList;
@@ -74,5 +76,17 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ViewHolder> 
     @Override
     public int getItemCount() {
         return mDiaryList.size();
+    }
+
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) {
+        Collections.swap(mDiaryList,fromPosition,toPosition);
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public void onItemDissmiss(int position) {
+        mDiaryList.remove(position);
+        notifyItemRemoved(position);
     }
 }

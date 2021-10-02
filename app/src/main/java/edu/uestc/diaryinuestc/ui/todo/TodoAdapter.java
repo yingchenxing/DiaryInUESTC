@@ -1,7 +1,6 @@
 package edu.uestc.diaryinuestc.ui.todo;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.LayoutInflater;
@@ -17,11 +16,13 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import java.util.Collections;
 import java.util.List;
 
 import edu.uestc.diaryinuestc.R;
+import edu.uestc.diaryinuestc.ui.ItemTouchHelperAdapter;
 
-public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
+public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> implements ItemTouchHelperAdapter {
     private Context mContext;
 
     private final List<Todo> mTodoList;
@@ -49,18 +50,20 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
         }
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_todo, parent, false);
         final TodoAdapter.ViewHolder holder = new TodoAdapter.ViewHolder(view);
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(parent.getContext(), "未设置点击事件", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        holder.cardView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Toast.makeText(parent.getContext(), "未设置点击事件", Toast.LENGTH_SHORT).show();
+//            }
+//        });
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Todo todo = mTodoList.get(position);
+        int i = position;
+        Todo todo = mTodoList.get(i);
+
         holder.todoContent.setText(todo.getContent());
         holder.todoContent.setChecked(todo.getSelected());
 
@@ -68,6 +71,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
         holder.todoContent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                todo.setSelected(b);
                 if (b) {
                     holder.todoContent.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);//添加中划线
                     holder.todoContent.setTextColor(Color.parseColor("#C0C0C0"));
@@ -75,6 +79,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
                     holder.todoContent.getPaint().setFlags(0);//回复划线
                     holder.todoContent.setTextColor(Color.parseColor("#000000"));
                 }
+                mTodoList.set(i, todo);
             }
         });
 
@@ -82,6 +87,19 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
+
         return mTodoList.size();
+    }
+
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) {
+        Collections.swap(mTodoList,fromPosition,toPosition);
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public void onItemDissmiss(int position) {
+        mTodoList.remove(position);
+        notifyItemRemoved(position);
     }
 }
