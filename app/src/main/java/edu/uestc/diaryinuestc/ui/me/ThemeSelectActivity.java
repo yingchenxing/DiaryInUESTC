@@ -1,11 +1,16 @@
 package edu.uestc.diaryinuestc.ui.me;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.content.res.TypedArrayUtils;
+import androidx.core.graphics.ColorUtils;
 
+import android.app.Activity;
+import android.app.TaskStackBuilder;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -22,6 +27,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import java.lang.reflect.Array;
 
+import edu.uestc.diaryinuestc.MainActivity;
 import edu.uestc.diaryinuestc.R;
 import edu.uestc.diaryinuestc.databinding.ActivityThemeSelectBinding;
 
@@ -45,6 +51,7 @@ public class ThemeSelectActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setThemeToActivity(this, null);
         binding = ActivityThemeSelectBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         background = ResourcesCompat.getDrawable(getResources(), R.drawable.round_border_line, null);
@@ -71,13 +78,13 @@ public class ThemeSelectActivity extends AppCompatActivity implements View.OnCli
         }
         colorCheckBoxes[colorCode].setChecked(true);
         colorCards[colorCode].setBackground(background);
-        binding.themeSelectToolbar.setBackgroundColor(getThemeColor(this));
-        binding.themeTitleText.setTextColor(getTextColor(this));
+//        binding.themeSelectToolbar.setBackgroundColor(getThemeColor(this));
 
         //操作click
         setOnClickListener();
 
     }
+
 
     @Override
     public void onClick(View v) {
@@ -93,17 +100,34 @@ public class ThemeSelectActivity extends AppCompatActivity implements View.OnCli
             colorCards[colorCode].setBackgroundResource(0);
             colorCards[code].setBackground(background);
             colorCode = code;
+            //写入内存
             editor.putInt(COLOR_KEY, colorCode);
             editor.commit();
+            //刷新界面
+            startActivity(new Intent(this, ThemeSelectActivity.class));
+            overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+            this.finish();
         }
-        binding.themeSelectToolbar.setBackgroundColor(Code2Color(code));
-        binding.themeTitleText.setTextColor(getTextColor(this));
     }
 
     private void setOnClickListener() {
-        binding.themeSelectToolbar.setNavigationOnClickListener(v -> finish());
+        binding.themeSelectToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TaskStackBuilder.create(ThemeSelectActivity.this)
+                        .addNextIntent(new Intent(ThemeSelectActivity.this, MainActivity.class).putExtra("Fragment", 4))
+                        .startActivities();
+                finish();
+            }
+        });
         for (View view : groups)
             if (view != null) view.setOnClickListener(this);
+    }
+
+    public static void setThemeToActivity(@NonNull Activity activity, SharedPreferences themePreferences) {
+        if (themePreferences == null)
+            themePreferences = activity.getSharedPreferences(ThemeSelectActivity.THEME_KEY, Context.MODE_PRIVATE);
+        activity.setTheme(ThemeSelectActivity.Code2Theme(themePreferences.getInt(ThemeSelectActivity.COLOR_KEY, 1)));
     }
 
     public static int getThemeColor(Context context) {
@@ -111,23 +135,22 @@ public class ThemeSelectActivity extends AppCompatActivity implements View.OnCli
         return Code2Color(themePreferences.getInt(COLOR_KEY, 1));
     }
 
-    public static int getTextColor(Context context) {
-        SharedPreferences themePreferences = context.getSharedPreferences(THEME_KEY, Context.MODE_PRIVATE);
-        int color = themePreferences.getInt(COLOR_KEY, 1);
-        if (color == 3 || color == 4 || color == 8) return Color.WHITE;
-        return Color.BLACK;
-    }
-
     private static int Code2Color(int code) {
-        if (code < 0 || code > 8) {
-            Log.e(TAG, "使用了非法code 函数返回默认值");
-            return Color.WHITE;
-        }
+        if (!checkCode(code))
+            code = 1;
         int[] array = new int[]{Color.WHITE, Color.WHITE, 0xFFF19EC2, 0xFF282828, 0xFFF44436, 0xFFFFC108, 0xFF8BC24B, 0xFF2195F3, 0xFF9B27B0};
         return array[code];
     }
 
-    private boolean checkCode(int code) {
+    public static int Code2Theme(int code) {
+        if (!checkCode(code))
+            code = 1;
+        int[] themeIds = new int[]{0, R.style.whiteTheme, R.style.pinkTheme, R.style.blackTheme, R.style.redTheme,
+                R.style.yellowTheme, R.style.greenTheme, R.style.blueTheme, R.style.purpleTheme};
+        return themeIds[code];
+    }
+
+    private static boolean checkCode(int code) {
         if (code <= 0 || code > 8) {
             Log.e(TAG, "有问题的colorCode:" + colorCode);
             return false;

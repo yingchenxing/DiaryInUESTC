@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white_E5"
+    android:background="?backgroundColor"
     tools:context=".ui.me.ThemeSelectActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/theme_select_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/white"
+        android:background="?mainColor"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_back_32">
 
@@ -22,7 +22,7 @@
             android:layout_gravity="center"
             android:text="@string/theme_setting"
             android:textAllCaps="false"
-            android:textColor="@color/black"
+            android:textColor="?attr/textColor"
             android:textSize="20sp"
             tools:layout_editor_absoluteX="165dp"
             tools:layout_editor_absoluteY="14dp" />
@@ -43,12 +43,13 @@
             android:paddingTop="10dp"
             android:paddingEnd="10dp"
             android:paddingBottom="5dp"
-            android:text="@string/theme_color" />
+            android:text="@string/theme_color"
+            android:textColor="?cardTextColor" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white">
+            android:background="?cardColor">
 
             <TextView
                 android:layout_width="match_parent"
@@ -57,7 +58,7 @@
                 android:paddingTop="10dp"
                 android:paddingEnd="10dp"
                 android:text="@string/choose_color"
-                android:textColor="@color/black"
+                android:textColor="?cardTextColor"
                 android:textSize="15sp" />
 
         </LinearLayout>
@@ -65,7 +66,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white"
+            android:background="?cardColor"
             android:orientation="vertical"
             android:paddingStart="10dp"
             android:paddingEnd="10dp">
@@ -124,6 +125,7 @@
                         android:clickable="false"
                         android:text="@string/white"
                         android:textAlignment="center"
+                        android:textColor="?cardTextColor"
                         android:textSize="15sp"
                         app:layout_constraintTop_toBottomOf="@+id/color_card1" />
 
@@ -177,6 +179,7 @@
                         android:clickable="false"
                         android:text="@string/gal_pink"
                         android:textAlignment="center"
+                        android:textColor="?cardTextColor"
                         android:textSize="15sp"
                         app:layout_constraintTop_toBottomOf="@+id/color_card2" />
 
@@ -230,6 +233,7 @@
                         android:clickable="false"
                         android:text="@string/black"
                         android:textAlignment="center"
+                        android:textColor="?cardTextColor"
                         android:textSize="15sp"
                         app:layout_constraintTop_toBottomOf="@+id/color_card3" />
 
@@ -240,7 +244,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@color/white"
                     android:clickable="true"
                     android:focusable="true"
                     android:orientation="vertical">
@@ -284,6 +287,7 @@
                         android:clickable="false"
                         android:text="@string/high_red"
                         android:textAlignment="center"
+                        android:textColor="?cardTextColor"
                         android:textSize="15sp"
                         app:layout_constraintTop_toBottomOf="@+id/color_card4" />
 
@@ -296,7 +300,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/white"
                 android:orientation="horizontal">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -304,7 +307,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@color/white"
                     android:clickable="true"
                     android:focusable="true"
                     android:orientation="vertical">
@@ -348,6 +350,7 @@
                         android:clickable="false"
                         android:text="@string/egg_yellow"
                         android:textAlignment="center"
+                        android:textColor="?cardTextColor"
                         android:textSize="15sp"
                         app:layout_constraintTop_toBottomOf="@+id/color_card5" />
 
@@ -358,7 +361,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@color/white"
                     android:clickable="true"
                     android:focusable="true"
                     android:orientation="vertical">
@@ -402,6 +404,7 @@
                         android:clickable="false"
                         android:text="@string/grass_green"
                         android:textAlignment="center"
+                        android:textColor="?cardTextColor"
                         android:textSize="15sp"
                         app:layout_constraintTop_toBottomOf="@+id/color_card6" />
 
@@ -412,7 +415,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@color/white"
                     android:clickable="true"
                     android:focusable="true"
                     android:orientation="vertical">
@@ -456,6 +458,7 @@
                         android:clickable="false"
                         android:text="@string/jewelry_blue"
                         android:textAlignment="center"
+                        android:textColor="?cardTextColor"
                         android:textSize="15sp"
                         app:layout_constraintTop_toBottomOf="@+id/color_card7" />
 
@@ -466,7 +469,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@color/white"
                     android:clickable="true"
                     android:focusable="true"
                     android:orientation="vertical">
@@ -510,6 +512,7 @@
                         android:clickable="false"
                         android:text="@string/roland_purple"
                         android:textAlignment="center"
+                        android:textColor="?cardTextColor"
                         android:textSize="15sp"
                         app:layout_constraintTop_toBottomOf="@+id/color_card8" />
 

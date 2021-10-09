@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?android:colorBackground"
+    android:background="?backgroundColor"
     android:orientation="vertical"
     tools:context=".ui.me.MeFragment">
 
@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="7"
-        android:background="@color/white">
+        android:background="?cardColor">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -35,7 +35,7 @@
                 android:contentDescription="@string/user_avatar_description"
                 android:focusable="true"
                 android:src="@drawable/ic_baseline_person_24"
-                app:civ_border_color="@color/gal_pink"
+                app:civ_border_color="?mainColor"
                 app:civ_border_width="3dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -49,7 +49,7 @@
                 android:layout_marginTop="24dp"
                 android:hint="@string/empty_user_name_hint"
                 android:text=""
-                android:textColor="?android:textColor"
+                android:textColor="?attr/mainColor"
                 android:textSize="20sp"
                 app:layout_constraintStart_toEndOf="@+id/user_avatar"
                 app:layout_constraintTop_toTopOf="parent"
@@ -84,8 +84,8 @@
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_marginTop="8dp"
-            android:background="@color/white"
-            android:backgroundTint="@color/white_to_grayd5"
+            android:background="?cardColor"
+            android:backgroundTint="@color/cardcolor_to_background"
             android:clickable="true"
             android:focusable="true">
 
@@ -99,7 +99,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:text="@string/my_info"
-                    android:textColor="?android:attr/textColor"
+                    android:textColor="?cardTextColor"
                     android:textSize="15sp" />
             </RelativeLayout>
 
@@ -125,8 +125,8 @@
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_marginTop="8dp"
-            android:background="@color/white"
-            android:backgroundTint="@color/white_to_grayd5"
+            android:background="?cardColor"
+            android:backgroundTint="@color/cardcolor_to_background"
             android:clickable="true"
             android:focusable="true">
 
@@ -140,7 +140,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:text="@string/mine_help"
-                    android:textColor="?android:attr/textColor"
+                    android:textColor="?cardTextColor"
                     android:textSize="15sp" />
             </RelativeLayout>
 
@@ -166,8 +166,8 @@
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_marginTop="8dp"
-            android:background="@color/white"
-            android:backgroundTint="@color/white_to_grayd5"
+            android:background="?cardColor"
+            android:backgroundTint="@color/cardcolor_to_background"
             android:clickable="true"
             android:focusable="true">
 
@@ -181,7 +181,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:text="@string/mine_setting"
-                    android:textColor="?android:attr/textColor"
+                    android:textColor="?cardTextColor"
                     android:textSize="15sp" />
             </RelativeLayout>
 
@@ -207,8 +207,8 @@
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_marginTop="8dp"
-            android:background="@color/white"
-            android:backgroundTint="@color/white_to_grayd5"
+            android:background="?cardColor"
+            android:backgroundTint="@color/cardcolor_to_background"
             android:clickable="true"
             android:focusable="true">
 
@@ -222,7 +222,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:text="@string/mine_about"
-                    android:textColor="?android:attr/textColor"
+                    android:textColor="?cardTextColor"
                     android:textSize="15sp" />
             </RelativeLayout>
 
