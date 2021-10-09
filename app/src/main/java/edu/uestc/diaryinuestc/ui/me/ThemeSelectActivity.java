@@ -16,6 +16,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.Toast;
@@ -29,6 +30,7 @@ import java.lang.reflect.Array;
 
 import edu.uestc.diaryinuestc.MainActivity;
 import edu.uestc.diaryinuestc.R;
+import edu.uestc.diaryinuestc.StatusBarUtil;
 import edu.uestc.diaryinuestc.databinding.ActivityThemeSelectBinding;
 
 public class ThemeSelectActivity extends AppCompatActivity implements View.OnClickListener {
@@ -51,6 +53,7 @@ public class ThemeSelectActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.getWindow().setStatusBarColor(ThemeSelectActivity.getThemeColor(this));
         setThemeToActivity(this, null);
         binding = ActivityThemeSelectBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -114,9 +117,11 @@ public class ThemeSelectActivity extends AppCompatActivity implements View.OnCli
         binding.themeSelectToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TaskStackBuilder.create(ThemeSelectActivity.this)
-                        .addNextIntent(new Intent(ThemeSelectActivity.this, MainActivity.class).putExtra("Fragment", 4))
-                        .startActivities();
+//                TaskStackBuilder.create(ThemeSelectActivity.this)
+//                        .addNextIntent(new Intent(ThemeSelectActivity.this, MainActivity.class).putExtra("Fragment", 4))
+//                        .startActivities();
+                startActivity(new Intent(ThemeSelectActivity.this, MainActivity.class).putExtra("Fragment", 4));
+                overridePendingTransition(R.anim.fadein, R.anim.fadeout);
                 finish();
             }
         });
@@ -128,6 +133,10 @@ public class ThemeSelectActivity extends AppCompatActivity implements View.OnCli
         if (themePreferences == null)
             themePreferences = activity.getSharedPreferences(ThemeSelectActivity.THEME_KEY, Context.MODE_PRIVATE);
         activity.setTheme(ThemeSelectActivity.Code2Theme(themePreferences.getInt(ThemeSelectActivity.COLOR_KEY, 1)));
+        //状态栏
+        TypedValue typedValue = new TypedValue();
+        activity.getTheme().resolveAttribute(R.attr.textColor, typedValue, true);
+        StatusBarUtil.setStatusBarMode(activity, typedValue.data == Color.BLACK, ThemeSelectActivity.getThemeColor(activity));
     }
 
     public static int getThemeColor(Context context) {

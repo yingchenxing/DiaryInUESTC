@@ -3,8 +3,11 @@ package edu.uestc.diaryinuestc;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Window;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -32,12 +35,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //读取用户默认主题
-//        loadUserInfo();
         ThemeSelectActivity.setThemeToActivity(this, null);
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setItemIconTintList(null);
         // Passing each menu ID as a set of Ids because each
@@ -72,11 +73,5 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
         }
-    }
-
-    protected void loadUserInfo() {
-        if (themePreferences == null)
-            themePreferences = getSharedPreferences(ThemeSelectActivity.THEME_KEY, Context.MODE_PRIVATE);
-        setTheme(ThemeSelectActivity.Code2Theme(themePreferences.getInt(ThemeSelectActivity.COLOR_KEY, 1)));
     }
 }
