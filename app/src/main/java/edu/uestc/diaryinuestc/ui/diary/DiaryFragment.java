@@ -17,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,6 +60,16 @@ public class DiaryFragment extends Fragment {
         DiaryItemTouchHelper callback = new DiaryItemTouchHelper(adapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
+
+
+        //加载添加diary的view
+//        FloatingActionButton fab = binding.;
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                load_popupwindow();
+//            }
+//        });
 
         //刷新页面
         swipeRefresh = binding.diarySwipeRefresh;
@@ -101,5 +113,9 @@ public class DiaryFragment extends Fragment {
         initDiary();
         adapter.notifyDataSetChanged();
         swipeRefresh.setRefreshing(false);
+    }
+
+    public void load_popupwindow(){
+
     }
 }

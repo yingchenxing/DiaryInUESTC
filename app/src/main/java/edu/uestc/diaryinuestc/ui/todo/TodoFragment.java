@@ -20,18 +20,14 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.uestc.diaryinuestc.R;
 import edu.uestc.diaryinuestc.databinding.FragmentTodoBinding;
-import edu.uestc.diaryinuestc.ui.todo.SimpleItemTouchHelper;
 
 public class TodoFragment extends Fragment {
 
@@ -68,7 +64,7 @@ public class TodoFragment extends Fragment {
         adapter = new TodoAdapter(todoList);
         recyclerView.setAdapter(adapter);
 
-        //实现diary的拖拽
+        //实现todo的拖拽
         SimpleItemTouchHelper callback = new SimpleItemTouchHelper(adapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
@@ -144,7 +140,7 @@ public class TodoFragment extends Fragment {
 
 
     public void load_popupwindow(){
-        View popView = getLayoutInflater().inflate(R.layout.fragment_add_todo, null);
+        View popView = getLayoutInflater().inflate(R.layout.cardview_add_todo, null);
         popupTodoAdd=new PopupWindow(popView, (int) (binding.getRoot().getWidth() * 0.8),
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         popupTodoAdd.setBackgroundDrawable(ResourcesCompat.getDrawable(getResources(),

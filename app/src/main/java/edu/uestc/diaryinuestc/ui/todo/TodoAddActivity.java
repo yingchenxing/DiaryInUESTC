@@ -19,7 +19,7 @@ public class TodoAddActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_add_todo);
+        setContentView(R.layout.cardview_add_todo);
         EditText editText = findViewById(R.id.todo_edit);
         editText.addTextChangedListener(new TextWatcher() {
             @Override
