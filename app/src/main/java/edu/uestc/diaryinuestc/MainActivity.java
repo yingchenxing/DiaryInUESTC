@@ -1,28 +1,40 @@
 package edu.uestc.diaryinuestc;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.ThemeUtils;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentFactory;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import edu.uestc.diaryinuestc.databinding.ActivityMainBinding;
+import edu.uestc.diaryinuestc.ui.me.MeFragment;
 import edu.uestc.diaryinuestc.ui.me.ThemeSelectActivity;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MainActivity";
     private ActivityMainBinding binding;
+    private SharedPreferences themePreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //读取用户默认主题
+//        loadUserInfo();
+        ThemeSelectActivity.setThemeToActivity(this, null);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -30,9 +42,9 @@ public class MainActivity extends AppCompatActivity {
         navView.setItemIconTintList(null);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_diary, R.id.nav_bill, R.id.nav_todo,R.id.nav_me)
-                .build();
+//        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+//                R.id.nav_diary, R.id.nav_bill, R.id.nav_todo, R.id.nav_me)
+//                .build();
         NavHostFragment navHostFragment =
                 (NavHostFragment) getSupportFragmentManager()
                         .findFragmentById(R.id.nav_host_fragment_activity_main);
@@ -40,8 +52,31 @@ public class MainActivity extends AppCompatActivity {
 //        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        //读取用户默认主题
-        SharedPreferences themePreferences = getSharedPreferences(ThemeSelectActivity.THEME_KEY, Context.MODE_PRIVATE);
+        //切换fragment
+        Intent intent = getIntent();
+        if (intent != null) {
+            int fragment = intent.getIntExtra("Fragment", 0);
+            switch (fragment) {
+                default:
+                case 1:
+                    navController.navigate(R.id.nav_diary);
+                    break;
+                case 2:
+                    navController.navigate(R.id.nav_bill);
+                    break;
+                case 3:
+                    navController.navigate(R.id.nav_todo);
+                    break;
+                case 4:
+                    navController.navigate(R.id.nav_me);
+                    break;
+            }
+        }
     }
 
+    protected void loadUserInfo() {
+        if (themePreferences == null)
+            themePreferences = getSharedPreferences(ThemeSelectActivity.THEME_KEY, Context.MODE_PRIVATE);
+        setTheme(ThemeSelectActivity.Code2Theme(themePreferences.getInt(ThemeSelectActivity.COLOR_KEY, 1)));
+    }
 }

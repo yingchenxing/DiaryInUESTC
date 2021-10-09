@@ -4,4 +4,60 @@
         <item name="android:windowEnterAnimation">@anim/alpha_0_to_1</item>
     </style>
 
+    <style name="whiteTheme">
+        <item name="backgroundColor">@color/white_E5</item>
+        <item name="textColor">@color/black</item>
+        <item name="mainColor">@color/white</item>
+        <item name="cardColor">@color/white</item>
+        <item name="cardTextColor">@color/black</item>
+    </style>
+    <style name="pinkTheme">
+        <item name="backgroundColor">@color/low_low_pink</item>
+        <item name="textColor">@color/white</item>
+        <item name="mainColor">@color/gal_pink</item>
+        <item name="cardColor">@color/low_pink</item>
+        <item name="cardTextColor">@color/black</item>
+    </style>
+    <style name="blackTheme">
+        <item name="backgroundColor">@color/black_18</item>
+        <item name="textColor">@color/white</item>
+        <item name="mainColor">@color/black_17</item>
+        <item name="cardColor">@color/black_17</item>
+        <item name="cardTextColor">@color/white</item>
+    </style>
+    <style name="redTheme">
+        <item name="backgroundColor">@color/low_low_red</item>
+        <item name="textColor">@color/white</item>
+        <item name="mainColor">@color/high_red</item>
+        <item name="cardColor">@color/low_red</item>
+        <item name="cardTextColor">@color/black</item>
+    </style>
+    <style name="yellowTheme">
+        <item name="backgroundColor">@color/low_low_yellow</item>
+        <item name="textColor">@color/white</item>
+        <item name="mainColor">@color/egg_yellow</item>
+        <item name="cardColor">@color/low_yellow</item>
+        <item name="cardTextColor">@color/black</item>
+    </style>
+    <style name="greenTheme">
+        <item name="backgroundColor">@color/low_low_green</item>
+        <item name="textColor">@color/white</item>
+        <item name="mainColor">@color/grass_green</item>
+        <item name="cardColor">@color/low_green</item>
+        <item name="cardTextColor">@color/black</item>
+    </style>
+    <style name="blueTheme">
+        <item name="backgroundColor">@color/low_low_blue</item>
+        <item name="textColor">@color/white</item>
+        <item name="mainColor">@color/jewelry_blue</item>
+        <item name="cardColor">@color/low_blue</item>
+        <item name="cardTextColor">@color/black</item>
+    </style>
+    <style name="purpleTheme">
+        <item name="backgroundColor">@color/low_purple</item>
+        <item name="textColor">@color/white</item>
+        <item name="mainColor">@color/roland_purple</item>
+        <item name="cardColor">@color/low_low_purple</item>
+        <item name="cardTextColor">@color/black</item>
+    </style>
 </resources>

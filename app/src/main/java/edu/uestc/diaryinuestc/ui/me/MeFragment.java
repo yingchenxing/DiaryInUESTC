@@ -1,7 +1,9 @@
 package edu.uestc.diaryinuestc.ui.me;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -79,8 +81,8 @@ public class MeFragment extends Fragment implements View.OnClickListener {
             userAvatarBitmap = BitmapFactory.decodeFile(avatarFile.getPath());
             Glide.with(activity).load(userAvatarBitmap).into(binding.userAvatar);
         }
-        int color = ThemeSelectActivity.getThemeColor(activity);
-        binding.userAvatar.setBorderColor(color);
+        SharedPreferences themePreferences = activity.getSharedPreferences(ThemeSelectActivity.THEME_KEY, Context.MODE_PRIVATE);
+        activity.setTheme(ThemeSelectActivity.Code2Theme(themePreferences.getInt(ThemeSelectActivity.COLOR_KEY, 1)));
     }
 
     private void setOnClickListener() {
@@ -95,8 +97,8 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onResume() {
-        super.onResume();
         loadUserInfo();
+        super.onResume();
     }
 
     @Override
@@ -319,7 +321,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 .setOutputCompressQuality(100)
 //                .setRequestedSize(100, 100)
 //                .setRequestedSize(100, 100, CropImageView.RequestSizeOptions.RESIZE_FIT)
-                .setInitialCropWindowRectangle(null)
+//                .setInitialCropWindowRectangle(null)
                 .setInitialRotation(180)
                 .setAllowCounterRotation(true)
                 .setFlipHorizontally(true)
