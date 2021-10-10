@@ -1,4 +1,12 @@
-package edu.uestc.diaryinuestc.ui.me;
+package edu.uestc.diaryinuestc.ui;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.FileProvider;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,176 +17,102 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.core.content.FileProvider;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.fragment.app.Fragment;
 
 import com.canhub.cropper.CropImageContract;
 import com.canhub.cropper.CropImageContractOptions;
 import com.canhub.cropper.CropImageOptions;
 import com.canhub.cropper.CropImageView;
 
-import com.bumptech.glide.Glide;
-
 import java.io.File;
 import java.util.Objects;
 
-import edu.uestc.diaryinuestc.ui.PhotoSelectorPopupWindow;
-import edu.uestc.diaryinuestc.utils.AppPathUtils;
 import edu.uestc.diaryinuestc.BuildConfig;
 import edu.uestc.diaryinuestc.R;
-import edu.uestc.diaryinuestc.databinding.FragmentMeBinding;
+import edu.uestc.diaryinuestc.databinding.PhotoSelectPopBottomBinding;
+import edu.uestc.diaryinuestc.databinding.PhotoSelectPopCenterBinding;
+import edu.uestc.diaryinuestc.ui.me.ThemeSelectActivity;
+import edu.uestc.diaryinuestc.utils.AppPathUtils;
 
-public class MeFragment extends Fragment implements View.OnClickListener {
+public class PhotoSelectorPopupWindow extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String TAG = "MeFragment";
-    private FragmentMeBinding binding;
-    private Activity activity;
+    private static final String TAG = "PhotoSelectorWindow";
+    private boolean isBottom;
+    private PhotoSelectPopBottomBinding bindingBottom;
+    private PhotoSelectPopCenterBinding bindingCenter;
+    private RelativeLayout layout;
+    private TextView camera;
+    private TextView album;
+    private CardView cancel;
 
-    private PopupWindow popupPhotoSelectorWindow;
-    private Bitmap userAvatarBitmap;
+    private File tempFile;
+    private File target;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentMeBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-        activity = requireActivity();
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-        loadUserInfo();
-        setOnClickListener();
+        this.supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        return root;
-    }
-
-    /**
-     * 从path读取用户图片以及用户名
-     */
-    private void loadUserInfo() {
-        File avatarFile = new File(activity.getFilesDir().getPath(), AppPathUtils.AVATAR_PATH);
-        if (avatarFile.exists()) {
-            userAvatarBitmap = BitmapFactory.decodeFile(avatarFile.getPath());
-            Glide.with(activity).load(userAvatarBitmap).into(binding.userAvatar);
+        //获取目的文件
+        String path = getIntent().getStringExtra("Path");
+        if (path == null)
+            target = AppPathUtils.createTempFile(this, null, ".png");
+        else
+            target = new File(path);
+        if (!Objects.requireNonNull(target.getParentFile()).exists())
+            target.getParentFile().mkdirs();
+        //选择在底部还是中间显示
+        isBottom = getIntent().getBooleanExtra("isBottom", true);
+        if (isBottom) {
+            overridePendingTransition(R.anim.push_bottom_in, R.anim.fadeout);
+            bindingBottom = PhotoSelectPopBottomBinding.inflate(getLayoutInflater());
+            setContentView(bindingBottom.getRoot());
+            layout = bindingBottom.photoSelectPopLayout;
+            camera = bindingBottom.popCamera;
+            album = bindingBottom.popAlbum;
+            cancel = bindingBottom.popPhotoCancel;
+            cancel.setOnClickListener(this);
+        } else {
+            overridePendingTransition(R.anim.fadein, 0);
+            bindingCenter = PhotoSelectPopCenterBinding.inflate(getLayoutInflater());
+            setContentView(bindingCenter.getRoot());
+            layout = bindingCenter.photoSelectPopLayout;
+            camera = bindingCenter.popCamera;
+            album = bindingCenter.popAlbum;
         }
-    }
-
-    private void setOnClickListener() {
-        binding.userAvatar.setOnClickListener(this);
-        binding.userName.setOnClickListener(this);
-        binding.theme.setOnClickListener(this);
-        binding.myInfo.setOnClickListener(this);
-        binding.mineSetting.setOnClickListener(this);
-        binding.mineAbout.setOnClickListener(this);
-        binding.mineSetting.setOnClickListener(this);
-    }
-
-    @Override
-    public void onResume() {
-        loadUserInfo();
-        super.onResume();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
+        layout.setOnClickListener(this);
+        camera.setOnClickListener(this);
+        album.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == binding.userAvatar.getId()) {
-            popAvatarSelectorWindow();
-        } else if (v.getId() == binding.userName.getId()) {
-
-        } else if (v.getId() == binding.theme.getId()) {
-            Intent intent = new Intent(activity, ThemeSelectActivity.class);
-            startActivity(intent);
-        } else if (v.getId() == binding.myInfo.getId()) {
-//            startActivity(new Intent(activity, PhotoSelectorPopupWindow.class).putExtra("isBottom", false));
-
-        } else if (v.getId() == binding.mineHelp.getId()) {
-
-        } else if (v.getId() == binding.mineSetting.getId()) {
-
-        } else if (v.getId() == binding.mineAbout.getId()) {
-
+        if (v.getId() == R.id.photo_select_pop_layout){
+            this.finish();
         } else if (v.getId() == R.id.pop_camera) {
-            popupPhotoSelectorWindow.dismiss();
             getPicFromCamera();
-
         } else if (v.getId() == R.id.pop_album) {
-            popupPhotoSelectorWindow.dismiss();
             getPicFromAlbum();
-
+        } else if (v.getId() == R.id.pop_photo_cancel) {
+            this.finish();
         } else {
             Log.e(TAG, "Unsettled onClick view:" + v.toString());
-            Toast.makeText(activity, getResources().getString(R.string.toast_unsettled_onclick)
+            Toast.makeText(this, getResources().getString(R.string.toast_unsettled_onclick)
                     + ":" + v.toString(), Toast.LENGTH_LONG).show();
         }
     }
 
-    /**
-     * 创建并弹出photo selector window
-     */
-    private void popAvatarSelectorWindow() {
-        //创建popupWindow
-        View popView = getLayoutInflater().inflate(R.layout.photo_select_pop_center, null);
-
-//        Log.e(TAG, String.valueOf(binding.getRoot().getWidth())+"  "+ getResources().getDisplayMetrics().widthPixels);
-
-        popupPhotoSelectorWindow = new PopupWindow(popView, ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        popupPhotoSelectorWindow.setBackgroundDrawable(ResourcesCompat.getDrawable(getResources(),
-                R.drawable.round_outline, null));
-        popupPhotoSelectorWindow.setOutsideTouchable(true);
-        popupPhotoSelectorWindow.setFocusable(true);
-        popupPhotoSelectorWindow.setAnimationStyle(R.style.popupWindow_anim_style);
-
-        //设置弹出内容监听
-        View popCameraBtn = popView.findViewById(R.id.pop_camera);
-        View popAlbumBtn = popView.findViewById(R.id.pop_album);
-        popCameraBtn.setOnClickListener(this);
-        popAlbumBtn.setOnClickListener(this);
-
-        //弹出窗口
-        popupPhotoSelectorWindow.showAtLocation(binding.getRoot(), Gravity.CENTER, 0, 0);
-
-        //淡化背景
-        backgroundAlpha(0.5f);
-        popupPhotoSelectorWindow.setOnDismissListener(() -> backgroundAlpha(1.0f));
-
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
-
-    /**
-     * 设置添加屏幕的背景透明度
-     *
-     * @param bg_alpha 1.0f 全透明没有阴影
-     */
-    public void backgroundAlpha(float bg_alpha) {
-        Window window = activity.getWindow();
-        WindowManager.LayoutParams lp = window.getAttributes();
-        lp.alpha = bg_alpha; //0.0-1.0
-        window.setAttributes(lp);
-    }
-
-    //临时存储图片
-    File tempFile;
-
-    //最终存储图片
-    File avatarFile;
 
     ActivityResultLauncher<Intent> picFromCameraIntentLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -188,7 +122,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                     if (tempFile != null && tempFile.exists()) {
                         Log.e(TAG, "成功获取拍照图片");
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            Uri contentUri = FileProvider.getUriForFile(activity,
+                            Uri contentUri = FileProvider.getUriForFile(PhotoSelectorPopupWindow.this,
                                     BuildConfig.APPLICATION_ID + ".fileprovider", tempFile);
                             cropPicture(contentUri);
                         } else {
@@ -205,23 +139,21 @@ public class MeFragment extends Fragment implements View.OnClickListener {
      * 从相机获取图片
      */
     private void getPicFromCamera() {
-        //顺便删除其他AvatarPhoto
+        //顺便删除其他临时文件
 
         //临时接收图片文件
-        tempFile = new File(activity.getCacheDir() + "/AvatarPhoto_" + System.currentTimeMillis() + ".png");
+        tempFile = AppPathUtils.createTempFile(this, "Photo", ".png");
         //intent连接image_capture 并用EXTRA_OUTPUT传入tempFile的Uri
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {   //如果在Android7.0以上,使用FileProvider获取Uri
             intent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-            Uri contentUri = FileProvider.getUriForFile(activity, activity.getPackageName() + ".fileprovider", tempFile);
+            Uri contentUri = FileProvider.getUriForFile(this, this.getPackageName() + ".fileprovider", tempFile);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
         } else {    //否则使用Uri.fromFile(file)方法获取Uri
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
         }
         picFromCameraIntentLauncher.launch(intent);
-
     }
-
 
     ActivityResultLauncher<Intent> picFromAlbumIntentLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -244,27 +176,24 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         picFromAlbumIntentLauncher.launch(intent);
     }
 
+
     private final ActivityResultLauncher<CropImageContractOptions> cropImage =
             registerForActivityResult(new CropImageContract(), new ActivityResultCallback<CropImageView.CropResult>() {
                 @Override
                 public void onActivityResult(CropImageView.CropResult result) {
                     if (result.isSuccessful()) {
-                        userAvatarBitmap = BitmapFactory.decodeFile(result.getUriFilePath(activity, false));
-//                        userAvatarBitmap = result.getBitmap();
-                        if (userAvatarBitmap == null) {
-                            Log.e(TAG, "null bitmap! path=" + result.getUriFilePath(activity, false));
-                            Toast.makeText(activity, getResources().getString(R.string.toast_null_picture), Toast.LENGTH_LONG).show();
+                        Bitmap bitmap = BitmapFactory.decodeFile(result.getUriFilePath(PhotoSelectorPopupWindow.this, false));
+                        if (bitmap == null) {
+                            Log.e(TAG, "null bitmap! path=" + result.getUriFilePath(PhotoSelectorPopupWindow.this, false));
+                            Toast.makeText(PhotoSelectorPopupWindow.this, getResources().getString(R.string.toast_null_picture), Toast.LENGTH_LONG).show();
                         } else {
-                            if (AppPathUtils.saveImage(avatarFile, userAvatarBitmap)) {
-                                Toast.makeText(activity, getResources().getString(R.string.toast_success_save_avatar), Toast.LENGTH_LONG).show();
-                            } else {
-                                Toast.makeText(activity, getResources().getString(R.string.toast_fail_save_avatar), Toast.LENGTH_LONG).show();
-                            }
-                            Glide.with(activity).load(userAvatarBitmap).into(binding.userAvatar);
+                            AppPathUtils.saveImage(target, bitmap);
+                            PhotoSelectorPopupWindow.this.setResult(Activity.RESULT_OK, new Intent().putExtra("path", target.getPath()));
                         }
+                        PhotoSelectorPopupWindow.this.finish();
                     } else {
                         Log.e(TAG, "Error in CropImage" + Objects.requireNonNull(result.getError()).toString());
-                        Toast.makeText(activity, "Error in CropImage" + Objects.requireNonNull(result.getError()).toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(PhotoSelectorPopupWindow.this, "Error in CropImage" + Objects.requireNonNull(result.getError()).toString(), Toast.LENGTH_LONG).show();
                     }
                 }
             });
@@ -275,7 +204,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
      * @param uri 图片资源
      */
     private void cropPicture(Uri uri) {
-        avatarFile = new File(activity.getFilesDir().getPath(), AppPathUtils.AVATAR_PATH);
+//        avatarFile = new File(this.getFilesDir().getPath(), AppPathUtils.AVATAR_PATH);
         CropImageContractOptions options = new CropImageContractOptions(uri, new CropImageOptions())
                 .setScaleType(CropImageView.ScaleType.CENTER)
                 .setCropShape(CropImageView.CropShape.RECTANGLE)
@@ -328,5 +257,4 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 
         cropImage.launch(options);
     }
-
 }

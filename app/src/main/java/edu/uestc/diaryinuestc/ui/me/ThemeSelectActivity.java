@@ -4,8 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
-import androidx.core.content.res.TypedArrayUtils;
-import androidx.core.graphics.ColorUtils;
 
 import android.app.Activity;
 import android.app.TaskStackBuilder;
@@ -26,11 +24,9 @@ import com.shehuan.niv.NiceImageView;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-import java.lang.reflect.Array;
-
 import edu.uestc.diaryinuestc.MainActivity;
 import edu.uestc.diaryinuestc.R;
-import edu.uestc.diaryinuestc.StatusBarUtil;
+import edu.uestc.diaryinuestc.utils.StatusBarUtil;
 import edu.uestc.diaryinuestc.databinding.ActivityThemeSelectBinding;
 
 public class ThemeSelectActivity extends AppCompatActivity implements View.OnClickListener {
@@ -117,10 +113,9 @@ public class ThemeSelectActivity extends AppCompatActivity implements View.OnCli
         binding.themeSelectToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                TaskStackBuilder.create(ThemeSelectActivity.this)
-//                        .addNextIntent(new Intent(ThemeSelectActivity.this, MainActivity.class).putExtra("Fragment", 4))
-//                        .startActivities();
-                startActivity(new Intent(ThemeSelectActivity.this, MainActivity.class).putExtra("Fragment", 4));
+                TaskStackBuilder.create(ThemeSelectActivity.this)
+                        .addNextIntent(new Intent(ThemeSelectActivity.this, MainActivity.class).putExtra("Fragment", 4))
+                        .startActivities();
                 overridePendingTransition(R.anim.fadein, R.anim.fadeout);
                 finish();
             }

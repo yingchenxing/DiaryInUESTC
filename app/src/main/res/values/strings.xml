@@ -10,6 +10,7 @@
     <string name="mine_help">帮助</string>
     <string name="mine_setting">设置</string>
     <string name="mine_about">关于</string>
+    <string name="cancel">取消</string>
     <string name="camera">拍照</string>
     <string name="album">从相册中选择</string>
     <string name="change_border_color">随机更换边框颜色</string>
@@ -38,5 +39,6 @@
     <string name="theme_color">主题颜色</string>
     <string name="theme_setting">个性设置</string>
     <string name="choose_color">选择颜色</string>
+
 
 </resources>
