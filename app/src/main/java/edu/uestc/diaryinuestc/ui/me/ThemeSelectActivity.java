@@ -15,6 +15,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.Toast;
@@ -109,6 +110,23 @@ public class ThemeSelectActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            TaskStackBuilder.create(ThemeSelectActivity.this)
+                    .addNextIntent(new Intent(ThemeSelectActivity.this, MainActivity.class).putExtra("Fragment", 4))
+                    .startActivities();
+            finish();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+    }
+
     private void setOnClickListener() {
         binding.themeSelectToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,7 +134,7 @@ public class ThemeSelectActivity extends AppCompatActivity implements View.OnCli
                 TaskStackBuilder.create(ThemeSelectActivity.this)
                         .addNextIntent(new Intent(ThemeSelectActivity.this, MainActivity.class).putExtra("Fragment", 4))
                         .startActivities();
-                overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+//                startActivity(new Intent(ThemeSelectActivity.this, MainActivity.class).putExtra("Fragment", 4));
                 finish();
             }
         });
