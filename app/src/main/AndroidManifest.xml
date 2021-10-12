@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ActionBar">
         <activity
+            android:name=".ui.diary.AddDiaryActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.todo.TodoAddActivity"
             android:exported="true" />
         <activity

@@ -11,26 +11,39 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="todo"
+            android:textColor="@color/white"
+            android:background="#44D3FF"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:gravity="center"/>
+
 
         <EditText
             android:id="@+id/todo_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:layout_marginBottom="10dp"
             android:layout_marginTop="20dp"
-            android:hint="请输入您的待办事项" />
+            android:layout_marginBottom="10dp"
+            android:hint="请输入您的待办事项"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/add_todo_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="100dp"
+            android:layout_marginBottom="30dp"
+            android:background="#009688"
             android:text="保存"
             android:textSize="20sp"
-            android:layout_marginBottom="30dp"
-            android:background="#6FFFA3"/>
+            android:textColor="@color/white"
+            android:textStyle="bold" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

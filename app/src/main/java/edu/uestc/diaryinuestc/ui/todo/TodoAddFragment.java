@@ -27,31 +27,11 @@ public class TodoAddFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.cardview_add_todo,container,false);
 
-        //保存todo内容
-        EditText editText = view.findViewById(R.id.todo_edit);
-        editText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                Log.d("todo content",charSequence.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
         //保存按钮
         Button button = view.findViewById(R.id.add_todo_button);
 
         button.setOnClickListener(view1 -> {
             Toast.makeText(getContext(),"已保存",Toast.LENGTH_SHORT).show();
-            EventBus.getDefault().post(editText.getText().toString());
 
             getActivity().getSupportFragmentManager().popBackStack();
         });

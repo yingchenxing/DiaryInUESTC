@@ -18,7 +18,11 @@ class SimpleItemTouchHelper extends ItemTouchHelper.Callback {
 
     @Override
     public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+        //拖拽可用
         int dragFlags = ItemTouchHelper.UP|ItemTouchHelper.DOWN;
+        //拖拽不可用
+        //int dragFlags = 0;
+
         int swipeFlags = ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT;
         return makeMovementFlags(dragFlags,swipeFlags);
     }
@@ -50,6 +54,6 @@ class SimpleItemTouchHelper extends ItemTouchHelper.Callback {
 
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-        adapter.onItemDissmiss(viewHolder.getAdapterPosition());
+        adapter.onItemDismiss(viewHolder.getAdapterPosition());
     }
 }

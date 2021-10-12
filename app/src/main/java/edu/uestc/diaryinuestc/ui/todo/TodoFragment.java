@@ -35,7 +35,7 @@ public class TodoFragment extends Fragment {
     private FragmentTodoBinding binding;
     private List<Todo> todoList = new ArrayList<>();
     private TodoAdapter adapter;
-//    private SwipeRefreshLayout swipeRefresh;
+    //    private SwipeRefreshLayout swipeRefresh;
     private PopupWindow popupTodoAdd;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -57,7 +57,7 @@ public class TodoFragment extends Fragment {
         //加载todo的recyclerView
         initTodo();
         RecyclerView recyclerView = binding.todoRecyclerView;
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true);
         layoutManager.setStackFromEnd(true);
 //        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.VERTICAL);//
         recyclerView.setLayoutManager(layoutManager);
@@ -68,7 +68,6 @@ public class TodoFragment extends Fragment {
         SimpleItemTouchHelper callback = new SimpleItemTouchHelper(adapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
-
 
 
         //加载添加todo的fragment
@@ -121,27 +120,27 @@ public class TodoFragment extends Fragment {
 //        EventBus.getDefault().unregister(this);
     }
 
-    public void initTodo(){
-        for(int i =0;i<10;i++) {
-            Todo todo = new Todo(i+"");
+    public void initTodo() {
+        for (int i = 0; i < 10; i++) {
+            Todo todo = new Todo(i + "");
             todoList.add(todo);
         }
-        for(int i =0;i<10;i++) {
-            Todo todo = new Todo(i+"");
+        for (int i = 0; i < 10; i++) {
+            Todo todo = new Todo(i + "");
             todo.setSelected(true);
             todoList.add(todo);
         }
     }
 
 
-    public void refreshTodo(){
+    public void refreshTodo() {
         adapter.notifyDataSetChanged();
     }
 
 
-    public void load_popupwindow(){
+    public void load_popupwindow() {
         View popView = getLayoutInflater().inflate(R.layout.cardview_add_todo, null);
-        popupTodoAdd=new PopupWindow(popView, (int) (binding.getRoot().getWidth() * 0.8),
+        popupTodoAdd = new PopupWindow(popView, (int) (binding.getRoot().getWidth() * 0.8),
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         popupTodoAdd.setBackgroundDrawable(ResourcesCompat.getDrawable(getResources(),
                 R.drawable.round_outline, null));
@@ -159,7 +158,7 @@ public class TodoFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                Log.d("todo content",charSequence.toString());
+                Log.d("todo content", charSequence.toString());
             }
 
             @Override
@@ -171,18 +170,23 @@ public class TodoFragment extends Fragment {
         Button button = popView.findViewById(R.id.add_todo_button);
 
         button.setOnClickListener(view1 -> {
-            Toast.makeText(getContext(),"已保存",Toast.LENGTH_SHORT).show();
+
 //            EventBus.getDefault().post(editText.getText().toString());
-            Todo todo = new Todo(editText.getText().toString());
-            todoList.add(todo);//将todo添加
-            adapter.notifyItemRangeInserted(adapter.getItemCount(),1);
-            popupTodoAdd.dismiss();
+            String content = editText.getText().toString();
+            if (content.length()!=0) {
+                Todo todo = new Todo(editText.getText().toString());
+                todoList.add(todo);//将todo添加
+                adapter.notifyItemRangeInserted(adapter.getItemCount(), 1);
+                Toast.makeText(getContext(), "已保存", Toast.LENGTH_SHORT).show();
+                popupTodoAdd.dismiss();
+            } else {
+                Toast.makeText(this.getContext(), "无法保存空todo", Toast.LENGTH_SHORT).show();
+            }
         });
 
 
         popupTodoAdd.showAtLocation(binding.getRoot(), Gravity.CENTER, 0, 0);
     }
-
 
 
 }

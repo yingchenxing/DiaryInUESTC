@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 
 import android.widget.CompoundButton;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -45,17 +44,12 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> im
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (mContext == null) {
-            mContext = parent.getContext();
-        }
+//        if (mContext == null) {
+//            mContext = parent.getContext();
+//        }
+        mContext = parent.getContext();
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_todo, parent, false);
         final TodoAdapter.ViewHolder holder = new TodoAdapter.ViewHolder(view);
-//        holder.cardView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(parent.getContext(), "未设置点击事件", Toast.LENGTH_SHORT).show();
-//            }
-//        });
         return holder;
     }
 
@@ -63,9 +57,6 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> im
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         int i = position;
         Todo todo = mTodoList.get(i);
-
-        holder.todoContent.setText(todo.getContent());
-        holder.todoContent.setChecked(todo.getSelected());
 
         //加入点击划线功能
         holder.todoContent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -83,23 +74,36 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> im
             }
         });
 
+        //将监听点击的范围扩展到cardview
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.todoContent.setChecked(!holder.todoContent.isChecked());
+            }
+        });
+
+        //生成item
+        holder.todoContent.setText(todo.getContent());
+        holder.todoContent.setChecked(todo.getSelected());
     }
 
     @Override
     public int getItemCount() {
-
         return mTodoList.size();
     }
 
+    //item上下拖动实现换位效果
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
-        Collections.swap(mTodoList,fromPosition,toPosition);
-        notifyDataSetChanged();
+        Collections.swap(mTodoList, fromPosition, toPosition);
+        notifyItemMoved(fromPosition,toPosition);
     }
 
+    //item左右拖动实现删除、编辑效果
     @Override
-    public void onItemDissmiss(int position) {
+    public void onItemDismiss(int position) {
         mTodoList.remove(position);
         notifyItemRemoved(position);
     }
+
 }

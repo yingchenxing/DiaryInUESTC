@@ -24,7 +24,7 @@ import edu.uestc.diaryinuestc.ui.ItemTouchHelperAdapter;
 public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ViewHolder> implements ItemTouchHelperAdapter {
     private Context mContext;
 
-    private List<Diary> mDiaryList;
+    final List<Diary> mDiaryList;
 
     static class ViewHolder extends RecyclerView.ViewHolder{
         CardView cardView;
@@ -34,8 +34,8 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ViewHolder> 
         public ViewHolder(View view){
             super(view);
             cardView = (CardView) view;
-            diaryCover = (ImageView) view.findViewById(R.id.diary_cover);
-            diaryTittle = (TextView) view.findViewById(R.id.diary_tittle);
+            diaryCover = view.findViewById(R.id.diary_cover);
+            diaryTittle = view.findViewById(R.id.diary_tittle);
         }
     }
 
@@ -51,17 +51,16 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ViewHolder> 
         }
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_diary,parent,false);
         final ViewHolder holder = new ViewHolder(view);
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                Toast.makeText(parent.getContext(),"未设置点击事件",Toast.LENGTH_SHORT).show();
-                int position = holder.getAdapterPosition();
-                Diary diary = mDiaryList.get(position);
-                Intent intent = new Intent(mContext, DiaryActivity.class);
-                intent.putExtra(DiaryActivity.DIARY_TITTLE,diary.getTittle());
-                intent.putExtra(DiaryActivity.DIARY_Cover_ID,diary.getCoverId());
-                mContext.startActivity(intent);
-            }
+
+        holder.cardView.setOnClickListener(view1 -> {
+            int position = holder.getAdapterPosition();
+            Diary diary = mDiaryList.get(position);
+
+            Intent intent = new Intent(mContext, DiaryActivity.class);
+            intent.putExtra(DiaryActivity.DIARY_TITTLE,diary.getTittle());
+            intent.putExtra(DiaryActivity.DIARY_Cover_ID,diary.getCoverId());
+
+            mContext.startActivity(intent);
         });
         return holder;
     }
@@ -81,11 +80,11 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ViewHolder> 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
         Collections.swap(mDiaryList,fromPosition,toPosition);
-        notifyDataSetChanged();
+        notifyItemMoved(fromPosition,toPosition);
     }
 
     @Override
-    public void onItemDissmiss(int position) {
+    public void onItemDismiss(int position) {
         mDiaryList.remove(position);
         notifyItemRemoved(position);
     }
