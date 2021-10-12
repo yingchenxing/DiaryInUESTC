@@ -108,7 +108,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
             startActivity(intent);
         } else if (v.getId() == binding.myInfo.getId()) {
 //            startActivity(new Intent(activity, PhotoSelectorPopupWindow.class).putExtra("isBottom", false));
-
+            startActivity(new Intent(activity,MyInfoActivity.class));
         } else if (v.getId() == binding.mineHelp.getId()) {
 
         } else if (v.getId() == binding.mineSetting.getId()) {

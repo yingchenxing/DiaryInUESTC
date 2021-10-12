@@ -1,0 +1,28 @@
+<resources>
+    <!-- Preferences -->
+    <string-array name="gender_entries">
+        <item>男</item>
+        <item>女</item>
+        <item>无</item>
+    </string-array>
+
+    <string-array name="gender_values">
+        <item>boy</item>
+        <item>girl</item>
+        <item>null</item>
+    </string-array>
+
+    <string-array name="education_entries">
+        <item>本科</item>
+        <item>研究生</item>
+        <item>博士</item>
+        <item>其他</item>
+    </string-array>
+
+    <string-array name="education_values">
+        <item>undergraduate</item>
+        <item>graduate</item>
+        <item>doctor</item>
+        <item>other</item>
+    </string-array>
+</resources>

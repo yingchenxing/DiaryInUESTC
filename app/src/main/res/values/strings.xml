@@ -4,6 +4,7 @@
     <string name="bill">Bill</string>
     <string name="todo">Todo</string>
     <string name="me">Me</string>
+    <string name="title_activity_my_info">MyInfoActivity</string>
     <string name="empty_user_name_hint">请输入用户名</string>
     <string name="user_avatar_description">User\'s avatar</string>
     <string name="my_info">我的信息</string>
@@ -40,5 +41,18 @@
     <string name="theme_setting">个性设置</string>
     <string name="choose_color">选择颜色</string>
 
+
+    <!-- Preference Titles -->
+    <string name="basic_info_header">基础信息</string>
+    <string name="more_info_header">更多信息</string>
+
+    <!-- MyInfo Titles -->
+    <string name="name_title">设置昵称</string>
+    <string name="sign_title">设置简介</string>
+    <string name="gender_title">性别</string>
+    <string name="birth_title">生日</string>
+    <string name="email_title">邮箱</string>
+    <string name="education_title">教育经历</string>
+    <string name="not_set">未设置</string>
 
 </resources>

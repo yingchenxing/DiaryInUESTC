@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="edu.uestc.diaryinuestc" >
+    package="edu.uestc.diaryinuestc">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission
@@ -16,9 +16,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ActionBar">
         <activity
+            android:name=".ui.me.MyInfoActivity"
+            android:exported="true"
+            android:label="@string/title_activity_my_info"
+            android:theme="@style/Theme.White" />
+        <activity
             android:name=".ui.PhotoSelectorPopupWindow"
             android:exported="true"
-            android:theme="@style/PhotoSelectorCenter"/>
+            android:theme="@style/PhotoSelectorCenter" />
         <activity
             android:name=".ui.todo.TodoAddActivity"
             android:exported="true" />
@@ -45,7 +50,7 @@
             android:name="androidx.core.content.FileProvider"
             android:authorities="edu.uestc.diaryinuestc.fileprovider"
             android:exported="false"
-            android:grantUriPermissions="true" >
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
