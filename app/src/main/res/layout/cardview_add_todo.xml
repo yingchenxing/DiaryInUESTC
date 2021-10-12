@@ -17,7 +17,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="todo"
+            android:text="@string/todo"
             android:textColor="@color/white"
             android:background="#44D3FF"
             android:textSize="30sp"
@@ -31,8 +31,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
-            android:hint="请输入您的待办事项"
-            android:textSize="20sp" />
+            android:hint="@string/add_todo_hint"
+            android:textSize="20sp"
+            android:inputType="text"
+            android:autofillHints=""/>
 
         <Button
             android:id="@+id/add_todo_button"
@@ -41,7 +43,7 @@
             android:layout_marginHorizontal="100dp"
             android:layout_marginBottom="30dp"
             android:background="#009688"
-            android:text="保存"
+            android:text="@string/new_todo_save"
             android:textSize="20sp"
             android:textColor="@color/white"
             android:textStyle="bold" />

@@ -26,6 +26,10 @@
     <string name="toast_null_picture">传入图片为空</string>
     <string name="toast_fail_create_dir">创建文件夹失败</string>
 
+    <!--for TodoItem-->
+    <string name="add_todo_hint">请输入您的待办事项</string>
+    <string name="new_todo_save">保存</string>
+
     <!--for Color-->
     <string name="white">简洁白</string>
     <string name="gal_pink">少女粉</string>

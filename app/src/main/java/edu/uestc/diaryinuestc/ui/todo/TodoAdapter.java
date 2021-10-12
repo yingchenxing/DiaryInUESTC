@@ -59,28 +59,20 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> im
         Todo todo = mTodoList.get(i);
 
         //加入点击划线功能
-        holder.todoContent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                todo.setSelected(b);
-                if (b) {
-                    holder.todoContent.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);//添加中划线
-                    holder.todoContent.setTextColor(Color.parseColor("#C0C0C0"));
-                } else {
-                    holder.todoContent.getPaint().setFlags(0);//回复划线
-                    holder.todoContent.setTextColor(Color.parseColor("#000000"));
-                }
-                mTodoList.set(i, todo);
+        holder.todoContent.setOnCheckedChangeListener((compoundButton, b) -> {
+            todo.setSelected(b);
+            if (b) {
+                holder.todoContent.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);//添加中划线
+                holder.todoContent.setTextColor(Color.parseColor("#C0C0C0"));
+            } else {
+                holder.todoContent.getPaint().setFlags(0);//回复划线
+                holder.todoContent.setTextColor(Color.parseColor("#000000"));
             }
+            mTodoList.set(i, todo);
         });
 
         //将监听点击的范围扩展到cardview
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                holder.todoContent.setChecked(!holder.todoContent.isChecked());
-            }
-        });
+        holder.cardView.setOnClickListener(view -> holder.todoContent.setChecked(!holder.todoContent.isChecked()));
 
         //生成item
         holder.todoContent.setText(todo.getContent());
