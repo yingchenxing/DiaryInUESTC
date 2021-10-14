@@ -43,17 +43,38 @@
 
             <TextView
                 android:id="@+id/user_name"
-                android:layout_width="203dp"
-                android:layout_height="30dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
+                android:ellipsize="end"
                 android:hint="@string/empty_user_name_hint"
+                android:maxLines="1"
                 android:text=""
-                android:textColor="?attr/mainColor"
-                android:textSize="20sp"
+                android:textColor="?attr/textColor"
+                android:textSize="30sp"
+                app:layout_constraintEnd_toStartOf="@+id/gender_ic"
                 app:layout_constraintStart_toEndOf="@+id/user_avatar"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="TextContrastCheck" />
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.shehuan.niv.NiceImageView
+                android:id="@+id/gender_ic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_boy"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/my_sign"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:text=""
+                android:textColor="?cardTextColor"
+                android:hint="@string/sign_hint"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/gender_ic"
+                app:layout_constraintStart_toStartOf="@+id/user_name"
+                app:layout_constraintTop_toBottomOf="@+id/user_name" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

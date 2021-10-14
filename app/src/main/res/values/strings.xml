@@ -6,6 +6,7 @@
     <string name="me">Me</string>
     <string name="title_activity_my_info">MyInfoActivity</string>
     <string name="empty_user_name_hint">请输入用户名</string>
+    <string name="sign_hint">本人还没有填写简介</string>
     <string name="user_avatar_description">User\'s avatar</string>
     <string name="my_info">我的信息</string>
     <string name="mine_help">帮助</string>

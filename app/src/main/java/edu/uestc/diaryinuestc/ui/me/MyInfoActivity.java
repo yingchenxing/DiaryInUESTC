@@ -33,7 +33,7 @@ import edu.uestc.diaryinuestc.databinding.ActivityMyInfoBinding;
 public class MyInfoActivity extends AppCompatActivity {
 
     private ActivityMyInfoBinding binding;
-
+    static private SettingsFragment fragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,16 +41,16 @@ public class MyInfoActivity extends AppCompatActivity {
         binding = ActivityMyInfoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         if (savedInstanceState == null) {
+            fragment = new SettingsFragment();
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(binding.myInfoSettings.getId(), new SettingsFragment())
+                    .replace(binding.myInfoSettings.getId(), fragment)
                     .commit();
         }
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
         setOnClickListener();
     }
 
@@ -66,9 +66,7 @@ public class MyInfoActivity extends AppCompatActivity {
 
             birth = findPreference("birth");
             assert birth != null;
-
             birth.setSummaryProvider(DatePreference.DateSummaryProvider.getInstance());
-
         }
 
         @Override

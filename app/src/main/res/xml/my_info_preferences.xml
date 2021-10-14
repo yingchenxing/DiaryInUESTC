@@ -4,6 +4,7 @@
     <PreferenceCategory app:title="@string/basic_info_header">
 
         <EditTextPreference
+            android:id="@+id/name"
             app:defaultValue=""
             app:key="name"
             app:title="@string/name_title"
@@ -17,7 +18,7 @@
 
         <ListPreference
             app:defaultValue="无"
-            app:entries="@array/gender_values"
+            app:entries="@array/gender_entries"
             app:entryValues="@array/gender_values"
             app:key="gender"
             app:title="@string/gender_title"
