@@ -1,7 +1,10 @@
-package edu.uestc.diaryinuestc;
+package edu.uestc.diaryinuestc.utils;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -23,18 +26,31 @@ public class AppPathUtils {
     public static final String AVATAR_NAME = "user_avatar.png";
     public static final String AVATAR_PATH = "Me/user_avatar.png";
 
+    /**
+     * 将ArrayList中各个路径连接成路径字符串
+     *
+     * @param paths 路径ArrayList
+     * @return pathString
+     */
     public static String connectPaths(ArrayList<String> paths) {
         if (paths == null || paths.size() == 0)
             return null;
         StringBuilder sb = new StringBuilder();
         for (String path : paths)
-            sb.append(path + "/");
+            sb.append(path).append("/");
         sb.deleteCharAt(sb.length() - 1);
         return sb.toString();
     }
 
-    public static boolean saveImage(File path, Bitmap bitmap) {
-        if (path == null) {
+    /**
+     * 把bitmap存入file中
+     *
+     * @param file   目标文件
+     * @param bitmap 图片Bitmap
+     * @return isSuccess
+     */
+    public static boolean saveImage(File file, Bitmap bitmap) {
+        if (file == null) {
             Log.e(TAG + "saveImage", "null path");
             return false;
         }
@@ -42,18 +58,14 @@ public class AppPathUtils {
             Log.e(TAG + "saveImage", "null bitmap");
             return false;
         }
-//        if (!path.isFile()) {
-//            Log.e(TAG + "saveImage", "path is not file" + path.getPath());
-//            return false;
-//        }
 
-        if (!Objects.requireNonNull(path.getParentFile()).exists())
-            if (!path.getParentFile().mkdirs()) {
+        if (!Objects.requireNonNull(file.getParentFile()).exists())
+            if (!file.getParentFile().mkdirs()) {
                 Log.e(TAG + "saveImage", "fail to make dirs");
                 return false;
             }
         try {
-            FileOutputStream fos = new FileOutputStream(path);
+            FileOutputStream fos = new FileOutputStream(file);
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
             fos.flush();
             fos.close();
@@ -65,18 +77,21 @@ public class AppPathUtils {
         }
     }
 
-    public static boolean saveImage(String path, Bitmap bitmap) {
-        if (path == null) {
-            Log.e(TAG + "saveImage", "null path String");
-            return false;
-        }
-        return saveImage(new File(path), bitmap);
-
+    /**
+     * 创建临时文件
+     *
+     * @param context 上下文获取cache目录
+     * @param prefix 文件前缀
+     * @param suffix 文件后缀
+     * @return File对象
+     */
+    public static File createTempFile(@NonNull Context context, String prefix, @NonNull String suffix) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(context.getCacheDir()).append('/').append(prefix).append('_').append(System.currentTimeMillis());
+        if (suffix.charAt(0) != '.')
+            sb.append('.');
+        sb.append(suffix);
+        return new File(sb.toString());
     }
-
-    public static boolean saveImage(ArrayList<String> paths, Bitmap bitmap) {
-        return saveImage(connectPaths(paths), bitmap);
-    }
-
 
 }

@@ -1,4 +1,4 @@
-package edu.uestc.diaryinuestc;
+package edu.uestc.diaryinuestc.utils;
 
 import android.os.Environment;
 import android.text.TextUtils;

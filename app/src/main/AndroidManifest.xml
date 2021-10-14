@@ -16,6 +16,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ActionBar">
         <activity
+            android:name=".ui.me.MyInfoActivity"
+            android:exported="true"
+            android:label="@string/title_activity_my_info"
+            android:theme="@style/Theme.White" />
+        <activity
+            android:name=".ui.PhotoSelectorPopupWindow"
+            android:exported="true"
+            android:theme="@style/PhotoSelectorCenter" />
+        <activity
             android:name=".ui.diary.AddDiaryActivity"
             android:exported="true" />
         <activity
@@ -24,7 +33,7 @@
         <activity
             android:name=".ui.me.ThemeSelectActivity"
             android:exported="true"
-            android:theme="@style/Theme.White"/>
+            android:theme="@style/Theme.White" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -32,11 +41,13 @@
             android:theme="@style/Theme.White">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.diary.DiaryActivity"
-            android:theme="@style/Theme.White"/>
+        <activity
+            android:name=".ui.diary.DiaryActivity"
+            android:theme="@style/Theme.White" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

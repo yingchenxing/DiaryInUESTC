@@ -4,8 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
-import androidx.core.content.res.TypedArrayUtils;
-import androidx.core.graphics.ColorUtils;
 
 import android.app.Activity;
 import android.app.TaskStackBuilder;
@@ -17,6 +15,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.Toast;
@@ -26,11 +25,9 @@ import com.shehuan.niv.NiceImageView;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-import java.lang.reflect.Array;
-
 import edu.uestc.diaryinuestc.MainActivity;
 import edu.uestc.diaryinuestc.R;
-import edu.uestc.diaryinuestc.StatusBarUtil;
+import edu.uestc.diaryinuestc.utils.StatusBarUtil;
 import edu.uestc.diaryinuestc.databinding.ActivityThemeSelectBinding;
 
 public class ThemeSelectActivity extends AppCompatActivity implements View.OnClickListener {
@@ -113,15 +110,31 @@ public class ThemeSelectActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            TaskStackBuilder.create(ThemeSelectActivity.this)
+                    .addNextIntent(new Intent(ThemeSelectActivity.this, MainActivity.class).putExtra("Fragment", 4))
+                    .startActivities();
+            finish();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+    }
+
     private void setOnClickListener() {
         binding.themeSelectToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                TaskStackBuilder.create(ThemeSelectActivity.this)
-//                        .addNextIntent(new Intent(ThemeSelectActivity.this, MainActivity.class).putExtra("Fragment", 4))
-//                        .startActivities();
-                startActivity(new Intent(ThemeSelectActivity.this, MainActivity.class).putExtra("Fragment", 4));
-                overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+                TaskStackBuilder.create(ThemeSelectActivity.this)
+                        .addNextIntent(new Intent(ThemeSelectActivity.this, MainActivity.class).putExtra("Fragment", 4))
+                        .startActivities();
+//                startActivity(new Intent(ThemeSelectActivity.this, MainActivity.class).putExtra("Fragment", 4));
                 finish();
             }
         });

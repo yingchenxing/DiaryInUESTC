@@ -1,0 +1,51 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/basic_info_header">
+
+        <EditTextPreference
+            android:id="@+id/name"
+            app:defaultValue=""
+            app:key="name"
+            app:title="@string/name_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            app:defaultValue=""
+            app:key="sign"
+            app:title="@string/sign_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="无"
+            app:entries="@array/gender_entries"
+            app:entryValues="@array/gender_values"
+            app:key="gender"
+            app:title="@string/gender_title"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/more_info_header">
+
+        <EditTextPreference
+            app:defaultValue=""
+            app:key="email"
+            app:title="@string/email_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="其他"
+            app:entries="@array/education_entries"
+            app:entryValues="@array/education_values"
+            app:key="education"
+            app:title="@string/education_title"
+            app:useSimpleSummaryProvider="true" />
+        <edu.uestc.diaryinuestc.ui.me.DatePreference
+            app:key="birth"
+            app:title="@string/birth_title"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

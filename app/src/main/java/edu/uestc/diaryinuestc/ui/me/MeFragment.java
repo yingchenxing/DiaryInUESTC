@@ -1,17 +1,15 @@
 package edu.uestc.diaryinuestc.ui.me;
 
 import android.app.Activity;
-import android.content.Context;
+import android.app.ActivityManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.FileUtils;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
@@ -20,9 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -30,26 +27,23 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 
-import com.canhub.cropper.CropImage;
 import com.canhub.cropper.CropImageContract;
 import com.canhub.cropper.CropImageContractOptions;
 import com.canhub.cropper.CropImageOptions;
 import com.canhub.cropper.CropImageView;
-import com.canhub.cropper.PickImageContract;
 
 import com.bumptech.glide.Glide;
 
 import java.io.File;
-import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.Objects;
 
-import edu.uestc.diaryinuestc.AppPathUtils;
+import edu.uestc.diaryinuestc.ui.PhotoSelectorPopupWindow;
+import edu.uestc.diaryinuestc.utils.AppPathUtils;
 import edu.uestc.diaryinuestc.BuildConfig;
 import edu.uestc.diaryinuestc.R;
 import edu.uestc.diaryinuestc.databinding.FragmentMeBinding;
@@ -67,28 +61,48 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentMeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
         activity = requireActivity();
 
         loadUserInfo();
         setOnClickListener();
 
+        ThemeSelectActivity.setThemeToActivity(activity, null);
         return root;
     }
 
+    /**
+     * 从path读取用户图片以及用户名
+     */
     private void loadUserInfo() {
+        //加载头像
         File avatarFile = new File(activity.getFilesDir().getPath(), AppPathUtils.AVATAR_PATH);
         if (avatarFile.exists()) {
             userAvatarBitmap = BitmapFactory.decodeFile(avatarFile.getPath());
             Glide.with(activity).load(userAvatarBitmap).into(binding.userAvatar);
         }
-        SharedPreferences themePreferences = activity.getSharedPreferences(ThemeSelectActivity.THEME_KEY, Context.MODE_PRIVATE);
-        activity.setTheme(ThemeSelectActivity.Code2Theme(themePreferences.getInt(ThemeSelectActivity.COLOR_KEY, 1)));
+        //加载用户名
+        SharedPreferences defaultPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        binding.userName.setText(defaultPreferences.getString("name", ""));
+        //加载性别
+        String gender = defaultPreferences.getString("gender", "null");
+        int genderDraw;
+        if (gender.equals("boy"))
+            genderDraw = R.drawable.ic_boy;
+        else if (gender.equals("girl"))
+            genderDraw = R.drawable.ic_girl;
+        else
+            genderDraw = R.drawable.ic_boygirl;
+        binding.genderIc.setImageResource(genderDraw);
+        //加载简介
+        binding.mySign.setText(defaultPreferences.getString("sign", ""));
     }
 
     private void setOnClickListener() {
         binding.userAvatar.setOnClickListener(this);
         binding.userName.setOnClickListener(this);
         binding.theme.setOnClickListener(this);
+        binding.mySign.setOnClickListener(this);
         binding.myInfo.setOnClickListener(this);
         binding.mineSetting.setOnClickListener(this);
         binding.mineAbout.setOnClickListener(this);
@@ -112,12 +126,15 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         if (v.getId() == binding.userAvatar.getId()) {
             popAvatarSelectorWindow();
         } else if (v.getId() == binding.userName.getId()) {
-
+            startActivity(new Intent(activity, MyInfoActivity.class));
         } else if (v.getId() == binding.theme.getId()) {
             Intent intent = new Intent(activity, ThemeSelectActivity.class);
             startActivity(intent);
+        } else if (v.getId() == binding.mySign.getId()){
+            startActivity(new Intent(activity, MyInfoActivity.class));
         } else if (v.getId() == binding.myInfo.getId()) {
-
+//            startActivity(new Intent(activity, PhotoSelectorPopupWindow.class).putExtra("isBottom", false));
+            startActivity(new Intent(activity, MyInfoActivity.class));
         } else if (v.getId() == binding.mineHelp.getId()) {
 
         } else if (v.getId() == binding.mineSetting.getId()) {
@@ -144,8 +161,11 @@ public class MeFragment extends Fragment implements View.OnClickListener {
      */
     private void popAvatarSelectorWindow() {
         //创建popupWindow
-        View popView = getLayoutInflater().inflate(R.layout.avatar_select_pop, null);
-        popupPhotoSelectorWindow = new PopupWindow(popView, (int) (binding.getRoot().getWidth() * 0.8),
+        View popView = getLayoutInflater().inflate(R.layout.photo_select_pop_center, null);
+
+//        Log.e(TAG, String.valueOf(binding.getRoot().getWidth())+"  "+ getResources().getDisplayMetrics().widthPixels);
+
+        popupPhotoSelectorWindow = new PopupWindow(popView, ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         popupPhotoSelectorWindow.setBackgroundDrawable(ResourcesCompat.getDrawable(getResources(),
                 R.drawable.round_outline, null));
