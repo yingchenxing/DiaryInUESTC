@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="edu.uestc.diaryinuestc">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -15,6 +17,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ActionBar">
+        <activity
+            android:name=".ui.me.AboutActivity"
+            android:exported="true"
+            android:label="@string/title_activity_about"
+            android:theme="@style/Theme.ActionBar.NoActionBar" />
         <activity
             android:name=".ui.me.MyInfoActivity"
             android:exported="true"

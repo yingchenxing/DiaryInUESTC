@@ -59,5 +59,14 @@
     <string name="email_title">邮箱</string>
     <string name="education_title">教育经历</string>
     <string name="not_set">未设置</string>
+    <string name="title_activity_about">AboutActivity</string>
+
+    <!-- Strings used for fragments for navigation -->
+    <string name="about_fragment_label">关于</string>
+    <string name="about_contact_fragment_label">联系我们</string>
+    <string name="writer">项目参与者</string>
+    <string name="chen_xi">陈曦</string>
+    <string name="jako">周哲贤</string>
+    <string name="xin_xuan">吴昕璇</string>
 
 </resources>

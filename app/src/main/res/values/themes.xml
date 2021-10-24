@@ -47,4 +47,13 @@
         ;!-- 模糊 -->
     </style>
 
+    <style name="Theme.ActionBar.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.ActionBar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.ActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 </resources>

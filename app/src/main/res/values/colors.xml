@@ -25,12 +25,14 @@
     <color name="low_red">#F8B1AF</color>
     <color name="low_low_red">#F3CAC8</color>
     <color name="egg_yellow">#FFFFC108</color>
+    <color name="ic_back_yellow">#FFFFFE85</color>
     <color name="low_yellow">#F9E6AD</color>
     <color name="low_low_yellow">#FFFBFECF</color>
     <color name="grass_green">#FF8BC24B</color>
     <color name="low_green">#99BD7C</color>
     <color name="low_low_green">#B5CCAB</color>
     <color name="jewelry_blue">#FF2195F3</color>
+    <color name="uestc_blue">#FF00379B</color>
     <color name="low_blue">#88D6DC</color>
     <color name="low_low_blue">#BBF2F6</color>
     <color name="roland_purple">#FF9B27B0</color>
