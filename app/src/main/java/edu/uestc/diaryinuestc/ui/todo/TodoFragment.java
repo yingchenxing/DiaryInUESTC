@@ -16,7 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
+//import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,42 +24,34 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import edu.uestc.diaryinuestc.R;
 import edu.uestc.diaryinuestc.databinding.FragmentTodoBinding;
+import edu.uestc.diaryinuestc.ui.todo.database.TodoEngine;
 
 public class TodoFragment extends Fragment {
 
-    private TodoViewModel todoViewModel;
+
     private FragmentTodoBinding binding;
     private List<Todo> todoList = new ArrayList<>();
     private TodoAdapter adapter;
-    //    private SwipeRefreshLayout swipeRefresh;
+    private TodoEngine todoEngine ;
     private PopupWindow popupTodoAdd;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        todoViewModel =
-                new ViewModelProvider(this).get(TodoViewModel.class);
 
         binding = FragmentTodoBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-////        final TextView textView = binding.textTodo;
-//        todoViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-////                textView.setText(s);
-//            }
-//        });
-
+        todoEngine = new TodoEngine(getContext());
         //加载todo的recyclerView
         initTodo();
         RecyclerView recyclerView = binding.todoRecyclerView;
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,true);
         layoutManager.setStackFromEnd(true);
-//        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.VERTICAL);//
         recyclerView.setLayoutManager(layoutManager);
         adapter = new TodoAdapter(todoList);
         recyclerView.setAdapter(adapter);
@@ -85,14 +77,7 @@ public class TodoFragment extends Fragment {
                 //通过popupwindow实现
                 load_popupwindow();
 
-                //淡化背景
-//                backgroundAlpha(0.5f);
-//                popupPhotoSelectorWindow.setOnDismissListener(() -> backgroundAlpha(1.0f));
 
-
-                //通过activity实现
-//                Intent intent = new Intent(getContext(),TodoAddActivity.class);
-//                startActivity(intent);
             }
         });
 
@@ -105,10 +90,6 @@ public class TodoFragment extends Fragment {
 //            }
 //        });
 
-        //传递数据
-//        EventBus.getDefault().register(this);
-
-
         return root;
     }
 
@@ -117,25 +98,17 @@ public class TodoFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-//        EventBus.getDefault().unregister(this);
     }
 
     public void initTodo() {
-        for (int i = 0; i < 10; i++) {
-            Todo todo = new Todo(i + "");
-            todoList.add(todo);
-        }
-        for (int i = 0; i < 10; i++) {
-            Todo todo = new Todo(i + "");
-            todo.setSelected(true);
-            todoList.add(todo);
-        }
+        todoList = todoEngine.queryAllStudent();
+        Collections.reverse(todoList);//将新的todo排在前面
     }
 
 
-    public void refreshTodo() {
-        adapter.notifyDataSetChanged();
-    }
+//    public void refreshTodo() {
+//        adapter.notifyDataSetChanged();
+//    }
 
 
     public void load_popupwindow() {
@@ -170,12 +143,14 @@ public class TodoFragment extends Fragment {
         Button button = popView.findViewById(R.id.add_todo_button);
 
         button.setOnClickListener(view1 -> {
-
-//            EventBus.getDefault().post(editText.getText().toString());
             String content = editText.getText().toString();
+
             if (content.length()!=0) {
                 Todo todo = new Todo(editText.getText().toString());
-                todoList.add(todo);//将todo添加
+                //将todo添加到数据库
+                todoEngine.insertTodo(todo);
+                //将todo添加到UI
+                todoList.add(todo);
                 adapter.notifyItemRangeInserted(adapter.getItemCount(), 1);
                 Toast.makeText(getContext(), "已保存", Toast.LENGTH_SHORT).show();
                 popupTodoAdd.dismiss();
@@ -184,6 +159,9 @@ public class TodoFragment extends Fragment {
             }
         });
 
+        //淡化背景
+//                backgroundAlpha(0.5f);
+//                popupPhotoSelectorWindow.setOnDismissListener(() -> backgroundAlpha(1.0f));
 
         popupTodoAdd.showAtLocation(binding.getRoot(), Gravity.CENTER, 0, 0);
     }

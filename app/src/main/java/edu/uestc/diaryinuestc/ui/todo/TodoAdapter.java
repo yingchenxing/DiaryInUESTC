@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 
-import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -20,19 +20,23 @@ import java.util.List;
 
 import edu.uestc.diaryinuestc.R;
 import edu.uestc.diaryinuestc.ui.ItemTouchHelperAdapter;
+import edu.uestc.diaryinuestc.ui.todo.database.TodoEngine;
 
 public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> implements ItemTouchHelperAdapter {
     private Context mContext;
 
     private final List<Todo> mTodoList;
+    private TodoEngine todoEngine = new TodoEngine(mContext);
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
         CheckBox todoContent;
+        LinearLayout linearLayout;
 
         public ViewHolder(View view) {
             super(view);
-            cardView = (CardView) view;
+            linearLayout = (LinearLayout) view;
+            cardView = view.findViewById(R.id.todo_cardview);
             todoContent = view.findViewById(R.id.todo_content);
         }
     }
@@ -44,9 +48,9 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> im
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//        if (mContext == null) {
-//            mContext = parent.getContext();
-//        }
+        if (mContext == null) {
+            mContext = parent.getContext();
+        }
         mContext = parent.getContext();
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_todo, parent, false);
         final TodoAdapter.ViewHolder holder = new TodoAdapter.ViewHolder(view);
@@ -87,6 +91,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> im
     //item上下拖动实现换位效果
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
+        //在UI中换位
         Collections.swap(mTodoList, fromPosition, toPosition);
         notifyItemMoved(fromPosition,toPosition);
     }
@@ -94,6 +99,10 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> im
     //item左右拖动实现删除、编辑效果
     @Override
     public void onItemDismiss(int position) {
+        //在数据库中删除
+        Todo todo = mTodoList.get(position);
+        todoEngine.deleteTodos(todo);
+        //在UI中删除
         mTodoList.remove(position);
         notifyItemRemoved(position);
     }

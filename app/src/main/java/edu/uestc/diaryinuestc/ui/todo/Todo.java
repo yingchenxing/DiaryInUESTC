@@ -1,6 +1,14 @@
 package edu.uestc.diaryinuestc.ui.todo;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class Todo {
+    @PrimaryKey(autoGenerate = true)
+    private int todoID;
+
+
     private String content;
     private int ddl;
     private boolean selected;
@@ -32,5 +40,13 @@ public class Todo {
 
     public void setSelected(boolean b){
         this.selected = b;
+    }
+
+    public int getTodoID() {
+        return todoID;
+    }
+
+    public void setTodoID(int todoID) {
+        this.todoID = todoID;
     }
 }
