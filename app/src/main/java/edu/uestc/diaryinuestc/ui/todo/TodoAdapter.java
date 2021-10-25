@@ -91,6 +91,13 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> im
     //item上下拖动实现换位效果
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
+        //在数据库中换位
+        Todo todo1= mTodoList.get(fromPosition);
+        Todo todo2 = mTodoList.get(toPosition);
+        int tempID = todo1.getTodoID();
+        todo1.setTodoID(todo2.getTodoID());
+        todo2.setTodoID(tempID);
+        todoEngine.updateTodos(todo1,todo2);
         //在UI中换位
         Collections.swap(mTodoList, fromPosition, toPosition);
         notifyItemMoved(fromPosition,toPosition);
