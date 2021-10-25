@@ -64,31 +64,10 @@ public class TodoFragment extends Fragment {
 
         //加载添加todo的fragment
         FloatingActionButton fab = binding.todoFab;
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//                FragmentTransaction transaction = fragmentManager.beginTransaction();
-//                transaction.replace(R.id.fragment_todo,new TodoAddFragment());
-//                transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-////                transaction.addToBackStack(null);//添加到返回栈
-//                transaction.commit();
-
-                //通过popupwindow实现
-                load_popupwindow();
-
-
-            }
+        fab.setOnClickListener(view -> {
+            //通过popupwindow实现
+            load_popupwindow();
         });
-
-        //滑动刷新
-//        swipeRefresh = binding.todoSwipeRefresh;
-//        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                refreshTodo();
-//            }
-//        });
 
         return root;
     }
@@ -105,11 +84,9 @@ public class TodoFragment extends Fragment {
         Collections.reverse(todoList);//将新的todo排在前面
     }
 
-
 //    public void refreshTodo() {
 //        adapter.notifyDataSetChanged();
 //    }
-
 
     public void load_popupwindow() {
         View popView = getLayoutInflater().inflate(R.layout.cardview_add_todo, null);
