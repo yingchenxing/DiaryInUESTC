@@ -5,9 +5,11 @@ import android.app.TaskStackBuilder;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,6 +21,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentResultListener;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.preference.DialogPreference;
+import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
@@ -58,15 +61,31 @@ public class MyInfoActivity extends AppCompatActivity {
 
         private SharedPreferences preference;
         private Preference birth;
+        private EditTextPreference sign;
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.my_info_preferences, rootKey);
             preference = PreferenceManager.getDefaultSharedPreferences(requireContext());
 
+            //birth设置summary
             birth = findPreference("birth");
             assert birth != null;
             birth.setSummaryProvider(DatePreference.DateSummaryProvider.getInstance());
+
+            //sign设置字数限制
+            sign = findPreference("sign");
+            assert sign != null;
+            sign.setOnBindEditTextListener(new EditTextPreference.OnBindEditTextListener() {
+                @Override
+                public void onBindEditText(@NonNull EditText editText) {
+//                    editText.setInputType(InputType.TYPE_CLASS_NUMBER); // set only numbers allowed to input
+                    editText.selectAll(); // Select all text
+                    int maxLength = 100;
+                    editText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(maxLength)}); // set maxLength to 2
+
+                }
+            });
         }
 
         @Override
