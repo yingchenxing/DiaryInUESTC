@@ -72,4 +72,5 @@ dependencies {
     def room_version = "2.3.0"
     implementation "androidx.room:room-runtime:$room_version"//room的API支持
     annotationProcessor "androidx.room:room-compiler:$room_version"//room的注解处理器
+    implementation 'com.github.jenly1314:arcseekbar:1.0.3'
 }

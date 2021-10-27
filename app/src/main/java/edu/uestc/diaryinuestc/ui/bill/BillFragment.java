@@ -16,24 +16,18 @@ import edu.uestc.diaryinuestc.databinding.FragmentBillBinding;
 
 public class BillFragment extends Fragment {
 
-    private BillViewModel billViewModel;
+//    private BillViewModel billViewModel;
     private FragmentBillBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        billViewModel =
-                new ViewModelProvider(this).get(BillViewModel.class);
+//        billViewModel =
+//                new ViewModelProvider(this).get(BillViewModel.class);
 
         binding = FragmentBillBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textBill;
-        billViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+
         return root;
     }
 

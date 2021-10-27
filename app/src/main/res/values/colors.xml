@@ -39,6 +39,10 @@
     <color name="low_purple">#FFCC99FE</color>
     <color name="low_low_purple">#D6B4F8</color>
 
+    <color name="theme_1">#e4f9f5</color>
+    <color name="theme_2">#30e3ca</color>
+    <color name="theme_3">#11999E</color>
+    <color name="theme_4">#40514E</color>
 
 
 </resources>
