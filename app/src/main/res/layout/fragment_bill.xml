@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:background="@drawable/statistics"
+                android:background="@drawable/statics"
                 android:minWidth="30dp"
                 android:minHeight="30dp" />
 
@@ -83,13 +83,14 @@
         android:layout_height="match_parent">
 
         <com.king.view.arcseekbar.ArcSeekBar
-            android:id="@+id/arc"
+            android:id="@+id/seek_bar"
             android:layout_width="255dp"
             android:layout_height="255dp"
             android:layout_gravity="center_horizontal"
             app:arcLabelText="花了0元"
             app:arcLabelTextColor="@color/theme_4"
             app:arcProgressColor="@color/theme_2"
+            app:arcShowLabel="false"
             app:arcThumbColor="@color/theme_3"
             app:arcThumbRadius="10dp"
             app:arcThumbStrokeWidth="0dp"
@@ -97,6 +98,34 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@+id/seek_bar"
+            app:layout_constraintEnd_toEndOf="@+id/seek_bar"
+            app:layout_constraintStart_toStartOf="@+id/seek_bar"
+            app:layout_constraintTop_toTopOf="@+id/seek_bar">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="共消费" />
+
+            <EditText
+                android:id="@+id/edit_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:gravity="center_horizontal"
+                android:inputType="number" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="元" />
+        </LinearLayout>
 
         <View
             android:id="@+id/view"
@@ -119,7 +148,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <RadioGroup
+        <LinearLayout
             android:id="@+id/radioGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -129,30 +158,30 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <RadioButton
+            <TextView
+                android:id="@+id/bill_add_out"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:button="@null"
                 android:gravity="center_horizontal"
                 android:text="支出"
-                android:background="@drawable/bill_type_bg1"/>
+                android:textColor="#1296db" />
+
             <Switch
+                android:id="@+id/bill_add_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:shadowColor="@color/theme_1"
-                android:showText="true"
-                android:track="@color/theme_1"/>
+                android:checked="false"
+                android:showText="false" />
 
-            <RadioButton
+            <TextView
+                android:id="@+id/bill_add_in"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/bill_type_bg2"
-                android:button="@null"
                 android:gravity="center_horizontal"
-                android:text="收入"/>
-        </RadioGroup>
+                android:text="收入" />
+        </LinearLayout>
 
         <RadioGroup
             android:id="@+id/radioGroup2"
@@ -377,5 +406,7 @@
 
             </LinearLayout>
         </RadioGroup>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

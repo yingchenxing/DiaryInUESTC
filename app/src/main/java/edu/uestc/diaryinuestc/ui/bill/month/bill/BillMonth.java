@@ -1,20 +1,18 @@
-package edu.uestc.diaryinuestc.ui.bill.day.bill;
+package edu.uestc.diaryinuestc.ui.bill.month.bill;
 
 import java.util.List;
 
 import edu.uestc.diaryinuestc.ui.bill.bill.Bill;
 
-public class BillDay {
+public class BillMonth {
+    private List<Bill> billList;
     private int inAmount;
     private int outAmount;
-    private int date1;
-    private int date2;
-    private List<Bill> billList;
+    private int date;
 
-    public BillDay(int date1, int date2, List<Bill> billList) {
-        this.date1 = date1;
-        this.date2 = date2;
+    public BillMonth(List<Bill> billList, int date) {
         this.billList = billList;
+        this.date = date;
         inAmount = 0;
         outAmount = 0;
         for (Bill bill:billList){
@@ -25,6 +23,17 @@ public class BillDay {
         }
     }
 
+    public int getAmountOfType(int type){
+        int sum = 0;
+        for(Bill bill:billList){
+            if(bill.isIn()){
+                if(bill.getType()==type)
+                    sum+=bill.getAmount();
+            }
+        }
+        return sum;
+    }
+
     public int getInAmount() {
         return inAmount;
     }
@@ -33,19 +42,7 @@ public class BillDay {
         return outAmount;
     }
 
-    public int getDate1() {
-        return date1;
-    }
-
-    public void setDate1(int date1) {
-        this.date1 = date1;
-    }
-
-    public int getDate2() {
-        return date2;
-    }
-
-    public void setDate2(int date2) {
-        this.date2 = date2;
+    public int getDate() {
+        return date;
     }
 }
