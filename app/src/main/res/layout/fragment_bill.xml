@@ -135,15 +135,23 @@
                 android:layout_weight="1"
                 android:button="@null"
                 android:gravity="center_horizontal"
-                android:text="支出" />
+                android:text="支出"
+                android:background="@drawable/bill_type_bg1"/>
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:shadowColor="@color/theme_1"
+                android:showText="true"
+                android:track="@color/theme_1"/>
 
             <RadioButton
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@drawable/bill_type_bg2"
                 android:button="@null"
                 android:gravity="center_horizontal"
-                android:text="收入" />
+                android:text="收入"/>
         </RadioGroup>
 
         <RadioGroup
@@ -175,7 +183,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:background="@drawable/bill_redbag_unchecked"
+                        android:background="@drawable/redbag_background"
                         android:button="@null"
                         android:minWidth="5dp"
                         android:minHeight="5dp" />

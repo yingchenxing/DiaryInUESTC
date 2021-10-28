@@ -15,12 +15,22 @@ public class Bill {
     private boolean in;//判断收入还是支出（0为支出，1为收入）
     private String content;//账单注释
 
-    //定义常量
+    //定义常量，收款
     public static int PAYMENT = 1;
     public static int BONUS = 2;
     public static int FAVOR = 3;
     public static int REDBAG = 4;
     public static int TRANSFER = 5;
+    //支出
+    public static int RECREATION = 6;
+    public static int MEDICATION = 7;
+    public static int EATING = 8;
+    public static int CLOTHING = 9;
+    public static int TRAVELLING = 10;
+    public static int EDUCATION = 11;
+    public static int TRAFFIC = 12;
+    //其他
+    public static int ELSE = 13;
 
     public Bill(int date, int type, double amount, boolean in, String content) {
         this.date = date;
