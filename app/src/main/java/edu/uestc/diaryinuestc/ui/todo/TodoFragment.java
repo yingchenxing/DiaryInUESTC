@@ -51,10 +51,12 @@ public class TodoFragment extends Fragment {
         initTodo();
         RecyclerView recyclerView = binding.todoRecyclerView;
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,true);
+
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new TodoAdapter(todoList);
         recyclerView.setAdapter(adapter);
+
 
         //实现todo的拖拽
         SimpleItemTouchHelper callback = new SimpleItemTouchHelper(adapter);

@@ -18,6 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ActionBar">
         <activity
+            android:name=".ui.bill.BillAddCardview"
+            android:exported="false" />
+        <activity
             android:name=".ui.me.AboutActivity"
             android:exported="true"
             android:label="@string/title_activity_about"

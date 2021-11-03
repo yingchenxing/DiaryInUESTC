@@ -12,8 +12,8 @@ public class BillDay {
     private List<Bill> billList;
 
     public BillDay(int date1, int date2, List<Bill> billList) {
-        this.date1 = date1;
-        this.date2 = date2;
+        this.date1 = date1;//日期
+        this.date2 = date2;//星期
         this.billList = billList;
         inAmount = 0;
         outAmount = 0;
