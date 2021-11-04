@@ -44,7 +44,6 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.ViewHolder> {
         if (mContext == null) {
             mContext = parent.getContext();
         }
-        mContext = parent.getContext();
         View view = LayoutInflater.from(mContext).inflate(R.layout.bill_item, parent, false);
         BillAdapter.ViewHolder Holder = new BillAdapter.ViewHolder(view);
         return Holder;
