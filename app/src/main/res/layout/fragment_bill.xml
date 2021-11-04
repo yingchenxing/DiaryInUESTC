@@ -103,7 +103,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.8"
-            app:srcCompat="@drawable/add" />
+            app:srcCompat="@drawable/add"
+            android:background="@color/theme_2"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

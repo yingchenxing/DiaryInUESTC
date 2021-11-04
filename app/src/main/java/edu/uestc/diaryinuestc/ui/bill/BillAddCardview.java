@@ -15,6 +15,7 @@ import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.view.Window;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -35,9 +36,11 @@ public class BillAddCardview extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.cardview_add_bill);
 
         //添加动画
+
         cvAdd = findViewById(R.id.cv_add_bill);
         addBillFab = findViewById(R.id.add_bill_fab);
         ShowEnterAnimation();
