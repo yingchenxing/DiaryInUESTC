@@ -93,39 +93,38 @@ public class Bill {
             case PAYMENT:
                 return "工资";
             case BONUS:
-                return "工资";
+                return "奖金";
             case FAVOR:
-                return "工资";
-            case REDBAGIN:
-                return "工资";
-            case TRANSFER:
-                return "工资";
-                //支出
-            case RECREATION:
-                return "工资";
-            case MEDICATION:
-                return "工资";
-            case EATING:
-                return "工资";
-            case CLOTHING:
-                return "工资";
-            case TRAVELLING:
-                return "工资";
-            case EDUCATION:
-                return "工资";
-            case TRAFFIC:
-                return "工资";
+                return "";
             case REDBAGOUT:
-                return "工资";
-                //其他
+            case REDBAGIN:
+                return "红包";
+            case TRANSFER:
+                return "转账";
+            //支出
+            case RECREATION:
+                return "娱乐";
+            case MEDICATION:
+                return "医疗";
+            case EATING:
+                return "吃喝";
+            case CLOTHING:
+                return "衣物";
+            case TRAVELLING:
+                return "旅行";
+            case EDUCATION:
+                return "教育";
+            case TRAFFIC:
+                return "交通";
+            //其他
             case ELSE:
-                return "工资";
+                return "其他";
             default:
                 return null;
         }
     }
 
-    public int getImgId(){
-        return  0;
+    public int getImgId() {
+        return 0;
     }
 }

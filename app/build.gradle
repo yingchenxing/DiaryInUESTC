@@ -67,10 +67,17 @@ dependencies {
     implementation 'com.scwang.smart:refresh-header-two-level:2.0.3'   //二级刷新头
     implementation 'com.scwang.smart:refresh-footer-ball:2.0.3'        //球脉冲加载
     implementation 'com.scwang.smart:refresh-footer-classics:2.0.3'    //经典加载
-
+    implementation 'com.wdullaer:materialdatetimepicker:4.2.3'          //时间选择器
 
     def room_version = "2.3.0"
     implementation "androidx.room:room-runtime:$room_version"//room的API支持
     annotationProcessor "androidx.room:room-compiler:$room_version"//room的注解处理器
+
     implementation 'com.github.jenly1314:arcseekbar:1.0.3'
+
+    //switchButton
+//    implementation 'com.github.glomadrian:MaterialAnimatedSwitch:1.1'
+
+
+
 }

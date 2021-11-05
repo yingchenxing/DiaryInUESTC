@@ -1,5 +1,9 @@
 package edu.uestc.diaryinuestc.ui.bill;
 
+import static android.graphics.Paint.FAKE_BOLD_TEXT_FLAG;
+
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -9,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -17,16 +23,35 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.king.view.arcseekbar.ArcSeekBar;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.uestc.diaryinuestc.MainActivity;
 import edu.uestc.diaryinuestc.R;
 import edu.uestc.diaryinuestc.databinding.FragmentBillBinding;
+import edu.uestc.diaryinuestc.ui.bill.bill.Bill;
+import edu.uestc.diaryinuestc.ui.bill.bill.BillAdapter;
+import edu.uestc.diaryinuestc.ui.bill.day.bill.BillDay;
+import edu.uestc.diaryinuestc.ui.bill.month.bill.BillMonth;
+import edu.uestc.diaryinuestc.ui.todo.TodoAdapter;
 
 public class BillFragment extends Fragment {
 
     //    private BillViewModel billViewModel;
     private FragmentBillBinding binding;
+    private List<Bill> billList;
+    private List<BillDay> billDayList;
+    private BillMonth billMonth;
+    private BillAdapter adapter;
+    private FloatingActionButton addBillFab;
+    private RecyclerView recyclerView;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -35,103 +60,72 @@ public class BillFragment extends Fragment {
 
         binding = FragmentBillBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        initView();
 
-
-        //添加选择账单种类动态颜色变换
-        Switch switchBtn = root.findViewById(R.id.bill_add_switch);
-        TextView inTV = root.findViewById(R.id.bill_add_in);
-        TextView outTV = root.findViewById(R.id.bill_add_out);
-        switchBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    inTV.setTextColor(Color.parseColor("#efb336"));
-                    outTV.setTextColor(Color.parseColor("#FF9499A0"));
-                } else {
-                    inTV.setTextColor(Color.parseColor("#FF9499A0"));
-                    outTV.setTextColor(Color.parseColor("#1296db"));
-                }
-            }
-        });
-        inTV.setOnClickListener(new View.OnClickListener() {
+        //设置fab
+        addBillFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                inTV.setTextColor(Color.parseColor("#efb336"));
-                outTV.setTextColor(Color.parseColor("#FF9499A0"));
-                switchBtn.setChecked(true);
-            }
-        });
-        outTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                inTV.setTextColor(Color.parseColor("#FF9499A0"));
-                outTV.setTextColor(Color.parseColor("#1296db"));
-                switchBtn.setChecked(false);
+                getActivity().getWindow().setExitTransition(null);
+                getActivity().getWindow().setEnterTransition(null);
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(),addBillFab,addBillFab.getTransitionName());
+                startActivity(new Intent(getContext(),BillAddCardview.class),options.toBundle());
             }
         });
 
-        //圆形seekBar设置
-        ArcSeekBar seekBar = root.findViewById(R.id.seek_bar);
-        EditText editAmount = root.findViewById(R.id.edit_amount);
-        seekBar.setOnChangeListener(new ArcSeekBar.OnChangeListener() {
-            @Override
-            public void onStartTrackingTouch(boolean isCanDrag) {
 
-            }
+        //加载todo的recyclerView
+        initBillList();
 
-            @Override
-            public void onProgressChanged(float progress, float max, boolean fromUser) {
-                editAmount.setFocusable(false);
-                editAmount.setText(seekBar.getProgress() + "");
-            }
-
-            @Override
-            public void onStopTrackingTouch(boolean isCanDrag) {
-            }
-
-            @Override
-            public void onSingleTapUp() {
-
-            }
-        });
-        //手动输入
-        editAmount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editAmount.setFocusable(true);
-                editAmount.setFocusableInTouchMode(true);
-                editAmount.requestFocus();
-                editAmount.requestFocusFromTouch();
-            }
-        });
-        editAmount.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true);
+        layoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new BillAdapter(billList);
+        recyclerView.setAdapter(adapter);
 
         return root;
     }
 
-    public void editAmount(View view) {
-        EditText editAmount = binding.getRoot().findViewById(R.id.edit_amount);
-        editAmount.setFocusable(true);
+    private void initView() {
+        recyclerView = binding.billRecyclerview;
+        addBillFab = binding.fab;
     }
+
+
+    //初始化账单组
+    private void initBillList() {
+        billList = new ArrayList<>();
+        for (int i = 0; i < 50; i++) {
+            Bill bill = new Bill(2001, i, 100, true, "红包");
+            billList.add(bill);
+        }
+        for (int i = 0; i < 5; i++) {
+            Bill bill = new Bill(2001, i, 100, false, "红包");
+            billList.add(bill);
+        }
+
+        for (Bill bill : billList) {
+        }
+
+    }
+
+
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+//    @Override
+//    protected void onRestart() {
+//        super.onRestart();
+//        addBillFab.setVisibility(View.VISIBLE);
+//    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        addBillFab.setVisibility(View.VISIBLE);
     }
 }
