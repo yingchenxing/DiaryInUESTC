@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:gravity="center"
+            android:paddingTop="30dp"
+            android:paddingBottom="10dp"
+            android:text="@string/delete_diary"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+
+            android:paddingTop="10dp"
+            android:paddingBottom="20dp"
+            android:text="@string/delete_diary_qe"
+            android:textColor="@color/black_17"
+            android:textSize="17sp" />
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingStart="25dp"
+            android:paddingEnd="25dp"
+            android:paddingBottom="30dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/diary_delete_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/white_D5"
+                android:backgroundTintMode="src_over"
+                android:insetRight="10dp"
+                android:stateListAnimator="@null"
+                android:text="@string/cancel"
+                android:textColor="@color/black"
+                app:cornerRadius="30dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/diary_delete_sure"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/jewelry_blue"
+                android:insetLeft="10dp"
+                android:stateListAnimator="@null"
+                android:text="@string/delete"
+                android:textColor="@color/white"
+                app:cornerRadius="30dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>

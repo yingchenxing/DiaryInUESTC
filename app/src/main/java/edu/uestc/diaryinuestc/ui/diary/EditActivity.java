@@ -3,20 +3,32 @@ package edu.uestc.diaryinuestc.ui.diary;
 import static java.security.AccessController.getContext;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.Dialog;
+import android.app.TaskStackBuilder;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.WindowMetrics;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
@@ -27,13 +39,16 @@ import com.skydoves.powermenu.PowerMenu;
 import com.skydoves.powermenu.PowerMenuItem;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
+import edu.uestc.diaryinuestc.MainActivity;
 import edu.uestc.diaryinuestc.R;
 import edu.uestc.diaryinuestc.databinding.ActivityEditBinding;
+import edu.uestc.diaryinuestc.ui.me.ThemeSelectActivity;
 
 public class EditActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -125,9 +140,13 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initMenu() {
+        ArrayList<PowerMenuItem> list = new ArrayList<>();
+        PowerMenuItem delete = new PowerMenuItem("删除", false);
+        PowerMenuItem skin = new PowerMenuItem("更换封面", false);
+        list.add(delete);
+        list.add(skin);
         moreMenu = new PowerMenu.Builder(this)
-                .addItem(new PowerMenuItem("删除", false))
-                .addItem(new PowerMenuItem("更换封面", false))
+                .addItemList(list)
                 .setAnimation(MenuAnimation.SHOWUP_TOP_LEFT) // Animation start point (TOP | LEFT).
                 .setMenuRadius(20f) // sets the corner radius.
                 .setMenuShadow(10f) // sets the shadow.
@@ -143,14 +162,37 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 .setOnMenuItemClickListener(new OnMenuItemClickListener<PowerMenuItem>() {
                     @Override
                     public void onItemClick(int position, PowerMenuItem item) {
-                        if (position == 0) {
+                        if (item.equals(delete)) {
                             //delete diary
-                        } else if (position == 1) {
+                            deleteDialog();
+                        } else if (item.equals(skin)) {
                             //change cover
                         }
                     }
                 })
                 .build();
+    }
+
+    private void deleteDialog() {
+        View view = getLayoutInflater().inflate(R.layout.delet_diary_dialog, null);
+        Rect displayRectangle = new Rect();
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.round_outline_top);
+        dialog.show();
+        //设置在show之后生效,啊这我服了
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        view.findViewById(R.id.diary_delete_cancel).setOnClickListener(v -> dialog.dismiss());
+        view.findViewById(R.id.diary_delete_sure).setOnClickListener(v -> {
+            diaryViewModel.delete(new Diary(diary_id));
+            dialog.dismiss();
+            TaskStackBuilder.create(EditActivity.this)
+                    .addNextIntent(new Intent(EditActivity.this, MainActivity.class))
+                    .startActivities();
+            finish();
+        });
     }
 
     private void saveDiary() {

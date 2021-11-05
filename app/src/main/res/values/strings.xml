@@ -13,6 +13,7 @@
     <string name="mine_setting">设置</string>
     <string name="mine_about">关于</string>
     <string name="cancel">取消</string>
+    <string name="delete">删除</string>
     <string name="camera">拍照</string>
     <string name="album">从相册中选择</string>
     <string name="change_border_color">随机更换边框颜色</string>
@@ -76,5 +77,7 @@
     <string name="skin">皮肤</string>
     <string name="more">更多</string>
     <string name="setting">Setting</string>
+    <string name="delete_diary">删除日记</string>
+    <string name="delete_diary_qe">确认删除该条笔记吗？</string>
 
 </resources>
