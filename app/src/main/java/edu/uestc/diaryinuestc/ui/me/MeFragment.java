@@ -103,12 +103,6 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         binding.mySign.setText(defaultPreferences.getString("sign", ""));
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        setOnClickListener();
-    }
-
     private void setOnClickListener() {
         binding.userAvatar.setOnClickListener(this);
         binding.userName.setOnClickListener(this);
