@@ -1,5 +1,6 @@
 package edu.uestc.diaryinuestc.ui.bill.bill;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import edu.uestc.diaryinuestc.R;
 
 public class BillAdapter extends RecyclerView.Adapter<BillAdapter.ViewHolder> {
     private List<Bill> mBillList;
+    private Context mContext;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView billImage;
@@ -24,6 +26,7 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.ViewHolder> {
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+
             billImage = itemView.findViewById(R.id.bill_item_img);
             billContent = itemView.findViewById(R.id.bill_item_content);
             billType = itemView.findViewById(R.id.bill_item_type);
@@ -38,9 +41,12 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.bill_item, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
-        return null;
+        if (mContext == null) {
+            mContext = parent.getContext();
+        }
+        View view = LayoutInflater.from(mContext).inflate(R.layout.bill_item, parent, false);
+        BillAdapter.ViewHolder Holder = new BillAdapter.ViewHolder(view);
+        return Holder;
     }
 
     @Override

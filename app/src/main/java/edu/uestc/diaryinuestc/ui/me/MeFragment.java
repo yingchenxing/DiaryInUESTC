@@ -44,7 +44,6 @@ import java.io.File;
 import java.util.Objects;
 
 import edu.uestc.diaryinuestc.ui.PhotoSelectorPopupWindow;
-import edu.uestc.diaryinuestc.ui.diary.EditActivity;
 import edu.uestc.diaryinuestc.utils.AppPathUtils;
 import edu.uestc.diaryinuestc.BuildConfig;
 import edu.uestc.diaryinuestc.R;
@@ -68,8 +67,13 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 
         loadUserInfo();
 
-        ThemeSelectActivity.setThemeToActivity(activity, null);
         return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setOnClickListener();
     }
 
     /**
@@ -110,6 +114,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         binding.userName.setOnClickListener(this);
         binding.theme.setOnClickListener(this);
         binding.mySign.setOnClickListener(this);
+        binding.genderIc.setOnClickListener(this);
         binding.myInfo.setOnClickListener(this);
         binding.mineHelp.setOnClickListener(this);
         binding.mineSetting.setOnClickListener(this);
@@ -134,12 +139,14 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         if (v.getId() == binding.userAvatar.getId()) {
             popAvatarSelectorWindow();
         } else if (v.getId() == binding.userName.getId()) {
-            startActivity(new Intent(activity, MyInfoActivity.class));
+            startActivity(new Intent(activity, MyInfoActivity.class).putExtra("open","name"));
         } else if (v.getId() == binding.theme.getId()) {
             Intent intent = new Intent(activity, ThemeSelectActivity.class);
             startActivity(intent);
-        } else if (v.getId() == binding.mySign.getId()) {
-            startActivity(new Intent(activity, MyInfoActivity.class));
+        } else if (v.getId() == binding.mySign.getId()){
+            startActivity(new Intent(activity, MyInfoActivity.class).putExtra("open","sign"));
+        } else if (v.getId() == binding.genderIc.getId()){
+            startActivity(new Intent(activity, MyInfoActivity.class).putExtra("open","gender"));
         } else if (v.getId() == binding.myInfo.getId()) {
 //            startActivity(new Intent(activity, PhotoSelectorPopupWindow.class).putExtra("isBottom", false));
             startActivity(new Intent(activity, MyInfoActivity.class));

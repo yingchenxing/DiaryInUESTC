@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -39,6 +40,7 @@ public class TodoFragment extends Fragment {
     private TodoAdapter adapter;
     private TodoEngine todoEngine ;
     private PopupWindow popupTodoAdd;
+    private TextView textView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -49,12 +51,19 @@ public class TodoFragment extends Fragment {
         todoEngine = new TodoEngine(getContext());
         //加载todo的recyclerView
         initTodo();
+        //判断是否显示添加文本
+        textView = binding.addTodoText;
+        if(todoList.size()!=0){
+            textView.setVisibility(View.GONE);
+        }
         RecyclerView recyclerView = binding.todoRecyclerView;
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,true);
+
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new TodoAdapter(todoList);
         recyclerView.setAdapter(adapter);
+
 
         //实现todo的拖拽
         SimpleItemTouchHelper callback = new SimpleItemTouchHelper(adapter);
@@ -133,6 +142,9 @@ public class TodoFragment extends Fragment {
                 popupTodoAdd.dismiss();
             } else {
                 Toast.makeText(this.getContext(), "无法保存空todo", Toast.LENGTH_SHORT).show();
+            }
+            if(todoList.size()!=0){
+                textView.setVisibility(View.GONE);
             }
         });
 
