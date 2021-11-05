@@ -8,8 +8,9 @@ import androidx.room.RoomDatabase;
 
 import edu.uestc.diaryinuestc.ui.todo.Todo;
 
-@Database(entities = {Todo.class},version = 1)
-public abstract class TodoDatabase extends RoomDatabase {
+@Database(entities = {Todo.class},version = 1,exportSchema = false)
+public abstract
+class TodoDatabase extends RoomDatabase {
     public abstract TodoDao getTodoDao();
     //单例模式 返回DB
     private static TodoDatabase INSTANCE;

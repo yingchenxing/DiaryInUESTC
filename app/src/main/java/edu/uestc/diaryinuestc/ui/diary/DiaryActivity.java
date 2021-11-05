@@ -1,65 +1,87 @@
 package edu.uestc.diaryinuestc.ui.diary;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-
-import edu.uestc.diaryinuestc.R;
+import edu.uestc.diaryinuestc.databinding.ActivityDiaryBinding;
 
 public class DiaryActivity extends AppCompatActivity {
 
-    public static final String DIARY_TITTLE = "diayt_title";
+    public static final String DIARY_ID = "uid";
+    private static final String TAG = DiaryActivity.class.getSimpleName();
 
-    public static final String DIARY_Cover_ID = "fruit_cover_id";
+    private ActivityDiaryBinding binding;
+    private DiaryViewModel diaryViewModel;
+    private long diary_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_diary);
+        binding = ActivityDiaryBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        diaryViewModel = ViewModelProviders.of(this).get(DiaryViewModel.class);
+        //load diary
         Intent intent = getIntent();
-        String diaryTittle = intent.getStringExtra(DIARY_TITTLE);
-        int diaryCoverId = intent.getIntExtra(DIARY_Cover_ID,0);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        CollapsingToolbarLayout collapsingToolbar = findViewById(R.id.collapsingToolbarLayout);
-        ImageView diaryImageView = findViewById(R.id.diary_image_view);
-        TextView diaryContentText = findViewById(R.id.diary_content_text);
-        //setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if(actionBar!=null){
-            actionBar.setDisplayHomeAsUpEnabled(true);
+        diary_id = intent.getLongExtra(DIARY_ID, 0);
+
+        LiveData<Diary> diary1 = diaryViewModel.getDiary(diary_id);
+        if (diary1 == null) {
+            Toast.makeText(this, "fail to load diary", Toast.LENGTH_LONG).show();
+            Log.e(TAG, "fail to load diary uid:" + diary_id);
+        } else {
+            diary1.observe(this, diary -> {
+                binding.collapsingToolbarLayout.setTitle(diary.getTitle());
+                binding.diaryContentText.setText(diary.getContent());
+            });
         }
-        collapsingToolbar.setTitle(diaryTittle);
-        Glide.with(this).load(diaryCoverId).into(diaryImageView);
-        String diaryContent = generaterDiaryContent(diaryTittle);
-        diaryContentText.setText(diaryContent);
+//        Glide.with(this).load(diaryCoverId).into(diaryImageView);图片功能后置
 
-    }
+//        String diaryContent = generaterDiaryContent(diaryTittle);
+        binding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
 
-    private String generaterDiaryContent(String diaryName){
-        StringBuilder diaryContent = new StringBuilder();
-        for(int i =0;i<500;i++){
-            diaryContent.append(diaryName);
-        }
-        return diaryContent.toString();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:
+            @Override
+            public void onClick(View v) {
                 finish();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
+            }
+        });
+
+        binding.collapsingToolbarLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DiaryActivity.this, EditActivity.class);
+                intent.putExtra(EditActivity.NEW_TAG, false);
+                intent.putExtra(EditActivity.DIARY_ID, diary_id);
+                intent.putExtra(EditActivity.SELECT, 0);//click title
+                startActivity(intent);
+            }
+        });
+        binding.diaryContentCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DiaryActivity.this, EditActivity.class);
+                intent.putExtra(EditActivity.NEW_TAG, false);
+                intent.putExtra(EditActivity.DIARY_ID, diary_id);
+                intent.putExtra(EditActivity.SELECT, 1);//click title
+                startActivity(intent);
+            }
+        });
     }
+
+//for test
+//    private String generaterDiaryContent(String diaryName) {
+//        StringBuilder diaryContent = new StringBuilder();
+//        for (int i = 0; i < 500; i++) {
+//            diaryContent.append(diaryName);
+//        }
+//        return diaryContent.toString();
+//    }
 }

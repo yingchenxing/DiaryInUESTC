@@ -43,6 +43,10 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
+
+    implementation "android.arch.lifecycle:extensions:1.1.1"
+    implementation "android.arch.lifecycle:viewmodel:1.1.1"
+
     implementation 'androidx.navigation:navigation-fragment:2.3.5'
     implementation 'androidx.navigation:navigation-ui:2.3.5'
     implementation 'org.apache.commons:commons-lang3:3.5'
@@ -67,7 +71,7 @@ dependencies {
     implementation 'com.scwang.smart:refresh-header-two-level:2.0.3'   //二级刷新头
     implementation 'com.scwang.smart:refresh-footer-ball:2.0.3'        //球脉冲加载
     implementation 'com.scwang.smart:refresh-footer-classics:2.0.3'    //经典加载
-
+    implementation "com.github.skydoves:powermenu:2.2.0"
 
     def room_version = "2.3.0"
     implementation "androidx.room:room-runtime:$room_version"//room的API支持
