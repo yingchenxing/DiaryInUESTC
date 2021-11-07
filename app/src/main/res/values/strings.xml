@@ -69,4 +69,12 @@
     <string name="jako">周哲贤</string>
     <string name="xin_xuan">吴昕璇</string>
 
+    <!-- Strings used for EditActivity -->
+    <string name="diary_title">标题</string>
+    <string name="edit_hint">写下你的心情~</string>
+    <string name="share">分享</string>
+    <string name="skin">皮肤</string>
+    <string name="more">更多</string>
+    <string name="setting">Setting</string>
+
 </resources>

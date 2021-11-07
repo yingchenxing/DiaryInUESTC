@@ -22,6 +22,10 @@
             android:exported="false"
             android:theme="@style/PhotoSelectorCenter"/>
         <activity
+            android:name=".ui.diary.EditActivity"
+            android:exported="false"
+            android:theme="@style/Theme.White"/>
+        <activity
             android:name=".ui.bill.BillAddCardview"
             android:exported="false"
             android:theme="@style/PhotoSelectorCenter" />

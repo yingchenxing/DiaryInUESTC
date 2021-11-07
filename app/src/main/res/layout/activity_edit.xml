@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.diary.EditActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/white"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            app:navigationIcon="@drawable/ic_arrow_left">
+
+            <ImageButton
+                android:id="@+id/more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:backgroundTint="@color/white"
+                android:contentDescription="@string/more"
+                android:padding="10dp"
+                android:src="@drawable/ic_more" />
+
+            <ImageButton
+                android:id="@+id/share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:backgroundTint="@color/white"
+                android:contentDescription="@string/share"
+                android:padding="10dp"
+                android:src="@drawable/ic_share" />
+
+            <ImageButton
+                android:id="@+id/skin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:backgroundTint="@color/white"
+                android:contentDescription="@string/skin"
+                android:padding="10dp"
+                android:src="@drawable/ic_clothes2" />
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/edit_body"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout2">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:paddingStart="30dp"
+                android:paddingEnd="30dp">
+
+                <TextView
+                    android:id="@+id/diary_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="11月4日 晚上10:44"
+                    android:textColor="?android:textColorHint"
+                    android:textSize="15sp"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" | "
+                    android:textColor="?android:textColorHint"
+                    android:textSize="17sp"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:id="@+id/diary_text_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="22"
+                    android:textColor="?android:textColorHint"
+                    android:textSize="15sp"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" 字"
+                    android:textColor="?android:textColorHint"
+                    android:textSize="15sp"
+                    tools:ignore="HardcodedText" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <EditText
+                    android:id="@+id/diary_edit_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="null"
+                    android:background="@color/white"
+                    android:hint="@string/diary_title"
+                    android:inputType="textMultiLine"
+                    android:padding="15dp"
+                    android:paddingStart="30dp"
+                    android:paddingEnd="30dp"
+                    android:textAlignment="viewStart"
+                    android:textColorHint="?android:textColorHint"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/rich_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="null"
+                    android:background="@color/white"
+                    android:gravity="start"
+                    android:hint="@string/edit_hint"
+                    android:inputType="textMultiLine"
+                    android:overScrollMode="never"
+                    android:padding="15dp"
+                    android:paddingStart="30dp"
+                    android:paddingEnd="30dp"
+                    android:textColorHint="?android:textColorHint"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/diary_edit_title"
+                    app:layout_constraintVertical_bias="0.0" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <com.scwang.smartrefresh.layout.footer.FalsifyFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

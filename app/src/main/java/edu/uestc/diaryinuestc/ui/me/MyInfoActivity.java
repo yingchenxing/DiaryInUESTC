@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputFilter;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.DatePicker;
@@ -25,6 +26,7 @@ import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
+import androidx.preference.PreferenceScreen;
 
 import java.util.Calendar;
 import java.util.Objects;
@@ -35,8 +37,10 @@ import edu.uestc.diaryinuestc.databinding.ActivityMyInfoBinding;
 
 public class MyInfoActivity extends AppCompatActivity {
 
+    private static final String TAG = "MyInfoActivity";
     private ActivityMyInfoBinding binding;
     static private SettingsFragment fragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +48,14 @@ public class MyInfoActivity extends AppCompatActivity {
         binding = ActivityMyInfoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         if (savedInstanceState == null) {
+            String openKey = getIntent().getStringExtra("open");
             fragment = new SettingsFragment();
+            if (openKey != null) {
+                Bundle b = new Bundle();
+                b.putString("open", openKey);
+                fragment.setArguments(b);
+            }
+
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(binding.myInfoSettings.getId(), fragment)
@@ -55,6 +66,11 @@ public class MyInfoActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
         setOnClickListener();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat implements DialogPreference.TargetFragment {
@@ -86,6 +102,19 @@ public class MyInfoActivity extends AppCompatActivity {
 
                 }
             });
+        }
+
+        @Override
+        public void onStart() {
+            super.onStart();
+            if (getArguments() != null) {
+                String openKey = getArguments().getString("open", null);
+                if (openKey != null) {
+                    Preference preference = findPreference(openKey);
+                    if (preference != null)
+                        getPreferenceManager().showDialog(preference);
+                }
+            }
         }
 
         @Override

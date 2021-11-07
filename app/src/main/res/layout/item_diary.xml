@@ -20,7 +20,7 @@
             android:scaleType="fitCenter"/>
 
         <TextView
-            android:id="@+id/diary_tittle"
+            android:id="@+id/diary_edit_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"

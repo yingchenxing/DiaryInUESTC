@@ -1,5 +1,7 @@
 package edu.uestc.diaryinuestc.ui.diary;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,72 +21,72 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 import edu.uestc.diaryinuestc.R;
 import edu.uestc.diaryinuestc.databinding.FragmentDiaryBinding;
 
 public class DiaryFragment extends Fragment {
 
-    private DiaryViewModel diaryViewModel;
     private FragmentDiaryBinding binding;
     private DiaryAdapter adapter;
-    private List<Diary> diaryList = new ArrayList<>();
-    private SwipeRefreshLayout swipeRefresh;
+    private List<Diary> diaryList;
+    private Activity activity;
+    private DiaryViewModel diaryViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        diaryViewModel =
-                new ViewModelProvider(this).get(DiaryViewModel.class);
-
         binding = FragmentDiaryBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        activity = requireActivity();
 
-        //final TextView textView = binding.textDiary;
-        diaryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                //textView.setText(s);
-            }
-        });
 
         //加载日记的recyclerView
-        initDiary();
-        RecyclerView recyclerView = binding.diaryRecyclerView;
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.VERTICAL);//
-        recyclerView.setLayoutManager(layoutManager);
-        adapter = new DiaryAdapter(diaryList);
-        recyclerView.setAdapter(adapter);
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);//
+        binding.diaryRecyclerView.setLayoutManager(layoutManager);
+        adapter = new DiaryAdapter(getContext());
+        binding.diaryRecyclerView.setAdapter(adapter);
 
         DiaryItemTouchHelper callback = new DiaryItemTouchHelper(adapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
+        itemTouchHelper.attachToRecyclerView(binding.diaryRecyclerView);
 
-
-        //加载添加diary的view
-//        FloatingActionButton fab = binding.;
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                load_popupwindow();
-//            }
-//        });
-
-        //刷新页面
-        swipeRefresh = binding.diarySwipeRefresh;
-        swipeRefresh.setColorSchemeResources(R.color.design_default_color_on_primary);
-        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        //load viewModel
+        diaryViewModel = ViewModelProviders.of(this).get(DiaryViewModel.class);
+        diaryViewModel.getAllDiary().observe(this, new Observer<List<Diary>>() {
             @Override
-            public void onRefresh() {
-                Toast.makeText(binding.getRoot().getContext(), "成功刷新！",Toast.LENGTH_SHORT).show();
-                refreshDiary();
+            public void onChanged(List<Diary> diaryList) {
+                adapter.setDiaries(diaryList);
             }
         });
 
+        //刷新页面
+        binding.diaryRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                adapter.notifyDataSetChanged();
+                refreshLayout.finishRefresh(2000);
+                Toast.makeText(getContext(), "刷新成功", Toast.LENGTH_SHORT).show();
+            }
+        });
+        //添加
+        binding.diaryFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, EditActivity.class);
+                intent.putExtra(EditActivity.NEW_TAG, true);
+                startActivity(intent);
+            }
+        });
         return root;
     }
+
+
 
     @Override
     public void onDestroyView() {
@@ -91,31 +94,4 @@ public class DiaryFragment extends Fragment {
         binding = null;
     }
 
-    public void initDiary(){
-        for(int i =0;i<10;i++){
-            Diary diary = new Diary(i+"",R.drawable.cover);
-            diaryList.add(diary);
-        }
-    }
-
-    private void refreshDiary() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try{
-                    Thread.sleep(200);
-                }catch (InterruptedException e){
-                    e.printStackTrace();
-                };
-            }
-        }).start();
-
-        initDiary();
-        adapter.notifyDataSetChanged();
-        swipeRefresh.setRefreshing(false);
-    }
-
-    public void load_popupwindow(){
-
-    }
 }

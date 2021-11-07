@@ -6,29 +6,33 @@
 
     android:paddingBottom="56dp">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/diary_swipe_refresh"
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/diary_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="match_parent">
+
+        <com.scwang.smart.refresh.header.WaveSwipeHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/diary_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/diary_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="80dp"
-        android:layout_marginEnd="30dp"
-        android:elevation="8dp"
-        android:src="@drawable/add"
-        android:backgroundTint="@color/teal_700"
         android:layout_gravity="end|bottom"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="80dp"
+        android:backgroundTint="?mainColor"
+        android:elevation="8dp"
         android:scaleType="center"
-        app:fabSize="normal"/>
+        android:src="@drawable/add"
+        app:fabSize="normal" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
