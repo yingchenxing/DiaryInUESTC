@@ -26,6 +26,7 @@ public class BillEditActivity extends AppCompatActivity {
         cvEdit.setVisibility(View.INVISIBLE);
         animateRevealShow();//动画
 
+
     }
 
     public void initAll() {
@@ -88,5 +89,7 @@ public class BillEditActivity extends AppCompatActivity {
     public void onBackPressed() {
         animateRevealClose();
     }
+
+
 
 }

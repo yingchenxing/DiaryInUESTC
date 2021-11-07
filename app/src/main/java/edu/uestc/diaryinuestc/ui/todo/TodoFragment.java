@@ -89,7 +89,7 @@ public class TodoFragment extends Fragment {
     }
 
     public void initTodo() {
-        todoList = todoEngine.queryAllStudent();
+        todoList = todoEngine.queryAllTodos();
         Collections.reverse(todoList);//将新的todo排在前面
     }
 

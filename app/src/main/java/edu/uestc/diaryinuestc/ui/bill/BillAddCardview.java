@@ -37,6 +37,8 @@ import java.sql.Time;
 import edu.uestc.diaryinuestc.MRadioGroup;
 import edu.uestc.diaryinuestc.R;
 import edu.uestc.diaryinuestc.ui.bill.bill.Bill;
+import edu.uestc.diaryinuestc.ui.bill.database.BillEngine;
+import edu.uestc.diaryinuestc.ui.todo.database.TodoEngine;
 
 public class BillAddCardview extends AppCompatActivity {
     private FloatingActionButton addBillFab;
@@ -73,6 +75,7 @@ public class BillAddCardview extends AppCompatActivity {
     private Button addBillBtn;
     private EditText editBillContent;
     private String mBillContent = null;
+    private BillEngine billEngine;
 
 
     @Override
@@ -100,6 +103,7 @@ public class BillAddCardview extends AppCompatActivity {
     }
 
     private void initAll() {
+        billEngine = new BillEngine(this);
         isIn = false;
         rateRadioGroup = findViewById(R.id.RG_rate);
         seekBar = findViewById(R.id.seek_bar);
@@ -110,6 +114,7 @@ public class BillAddCardview extends AppCompatActivity {
         outTV = findViewById(R.id.bill_add_out);
         initTypeSelectGroup();
         editBillContent = findViewById(R.id.add_bill_content);
+        addBillBtn = findViewById(R.id.add_bill_button);
     }
 
     public void initTypeSelectGroup() {
@@ -341,24 +346,28 @@ public class BillAddCardview extends AppCompatActivity {
             }
         });
 
-        //提交按钮
+//        //提交按钮
         addBillBtn.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-                if (isIn) {
+                if (mAmount != 0) {
                     billType = typeSelectGroup1.getType();
 
-                    Calendar calendar = Calendar.getInstance();
+                    java.util.Calendar calendar = java.util.Calendar.getInstance();
                     int year = calendar.get(Calendar.YEAR);
-                    int month = calendar.get(Calendar.MONTH) + 1;
+                    int month = calendar.get(Calendar.MONTH);
                     int day1 = calendar.get(Calendar.DAY_OF_MONTH);
                     int day2 = calendar.get(Calendar.DAY_OF_WEEK);
 
                     mBill = new Bill(year, month, day1, day2, billType, mAmount, isIn, mBillContent);
-
-
+                    billEngine.insertBill(mBill);
+                    Toast.makeText(BillAddCardview.this, "添加成功！", Toast.LENGTH_SHORT).show();
+                    onBackPressed();
+                }else{
+                    Toast.makeText(BillAddCardview.this, "无法添加数额为0的账单！", Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
 

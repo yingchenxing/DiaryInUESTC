@@ -95,7 +95,7 @@ public class TodoEngine {
     }
 
     //查询
-    public List<Todo> queryAllStudent() {
+    public List<Todo> queryAllTodos() {
 
         List<Todo> todoList = null;
         try {

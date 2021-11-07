@@ -5,8 +5,8 @@ import androidx.room.PrimaryKey;
 
 @Entity
 public class Bill {
-    @PrimaryKey
-    private int ID;//主键
+    @PrimaryKey(autoGenerate = true)
+    private int billId;//主键
 
     //账单属性
     private int year;//日期
@@ -47,18 +47,44 @@ public class Bill {
         this.content = content;
     }
 
-    public Bill(int date, int type, double amount, boolean in, String content) {
-        this.year = date;
-        this.type = type;
-        this.amount = amount;
-        this.in = in;
-        this.content = content;
+    public int getYear() {
+        return year;
     }
 
-    public Bill(int date, double amount, boolean in) {
-        this.year = date;
-        this.amount = amount;
-        this.in = in;
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public int getDay1() {
+        return day1;
+    }
+
+    public void setDay1(int day1) {
+        this.day1 = day1;
+    }
+
+    public int getDay2() {
+        return day2;
+    }
+
+    public void setDay2(int day2) {
+        this.day2 = day2;
+    }
+
+    public int getBillId() {
+        return billId;
+    }
+
+    public void setBillId(int billId) {
+        this.billId = billId;
     }
 
     public int getDate() {

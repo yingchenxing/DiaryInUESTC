@@ -30,6 +30,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.king.view.arcseekbar.ArcSeekBar;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import edu.uestc.diaryinuestc.MainActivity;
@@ -37,6 +38,7 @@ import edu.uestc.diaryinuestc.R;
 import edu.uestc.diaryinuestc.databinding.FragmentBillBinding;
 import edu.uestc.diaryinuestc.ui.bill.bill.Bill;
 import edu.uestc.diaryinuestc.ui.bill.bill.BillAdapter;
+import edu.uestc.diaryinuestc.ui.bill.database.BillEngine;
 import edu.uestc.diaryinuestc.ui.bill.day.bill.BillDay;
 import edu.uestc.diaryinuestc.ui.bill.day.bill.BillDayAdapter;
 import edu.uestc.diaryinuestc.ui.bill.month.bill.BillMonth;
@@ -52,6 +54,7 @@ public class BillFragment extends Fragment {
     private BillDayAdapter adapter;
     private FloatingActionButton addBillFab;
     private RecyclerView recyclerView;
+    private BillEngine billEngine;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -87,6 +90,7 @@ public class BillFragment extends Fragment {
     }
 
     private void initView() {
+        billEngine = new BillEngine(getContext());
         recyclerView = binding.billDayRv;
         addBillFab = binding.fab;
     }
@@ -94,16 +98,17 @@ public class BillFragment extends Fragment {
 
     //初始化账单组
     private void initBillList() {
-        billList = new ArrayList<>();
+        billList = billEngine.queryAllBills();
+        Collections.reverse(billList);
         billDayList = new ArrayList<>();
-        for (int j = 0; j < 5; j++) {
-            for (int i = 0; i < 2; i++) {
-                Bill bill1 = new Bill(2001 + j, i, 100, true, "红包");
-                billList.add(bill1);
-                Bill bill2 = new Bill(2001 + j, i, 100, false, "工资");
-                billList.add(bill2);
-            }
-        }
+//        for (int j = 0; j < 5; j++) {
+//            for (int i = 0; i < 2; i++) {
+//                Bill bill1 = new Bill(2001 + j, i, 100,2, 1,100,true, "红包");
+//                billList.add(bill1);
+//                Bill bill2 = new Bill(2001 + j, i, 100, 2,1,100,false, "工资");
+//                billList.add(bill2);
+//            }
+//        }
 
 
         for (int i = 0; i < billList.size(); i++) {
