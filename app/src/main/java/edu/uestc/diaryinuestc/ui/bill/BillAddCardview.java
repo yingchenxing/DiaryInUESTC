@@ -2,12 +2,15 @@ package edu.uestc.diaryinuestc.ui.bill;
 
 import static android.graphics.Paint.FAKE_BOLD_TEXT_FLAG;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.graphics.Color;
+import android.icu.util.Calendar;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,32 +20,69 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.Window;
 import android.view.animation.AccelerateInterpolator;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.king.view.arcseekbar.ArcSeekBar;
 
+import java.sql.Time;
+
+import edu.uestc.diaryinuestc.MRadioGroup;
 import edu.uestc.diaryinuestc.R;
+import edu.uestc.diaryinuestc.ui.bill.bill.Bill;
 
 public class BillAddCardview extends AppCompatActivity {
     private FloatingActionButton addBillFab;
     private CardView cvAdd;
+    private RadioGroup rateRadioGroup;
+    private RadioGroup typeRadioGroup1;//作为布局用
+    private RadioGroup typeRadioGroup2;//作为布局用
+    private ArcSeekBar seekBar;
+    private EditText editAmount;
+    private TextView inTV;
+    private TextView outTV;
+    private Bill mBill;
+    private double mAmount;
+    private MRadioGroup typeSelectGroup1;//获取id用
+    private MRadioGroup typeSelectGroup2;//获取id用
+    private RadioButton rb1;
+    private RadioButton rb2;
+    private RadioButton rb3;
+    private RadioButton rb4;
+    private RadioButton rb5;
+    private RadioButton rb6;
+    private RadioButton rb7;
+    private RadioButton rb8;
+    private RadioButton rb9;
+    private RadioButton rb10;
+    private RadioButton rb11;
+    private RadioButton rb12;
+    private RadioButton rb13;
+    private RadioButton rb14;
+    private RadioButton rb15;
+    private RadioButton rb16;
+    private boolean isIn;
+    private int billType;
+    private Button addBillBtn;
+    private EditText editBillContent;
+    private String mBillContent = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.cardview_add_bill);
+        initAll();
 
         //添加动画
-
-        cvAdd = findViewById(R.id.cv_add_bill);
-        addBillFab = findViewById(R.id.add_bill_fab);
         ShowEnterAnimation();
         addBillFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,125 +91,44 @@ public class BillAddCardview extends AppCompatActivity {
             }
         });
 
-        //添加选择账单种类动态颜色变换
-        Switch switchBtn = findViewById(R.id.bill_add_switch);
-        TextView inTV = findViewById(R.id.bill_add_in);
-        TextView outTV = findViewById(R.id.bill_add_out);
-        switchBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    inTV.setTextColor(Color.parseColor("#efb336"));
-                    outTV.setTextColor(Color.parseColor("#FF9499A0"));
-                } else {
-                    inTV.setTextColor(Color.parseColor("#FF9499A0"));
-                    outTV.setTextColor(Color.parseColor("#1296db"));
-                }
-            }
-        });
-        inTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                inTV.setTextColor(Color.parseColor("#efb336"));
-                outTV.setTextColor(Color.parseColor("#FF9499A0"));
-                switchBtn.setChecked(true);
-            }
-        });
-        outTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                inTV.setTextColor(Color.parseColor("#FF9499A0"));
-                outTV.setTextColor(Color.parseColor("#1296db"));
-                switchBtn.setChecked(false);
-            }
-        });
-
-        //圆形seekBar设置
-        ArcSeekBar seekBar = findViewById(R.id.seek_bar);
-        EditText editAmount = findViewById(R.id.edit_amount);
-        seekBar.setOnChangeListener(new ArcSeekBar.OnChangeListener() {
-            @Override
-            public void onStartTrackingTouch(boolean isCanDrag) {
-
-            }
-
-            @Override
-            public void onProgressChanged(float progress, float max, boolean fromUser) {
-                editAmount.setFocusable(false);
-                editAmount.setText(seekBar.getProgress() + "");
-            }
-
-            @Override
-            public void onStopTrackingTouch(boolean isCanDrag) {
-            }
-
-            @Override
-            public void onSingleTapUp() {
-
-            }
-        });
-        //手动输入
-        editAmount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editAmount.setFocusable(true);
-                editAmount.setFocusableInTouchMode(true);
-                editAmount.requestFocus();
-                editAmount.requestFocusFromTouch();
-            }
-        });
-        editAmount.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+        //设置输入的模块
+        setEditAmount();
 
         //动态选择滑动范围
-        RadioGroup radioGroup = findViewById(R.id.RG_rate);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                RadioButton rb1 = findViewById(R.id.bill_item_rate1);
-                RadioButton rb2 = findViewById(R.id.bill_item_rate2);
-                RadioButton rb3 = findViewById(R.id.bill_item_rate3);
-                switch (checkedId){
-                    case R.id.bill_item_rate1:
-                        seekBar.setMax(20);
-                        seekBar.setProgress(20);
-                        rb1.getPaint().setFlags(FAKE_BOLD_TEXT_FLAG);
-                        rb2.getPaint().setFlags(0);
-                        rb3.getPaint().setFlags(0);
-                        break;
-                    case R.id.bill_item_rate2:
-                        seekBar.setMax(50);
-                        seekBar.setProgress(50);
-                        rb2.getPaint().setFlags(FAKE_BOLD_TEXT_FLAG);
-                        rb1.getPaint().setFlags(0);
-                        rb3.getPaint().setFlags(0);
-                        break;
-                    case R.id.bill_item_rate3:
-                        seekBar.setMax(100);
-                        seekBar.setProgress(100);
-                        rb3.getPaint().setFlags(FAKE_BOLD_TEXT_FLAG);
-                        rb2.getPaint().setFlags(0);
-                        rb1.getPaint().setFlags(0);
-                        break;
-                    default:
-                        return;
-                }
-            }
-        });
+        setRateRadioGroup();
+
+    }
+
+    private void initAll() {
+        isIn = false;
+        rateRadioGroup = findViewById(R.id.RG_rate);
+        seekBar = findViewById(R.id.seek_bar);
+        editAmount = findViewById(R.id.edit_amount);
+        cvAdd = findViewById(R.id.cv_add_bill);
+        addBillFab = findViewById(R.id.add_bill_fab);
+        inTV = findViewById(R.id.bill_add_in);
+        outTV = findViewById(R.id.bill_add_out);
+        initTypeSelectGroup();
+        editBillContent = findViewById(R.id.add_bill_content);
+    }
+
+    public void initTypeSelectGroup() {
+        rb1 = findViewById(R.id.bill_type1);
+        rb2 = findViewById(R.id.bill_type2);
+        rb3 = findViewById(R.id.bill_type3);
+        rb4 = findViewById(R.id.bill_type4);
+        rb5 = findViewById(R.id.bill_type5);
+        rb6 = findViewById(R.id.bill_type6);
+        rb7 = findViewById(R.id.bill_type7);
+        rb8 = findViewById(R.id.bill_type8);
+        rb9 = findViewById(R.id.bill_type9);
+        rb10 = findViewById(R.id.bill_type10);
+        rb11 = findViewById(R.id.bill_type11);
+        rb12 = findViewById(R.id.bill_type12);
+        typeRadioGroup1 = findViewById(R.id.radioGroup2);
+        typeRadioGroup2 = findViewById(R.id.radioGroup3);
+        typeSelectGroup1 = new MRadioGroup(rb1, rb2, rb3, rb4, rb5, rb6, rb7);
+        typeSelectGroup2 = new MRadioGroup(rb8, rb9, rb10, rb11, rb12);
     }
 
     private void ShowEnterAnimation() {
@@ -180,6 +139,7 @@ public class BillAddCardview extends AppCompatActivity {
             @Override
             public void onTransitionStart(Transition transition) {
                 cvAdd.setVisibility(View.GONE);
+                typeRadioGroup2.setVisibility(View.GONE);
             }
 
             @Override
@@ -227,7 +187,7 @@ public class BillAddCardview extends AppCompatActivity {
     }
 
     public void animateRevealClose() {
-        Animator mAnimator = ViewAnimationUtils.createCircularReveal(cvAdd,cvAdd.getWidth()/2,0, cvAdd.getHeight(), addBillFab.getWidth() / 2);
+        Animator mAnimator = ViewAnimationUtils.createCircularReveal(cvAdd, cvAdd.getWidth() / 2, 0, cvAdd.getHeight(), addBillFab.getWidth() / 2);
         mAnimator.setDuration(500);
         mAnimator.setInterpolator(new AccelerateInterpolator());
         mAnimator.addListener(new AnimatorListenerAdapter() {
@@ -246,9 +206,162 @@ public class BillAddCardview extends AppCompatActivity {
         });
         mAnimator.start();
     }
+
     @Override
     public void onBackPressed() {
         animateRevealClose();
+    }
+
+    public void setRateRadioGroup() {
+        rateRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton rb1 = findViewById(R.id.bill_item_rate1);
+                RadioButton rb2 = findViewById(R.id.bill_item_rate2);
+                RadioButton rb3 = findViewById(R.id.bill_item_rate3);
+                switch (checkedId) {
+                    case R.id.bill_item_rate1:
+                        seekBar.setMax(20);
+                        seekBar.setProgress(20);
+                        rb1.getPaint().setFlags(FAKE_BOLD_TEXT_FLAG);
+                        rb2.getPaint().setFlags(0);
+                        rb3.getPaint().setFlags(0);
+                        break;
+                    case R.id.bill_item_rate2:
+                        seekBar.setMax(50);
+                        seekBar.setProgress(50);
+                        rb2.getPaint().setFlags(FAKE_BOLD_TEXT_FLAG);
+                        rb1.getPaint().setFlags(0);
+                        rb3.getPaint().setFlags(0);
+                        break;
+                    case R.id.bill_item_rate3:
+                        seekBar.setMax(100);
+                        seekBar.setProgress(100);
+                        rb3.getPaint().setFlags(FAKE_BOLD_TEXT_FLAG);
+                        rb2.getPaint().setFlags(0);
+                        rb1.getPaint().setFlags(0);
+                        break;
+                    default:
+                        return;
+                }
+            }
+        });
+    }
+
+    //输入模块
+    public void setEditAmount() {
+
+        //添加选择账单种类动态颜色变换
+        inTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                inTV.setTextColor(Color.parseColor("#efb336"));
+                outTV.setTextColor(Color.parseColor("#C8C8C8"));
+                isIn = false;
+                typeRadioGroup1.setVisibility(View.INVISIBLE);
+                typeRadioGroup2.setVisibility(View.VISIBLE);
+            }
+        });
+        outTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                inTV.setTextColor(Color.parseColor("#C8C8C8"));
+                outTV.setTextColor(Color.parseColor("#185ADB"));
+                isIn = true;
+                typeRadioGroup1.setVisibility(View.VISIBLE);
+                typeRadioGroup2.setVisibility(View.INVISIBLE);
+            }
+        });
+
+        //圆形seekBar设置
+        seekBar.setOnChangeListener(new ArcSeekBar.OnChangeListener() {
+            @Override
+            public void onStartTrackingTouch(boolean isCanDrag) {
+
+            }
+
+            @Override
+            public void onProgressChanged(float progress, float max, boolean fromUser) {
+                editAmount.setFocusable(false);
+                editAmount.setText(seekBar.getProgress() + "");
+                mAmount = seekBar.getProgress();
+            }
+
+            @Override
+            public void onStopTrackingTouch(boolean isCanDrag) {
+            }
+
+            @Override
+            public void onSingleTapUp() {
+
+            }
+        });
+        //手动输入
+        editAmount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editAmount.setFocusable(true);
+                editAmount.setFocusableInTouchMode(true);
+                editAmount.requestFocus();
+                editAmount.requestFocusFromTouch();
+            }
+        });
+        editAmount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mAmount = Double.parseDouble(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        //手动输入备注
+        editBillContent.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mBillContent = s.toString();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        //提交按钮
+        addBillBtn.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                if (isIn) {
+                    billType = typeSelectGroup1.getType();
+
+                    Calendar calendar = Calendar.getInstance();
+                    int year = calendar.get(Calendar.YEAR);
+                    int month = calendar.get(Calendar.MONTH) + 1;
+                    int day1 = calendar.get(Calendar.DAY_OF_MONTH);
+                    int day2 = calendar.get(Calendar.DAY_OF_WEEK);
+
+                    mBill = new Bill(year, month, day1, day2, billType, mAmount, isIn, mBillContent);
+
+
+                }
+            }
+        });
+
     }
 
 

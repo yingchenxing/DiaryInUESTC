@@ -18,9 +18,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ActionBar">
         <activity
-            android:name=".ui.bill.BillAddCardview"
+            android:name=".ui.bill.BillEditActivity"
             android:exported="false"
             android:theme="@style/PhotoSelectorCenter"/>
+        <activity
+            android:name=".ui.bill.BillAddCardview"
+            android:exported="false"
+            android:theme="@style/PhotoSelectorCenter" />
         <activity
             android:name=".ui.me.AboutActivity"
             android:exported="true"

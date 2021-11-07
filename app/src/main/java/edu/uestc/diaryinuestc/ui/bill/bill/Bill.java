@@ -9,7 +9,10 @@ public class Bill {
     private int ID;//主键
 
     //账单属性
-    private int date;//日期
+    private int year;//日期
+    private int month;
+    private int day1;
+    private int day2;
     private int type;//收支类型
     private double amount;//金额
     private boolean in;//判断收入还是支出（0为支出，1为收入）
@@ -33,8 +36,19 @@ public class Bill {
     //其他
     public static final int ELSE = 14;
 
+    public Bill(int year, int month, int day1, int day2, int type, double amount, boolean in, String content) {
+        this.year = year;
+        this.month = month;
+        this.day1 = day1;
+        this.day2 = day2;
+        this.type = type;
+        this.amount = amount;
+        this.in = in;
+        this.content = content;
+    }
+
     public Bill(int date, int type, double amount, boolean in, String content) {
-        this.date = date;
+        this.year = date;
         this.type = type;
         this.amount = amount;
         this.in = in;
@@ -42,17 +56,17 @@ public class Bill {
     }
 
     public Bill(int date, double amount, boolean in) {
-        this.date = date;
+        this.year = date;
         this.amount = amount;
         this.in = in;
     }
 
     public int getDate() {
-        return date;
+        return year;
     }
 
     public void setDate(int date) {
-        this.date = date;
+        this.year = date;
     }
 
     public int getType() {

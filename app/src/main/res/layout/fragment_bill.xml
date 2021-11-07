@@ -110,6 +110,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
+            android:backgroundTint="@color/theme_2"
             android:clickable="true"
             android:transitionName="addBillFab"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -117,9 +118,9 @@
             app:layout_constraintHorizontal_bias="0.9"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.8"
+            app:layout_constraintVertical_bias="0.9"
             app:srcCompat="@drawable/add"
-            android:backgroundTint="@color/theme_2"/>
+            app:borderWidth="0dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

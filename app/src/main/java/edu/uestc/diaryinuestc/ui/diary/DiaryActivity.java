@@ -18,7 +18,7 @@ import edu.uestc.diaryinuestc.R;
 
 public class DiaryActivity extends AppCompatActivity {
 
-    public static final String DIARY_TITTLE = "diayt_title";
+    public static final String DIARY_TITTLE = "diary_title";
 
     public static final String DIARY_Cover_ID = "fruit_cover_id";
 
