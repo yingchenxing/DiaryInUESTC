@@ -17,6 +17,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,9 +30,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.king.view.arcseekbar.ArcSeekBar;
 
+import java.time.Month;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+import java.util.TimeZone;
 
 import edu.uestc.diaryinuestc.MainActivity;
 import edu.uestc.diaryinuestc.R;
@@ -51,10 +55,15 @@ public class BillFragment extends Fragment {
     private List<Bill> billList;
     private List<BillDay> billDayList;
     private BillMonth billMonth;
-    private BillDayAdapter adapter;
+    public BillDayAdapter adapter;
     private FloatingActionButton addBillFab;
     private RecyclerView recyclerView;
     private BillEngine billEngine;
+    private int mMonth;
+    private TextView timeToolbar;
+    private TextView outToolbar;
+    private TextView inToolbar;
+    private Calendar calendar;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -86,37 +95,62 @@ public class BillFragment extends Fragment {
         adapter = new BillDayAdapter(billDayList);
         recyclerView.setAdapter(adapter);
 
+        //加载toolbar
+        initToolbar();
+
         return root;
+    }
+
+    private void initToolbar() {
+        int month = calendar.get(Calendar.MONTH) + 1;
+        timeToolbar.setText("2021年" + month + "月");
+        int inAmount = 0;
+        int outAmount = 0;
+        for (Bill bill : billList) {
+            if (bill.getMonth() == month) {
+                if (bill.isIn())
+                    inAmount += bill.getAmount();
+                else
+                    outAmount += bill.getAmount();
+            }
+        }
+        outToolbar.setText("总支出¥" + outAmount);
+        inToolbar.setText("总收入¥" + inAmount);
     }
 
     private void initView() {
         billEngine = new BillEngine(getContext());
         recyclerView = binding.billDayRv;
         addBillFab = binding.fab;
+        timeToolbar = binding.timeToolbar;
+        inToolbar = binding.inToolbar;
+        outToolbar = binding.outToolbar;
+        calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
     }
 
 
     //初始化账单组
     private void initBillList() {
         billList = billEngine.queryAllBills();
-        Collections.reverse(billList);
+        Collections.sort(billList);
         billDayList = new ArrayList<>();
-//        for (int j = 0; j < 5; j++) {
-//            for (int i = 0; i < 2; i++) {
-//                Bill bill1 = new Bill(2001 + j, i, 100,2, 1,100,true, "红包");
-//                billList.add(bill1);
-//                Bill bill2 = new Bill(2001 + j, i, 100, 2,1,100,false, "工资");
-//                billList.add(bill2);
-//            }
-//        }
-
 
         for (int i = 0; i < billList.size(); i++) {
-            int time = billList.get(i).getDate();
-            BillDay billDay = new BillDay(time, time);
-            while (  i < billList.size() && time==billList.get(i).getDate() ) {
-                billDay.billList.add(billList.get(i));
-                i++;
+            Bill bill = billList.get(i);
+            int month = bill.getMonth();
+            int day1 = bill.getDay1();
+            int day2 = bill.getDay2();
+            BillDay billDay = new BillDay(month, day1, day2);
+            while (i < billList.size()) {
+                bill = billList.get(i);
+                if (day1 == bill.getDay1()
+                        && day2 == bill.getDay2()
+                        && month == bill.getMonth()) {
+                    billDay.billList.add(billList.get(i));
+                    i++;
+                } else {
+                    break;
+                }
             }
             billDayList.add(billDay);
         }
@@ -130,15 +164,17 @@ public class BillFragment extends Fragment {
         binding = null;
     }
 
-//    @Override
-//    protected void onRestart() {
-//        super.onRestart();
-//        addBillFab.setVisibility(View.VISIBLE);
-//    }
 
     @Override
     public void onResume() {
         super.onResume();
         addBillFab.setVisibility(View.VISIBLE);
+
+        //重新刷新recyclerView
+        initBillList();
+        initToolbar();
+
+        adapter = new BillDayAdapter(billDayList);
+        recyclerView.setAdapter(adapter);
     }
 }

@@ -63,7 +63,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="time"
+                        android:text="未记录"
                         android:textSize="15sp"
                         app:layout_constraintStart_toStartOf="@+id/edit_bill_content"
                         app:layout_constraintTop_toBottomOf="@+id/edit_bill_content" />
@@ -86,7 +86,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="60dp"
-                        android:text="source"
+                        android:text="人工输入"
                         android:textSize="15sp"
                         app:layout_constraintBottom_toBottomOf="@+id/textView"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -108,7 +108,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="content"
+                        android:text="无"
                         android:textSize="15sp"
                         app:layout_constraintStart_toStartOf="@+id/edit_bill_source"
                         app:layout_constraintTop_toBottomOf="@+id/edit_bill_source" />
@@ -145,6 +145,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/textView3">
 
                         <LinearLayout
+                            android:id="@+id/delete_bill_btn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -170,6 +171,7 @@
                             android:layout_margin="5dp" />
 
                         <LinearLayout
+                            android:id="@+id/edit_bill_btn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"

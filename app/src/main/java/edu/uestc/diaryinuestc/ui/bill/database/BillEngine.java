@@ -15,20 +15,20 @@ import edu.uestc.diaryinuestc.ui.todo.database.TodoEngine;
 public class BillEngine {
     final BillDao billDao;
 
-    public BillEngine(Context context){
+    public BillEngine(Context context) {
         BillDatabase billDatabase = BillDatabase.getINSTANCE(context);
         billDao = billDatabase.getBillDao();
     }
 
     //插入
-    public void insertBill(Bill...bills){
+    public void insertBill(Bill... bills) {
         new InsertAsyncTask(billDao).execute(bills);
     }
 
-    static class InsertAsyncTask extends AsyncTask<Bill,Void,Void>{
+    static class InsertAsyncTask extends AsyncTask<Bill, Void, Void> {
         final BillDao dao;
 
-        public InsertAsyncTask(BillDao dao){
+        public InsertAsyncTask(BillDao dao) {
             this.dao = dao;
         }
 
@@ -52,7 +52,7 @@ public class BillEngine {
         }
 
         @Override
-        protected Void doInBackground(Bill...bills) {
+        protected Void doInBackground(Bill... bills) {
             dao.updateBill(bills);
             return null;
         }
@@ -71,7 +71,7 @@ public class BillEngine {
         }
 
         @Override
-        protected Void doInBackground(Bill...bills) {
+        protected Void doInBackground(Bill... bills) {
             dao.deleteBills(bills);
             return null;
         }
@@ -107,7 +107,7 @@ public class BillEngine {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return  billList;
+        return billList;
     }
 
     static class QueryAsyncTack extends AsyncTask<Void, Void, List<Bill>> {
@@ -126,4 +126,15 @@ public class BillEngine {
             return billList;
         }
     }
+
+    //根据id查找
+    public Bill queryById(int id) {
+        List<Bill> bills = queryAllBills();
+        for (Bill bill:bills){
+            if(bill.getBillId()==id)
+                return bill;
+        }
+        return null;
+    }
+
 }

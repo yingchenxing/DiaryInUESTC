@@ -24,7 +24,7 @@ public class MRadioGroup {
         rb.setChecked(true);
     };
 
-    private void clearCheck() {
+    public void clearCheck() {
         for (RadioButton rb : radios) {
             rb.setChecked(false);
         }

@@ -30,4 +30,7 @@ public interface BillDao {
     @Query("DELETE FROM Bill")
     void deleteAll();
 
+    @Query("SELECT * FROM bill WHERE billId= :id")
+    Bill getBillById(int id);
+
 }

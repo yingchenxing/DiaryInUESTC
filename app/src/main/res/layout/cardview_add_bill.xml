@@ -114,7 +114,7 @@
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:gravity="center_horizontal"
-                        android:inputType="number" />
+                        android:inputType="numberDecimal" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -148,24 +148,24 @@
                         android:id="@+id/bill_add_out"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
                         android:text="支出"
-                        android:textStyle="bold"
                         android:textColor="#185ADB"
-                        android:layout_margin="10dp"
-                        android:textSize="15sp"/>
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/bill_add_in"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:textStyle="bold"
                         android:text="收入"
                         android:textSize="15sp"
-                        android:layout_margin="10dp"/>
+                        android:textStyle="bold" />
                 </LinearLayout>
 
                 <RadioGroup
@@ -208,7 +208,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
-                                android:text="红包"
+                                android:text="娱乐"
                                 android:textSize="10sp" />
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -232,7 +232,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
-                                android:text="工资"
+                                android:text="医疗"
                                 android:textSize="10sp" />
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -257,7 +257,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
                                 android:button="@null"
-                                android:text="转账"
+                                android:text="吃喝"
                                 android:textSize="10sp" />
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -281,7 +281,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
-                                android:text="退款"
+                                android:text="衣物"
                                 android:textSize="10sp" />
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -305,7 +305,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
-                                android:text="奖金"
+                                android:text="旅行"
                                 android:textSize="10sp" />
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -334,7 +334,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
-                                android:background="@drawable/bill_redbag_unchecked"
+                                android:background="@drawable/redbag_background"
                                 android:button="@null"
                                 android:minWidth="5dp"
                                 android:minHeight="5dp" />
@@ -343,7 +343,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
-                                android:text="人情"
+                                android:text="教育"
                                 android:textSize="10sp" />
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -359,7 +359,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
-                                android:background="@drawable/bill_other_unchecked"
+                                android:background="@drawable/redbag_background"
                                 android:button="@null"
                                 android:minWidth="5dp"
                                 android:minHeight="5dp" />
@@ -368,7 +368,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
-                                android:text="其他分类"
+                                android:text="交通"
                                 android:textSize="10sp" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -379,6 +379,23 @@
                             android:layout_weight="1"
                             android:orientation="vertical">
 
+                            <RadioButton
+                                android:id="@+id/bill_type8"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:background="@drawable/redbag_background"
+                                android:button="@null"
+                                android:minWidth="5dp"
+                                android:minHeight="5dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:text="红包"
+                                android:textSize="10sp" />
+
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -386,6 +403,23 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:orientation="vertical">
+
+                            <RadioButton
+                                android:id="@+id/bill_type15"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:background="@drawable/redbag_background"
+                                android:button="@null"
+                                android:minWidth="5dp"
+                                android:minHeight="5dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:text="其它"
+                                android:textSize="10sp" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -418,30 +452,6 @@
                         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
                         tools:layout_editor_absoluteX="-59dp">
 
-
-                        <androidx.appcompat.widget.LinearLayoutCompat
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <RadioButton
-                                android:id="@+id/bill_type8"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:background="@drawable/redbag_background"
-                                android:button="@null"
-                                android:minWidth="5dp"
-                                android:minHeight="5dp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:text="红包"
-                                android:textSize="10sp" />
-                        </androidx.appcompat.widget.LinearLayoutCompat>
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:layout_width="0dp"
@@ -487,8 +497,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
-                                android:button="@null"
-                                android:text="转账"
+                                android:text="奖金"
                                 android:textSize="10sp" />
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -512,7 +521,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
-                                android:text="退款"
+                                android:button="@null"
+                                android:text="人情"
                                 android:textSize="10sp" />
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -536,7 +546,31 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
-                                android:text="奖金"
+                                android:text="红包"
+                                android:textSize="10sp" />
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <RadioButton
+                                android:id="@+id/bill_type13"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:background="@drawable/redbag_background"
+                                android:button="@null"
+                                android:minWidth="5dp"
+                                android:minHeight="5dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:text="转账"
                                 android:textSize="10sp" />
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -559,11 +593,11 @@
                             android:orientation="vertical">
 
                             <RadioButton
-                                android:id="@+id/bill_type13"
+                                android:id="@+id/bill_type14"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
-                                android:background="@drawable/bill_other_unchecked"
+                                android:background="@drawable/redbag_background"
                                 android:button="@null"
                                 android:minWidth="5dp"
                                 android:minHeight="5dp" />
@@ -572,8 +606,16 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
-                                android:text="其他分类"
+                                android:text="其它"
                                 android:textSize="10sp" />
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 

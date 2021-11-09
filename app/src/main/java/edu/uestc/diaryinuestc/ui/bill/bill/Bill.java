@@ -4,7 +4,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class Bill {
+public class Bill implements Comparable<Bill> {
     @PrimaryKey(autoGenerate = true)
     private int billId;//主键
 
@@ -12,40 +12,57 @@ public class Bill {
     private int year;//日期
     private int month;
     private int day1;
-    private int day2;
+    private int day2;//星期
+    private int hour;
+    private int min;
+    private int second;
     private int type;//收支类型
     private double amount;//金额
     private boolean in;//判断收入还是支出（0为支出，1为收入）
     private String content;//账单注释
 
     //定义常量，收款
-    public static final int PAYMENT = 1;
-    public static final int BONUS = 2;
-    public static final int FAVOR = 3;
-    public static final int REDBAGIN = 4;
-    public static final int TRANSFER = 5;
+    public static final int PAYMENT = 9;
+    public static final int BONUS = 10;
+    public static final int FAVOR = 11;
+    public static final int REDBAGIN = 12;
+    public static final int TRANSFER = 13;
     //支出
-    public static final int RECREATION = 6;
-    public static final int MEDICATION = 7;
-    public static final int EATING = 8;
-    public static final int CLOTHING = 9;
-    public static final int TRAVELLING = 10;
-    public static final int EDUCATION = 11;
-    public static final int TRAFFIC = 12;
-    public static final int REDBAGOUT = 13;
+    public static final int RECREATION = 1;
+    public static final int MEDICATION = 2;
+    public static final int EATING = 3;
+    public static final int CLOTHING = 4;
+    public static final int TRAVELLING = 5;
+    public static final int EDUCATION = 6;
+    public static final int TRAFFIC = 7;
+    public static final int REDBAGOUT = 8;
     //其他
     public static final int ELSE = 14;
 
-    public Bill(int year, int month, int day1, int day2, int type, double amount, boolean in, String content) {
+    public Bill(int year, int month, int day1, int day2, int hour, int min, int second, int type, double amount, boolean in, String content) {
         this.year = year;
         this.month = month;
         this.day1 = day1;
         this.day2 = day2;
+        this.hour = hour;
+        this.min = min;
+        this.second = second;
         this.type = type;
         this.amount = amount;
         this.in = in;
         this.content = content;
     }
+
+//    public Bill (int year, int month, int day1, int day2, int type, double amount, boolean in, String content) {
+//        this.year = year;
+//        this.month = month;
+//        this.day1 = day1;
+//        this.day2 = day2;
+//        this.type = type;
+//        this.amount = amount;
+//        this.in = in;
+//        this.content = content;
+//    }
 
     public int getYear() {
         return year;
@@ -107,6 +124,14 @@ public class Bill {
         return amount;
     }
 
+    public int getSecond() {
+        return second;
+    }
+
+    public void setSecond(int second) {
+        this.second = second;
+    }
+
     public void setAmount(double amount) {
         this.amount = amount;
     }
@@ -157,14 +182,40 @@ public class Bill {
             case TRAFFIC:
                 return "交通";
             //其他
-            case ELSE:
-                return "其他";
             default:
-                return null;
+                return "其他";
         }
+    }
+
+    public int getHour() {
+        return hour;
+    }
+
+    public void setHour(int hour) {
+        this.hour = hour;
+    }
+
+    public int getMin() {
+        return min;
+    }
+
+    public void setMin(int min) {
+        this.min = min;
     }
 
     public int getImgId() {
         return 0;
+    }
+
+    public int getTime() {
+        int time = year * 100000000 + (month + 87) * 1000000 + day1 * 1000000 + hour * 10000 + min * 100 + second;
+        return time;
+    }
+
+    //实现对账单间的比较
+
+    @Override
+    public int compareTo(Bill bill) {
+        return this.getTime() - bill.getTime();
     }
 }
