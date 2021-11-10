@@ -49,8 +49,6 @@ import edu.uestc.diaryinuestc.ui.bill.month.bill.BillMonth;
 import edu.uestc.diaryinuestc.ui.todo.TodoAdapter;
 
 public class BillFragment extends Fragment {
-
-    //    private BillViewModel billViewModel;
     private FragmentBillBinding binding;
     private List<Bill> billList;
     private List<BillDay> billDayList;
@@ -68,8 +66,6 @@ public class BillFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-//        billViewModel =
-//                new ViewModelProvider(this).get(BillViewModel.class);
 
         binding = FragmentBillBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -118,6 +114,7 @@ public class BillFragment extends Fragment {
         inToolbar.setText("总收入¥" + inAmount);
     }
 
+    //初始化变量
     private void initView() {
         billEngine = new BillEngine(getContext());
         recyclerView = binding.billDayRv;

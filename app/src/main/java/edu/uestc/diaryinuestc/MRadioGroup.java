@@ -13,8 +13,10 @@ public class MRadioGroup {
     public MRadioGroup(RadioButton... radios) {
         super();
         for (RadioButton rb : radios) {
-            this.radios.add(rb);
-            rb.setOnClickListener(onClick);
+            if (rb != null) {
+                rb.setOnClickListener(onClick);
+                this.radios.add(rb);
+            }
         }
     }
 
@@ -30,11 +32,16 @@ public class MRadioGroup {
         }
     }
 
+    public void setCheck(int id){
+        radios.get(id-1).setChecked(true);
+    }
+
+
     public int getType() {
         int i;
-        for( i =0;i<radios.size();i++){
-            if(radios.get(i).isChecked())
-                return i+1;
+        for (i = 0; i < radios.size(); i++) {
+            if (radios.get(i).isChecked())
+                return i + 1;
         }
         return 0;
     }

@@ -160,7 +160,7 @@ public class Bill implements Comparable<Bill> {
             case BONUS:
                 return "奖金";
             case FAVOR:
-                return "";
+                return "人情";
             case REDBAGOUT:
             case REDBAGIN:
                 return "红包";

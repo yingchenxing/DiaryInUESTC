@@ -20,7 +20,7 @@
         <activity
             android:name=".ui.bill.BillEditActivity"
             android:exported="false"
-            android:theme="@style/PhotoSelectorCenter"/>
+            android:theme="@style/BillPopupWindow"/>
         <activity
             android:name=".ui.diary.EditActivity"
             android:exported="false"
@@ -28,7 +28,7 @@
         <activity
             android:name=".ui.bill.BillAddCardview"
             android:exported="false"
-            android:theme="@style/PhotoSelectorCenter" />
+            android:theme="@style/BillPopupWindow" />
         <activity
             android:name=".ui.me.AboutActivity"
             android:exported="true"

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.bill.BillAddCardview">
+    tools:context=".ui.bill.BillAddCardview"
+    android:windowSoftInputMode= "stateHidden">
 
 
     <FrameLayout
@@ -112,6 +113,7 @@
                         android:id="@+id/edit_amount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:minWidth="5dp"
                         android:background="@null"
                         android:gravity="center_horizontal"
                         android:inputType="numberDecimal" />

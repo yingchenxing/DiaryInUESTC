@@ -1,5 +1,6 @@
 package edu.uestc.diaryinuestc.ui.todo;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -8,6 +9,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
@@ -30,9 +33,10 @@ import java.util.List;
 
 import edu.uestc.diaryinuestc.R;
 import edu.uestc.diaryinuestc.databinding.FragmentTodoBinding;
+import edu.uestc.diaryinuestc.ui.Transluncy;
 import edu.uestc.diaryinuestc.ui.todo.database.TodoEngine;
 
-public class TodoFragment extends Fragment {
+public class TodoFragment extends Fragment implements Transluncy {
 
 
     private FragmentTodoBinding binding;
@@ -74,8 +78,8 @@ public class TodoFragment extends Fragment {
         //加载添加todo的fragment
         FloatingActionButton fab = binding.todoFab;
         fab.setOnClickListener(view -> {
-            //通过popupwindow实现
-            load_popupwindow();
+            //通过popupWindow实现
+            load_popupWindow();
         });
 
         return root;
@@ -97,7 +101,7 @@ public class TodoFragment extends Fragment {
 //        adapter.notifyDataSetChanged();
 //    }
 
-    public void load_popupwindow() {
+    public void load_popupWindow() {
         View popView = getLayoutInflater().inflate(R.layout.cardview_add_todo, null);
         popupTodoAdd = new PopupWindow(popView, (int) (binding.getRoot().getWidth() * 0.8),
                 ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -153,6 +157,19 @@ public class TodoFragment extends Fragment {
 //                popupPhotoSelectorWindow.setOnDismissListener(() -> backgroundAlpha(1.0f));
 
         popupTodoAdd.showAtLocation(binding.getRoot(), Gravity.CENTER, 0, 0);
+
+//淡化背景
+        backgroundAlpha(0.5f);
+        popupTodoAdd.setOnDismissListener(() -> backgroundAlpha(1.0f));
+    }
+
+    @Override
+    public void backgroundAlpha(float bg_alpha) {
+        Activity activity = requireActivity();
+        Window window = activity.getWindow();
+        WindowManager.LayoutParams lp = window.getAttributes();
+        lp.alpha = bg_alpha; //0.0-1.0
+        window.setAttributes(lp);
     }
 
 

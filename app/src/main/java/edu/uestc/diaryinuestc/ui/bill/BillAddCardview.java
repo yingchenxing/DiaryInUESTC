@@ -75,6 +75,7 @@ public class BillAddCardview extends AppCompatActivity {
     private EditText editBillContent;
     private String mBillContent = null;
     private BillEngine billEngine;
+    private String mAmountStr;
 
 
     @Override
@@ -322,7 +323,8 @@ public class BillAddCardview extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mAmount = Double.parseDouble(s.toString());
+                mAmountStr = s.toString();
+
             }
 
             @Override
@@ -353,6 +355,12 @@ public class BillAddCardview extends AppCompatActivity {
         addBillBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mAmountStr.length() != 0) {
+                    mAmount = Double.parseDouble(mAmountStr);
+                } else {
+                    mAmount = 0;
+                }
+
                 if (mAmount != 0) {
                     billType = typeSelectGroup.getType();
 
@@ -365,7 +373,8 @@ public class BillAddCardview extends AppCompatActivity {
                     int min = calendar.get(Calendar.MINUTE);
                     int second = calendar.get(Calendar.SECOND);
 
-                    mBill = new Bill(year, month, day1, day2, hour, min, second,billType, mAmount, isIn, mBillContent);
+
+                    mBill = new Bill(year, month, day1, day2, hour, min, second, billType, mAmount, isIn, mBillContent);
 
                     billEngine.insertBill(mBill);
                     Toast.makeText(BillAddCardview.this, "添加成功！", Toast.LENGTH_SHORT).show();
@@ -373,6 +382,7 @@ public class BillAddCardview extends AppCompatActivity {
                 } else {
                     Toast.makeText(BillAddCardview.this, "无法添加数额为0的账单！", Toast.LENGTH_SHORT).show();
                 }
+
 
             }
         });
