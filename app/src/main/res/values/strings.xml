@@ -77,11 +77,12 @@
     <string name="skin">皮肤</string>
     <string name="more">更多</string>
     <string name="setting">Setting</string>
-    <string name="bill_out">支出</string>
-    <string name="bill_in">收入</string>
     <string name="delete_diary">删除日记</string>
     <string name="delete_diary_qe">确认删除该条笔记吗？</string>
     <string name="diary_cover_tint">日记封面</string>
     <string name="diary_cover_tint_text">日 记 封 面 \n····\nDiary Cover</string>
 
+    <!-- Strings used for Bill -->
+    <string name="bill_out">支出</string>
+    <string name="bill_in">收入</string>
 </resources>

@@ -48,9 +48,6 @@
             android:exported="true"
             android:theme="@style/PhotoSelectorCenter" />
         <activity
-            android:name=".ui.diary.AddDiaryActivity"
-            android:exported="true" />
-        <activity
             android:name=".ui.me.ThemeSelectActivity"
             android:exported="true"
             android:theme="@style/Theme.White" />
