@@ -32,8 +32,9 @@ public class MRadioGroup {
         }
     }
 
-    public void setCheck(int id){
-        radios.get(id-1).setChecked(true);
+    public void setCheck(int id) {
+        if (id - 1 >= 0)
+            radios.get(id - 1).setChecked(true);
     }
 
 

@@ -49,6 +49,10 @@
     <color name="theme_6">#867AE9</color>
     <color name="theme_7">#F9F3DF</color>
     <color name="bill_yellow1">#FFCC29</color>
+    <color name="light_green">#2ea67f</color>
+    <color name="deep_green">#007965</color>
+    <color name="gray_c8">#C8C8C8</color>
+
 
 
 </resources>

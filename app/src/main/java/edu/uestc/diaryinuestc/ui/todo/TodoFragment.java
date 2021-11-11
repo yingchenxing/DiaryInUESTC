@@ -113,22 +113,22 @@ public class TodoFragment extends Fragment implements Transluncy {
 
         //设置点击事件
         EditText editText = popView.findViewById(R.id.todo_edit);
-        editText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                Log.d("todo content", charSequence.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
+//        editText.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//                Log.d("todo content", charSequence.toString());
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable editable) {
+//
+//            }
+//        });
 
         Button button = popView.findViewById(R.id.add_todo_button);
 
@@ -151,10 +151,6 @@ public class TodoFragment extends Fragment implements Transluncy {
                 textView.setVisibility(View.GONE);
             }
         });
-
-        //淡化背景
-//                backgroundAlpha(0.5f);
-//                popupPhotoSelectorWindow.setOnDismissListener(() -> backgroundAlpha(1.0f));
 
         popupTodoAdd.showAtLocation(binding.getRoot(), Gravity.CENTER, 0, 0);
 

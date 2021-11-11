@@ -72,7 +72,7 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.ViewHolder> {
         else
             holder.billAmount.setText("-" + String.format("%.2f", bill.getAmount()));
         holder.billType.setText(bill.getTypeName());
-        holder.billContent.setText(bill.getContent());
+        holder.billContent.setText(bill.getHour()+":"+bill.getMin()+"|"+bill.getContent());
         holder.billImage.setImageResource(bill.getImgId());
 
         //添加进入编辑界面事件

@@ -3,6 +3,8 @@ package edu.uestc.diaryinuestc.ui.bill.bill;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import edu.uestc.diaryinuestc.R;
+
 @Entity
 public class Bill implements Comparable<Bill> {
     @PrimaryKey(autoGenerate = true)
@@ -204,7 +206,41 @@ public class Bill implements Comparable<Bill> {
     }
 
     public int getImgId() {
-        return 0;
+        switch (this.type) {
+            case PAYMENT:
+                return R.drawable.payment_yellow;
+            case BONUS:
+                return R.drawable.bonus_yellow;
+            case FAVOR:
+                return R.drawable.favor_yellow;
+            case REDBAGOUT:
+                return R.drawable.redbag_blue;
+            case REDBAGIN:
+                return R.drawable.redbag_yellow;
+            case TRANSFER:
+                return R.drawable.transfer_yellow;
+            //支出
+            case RECREATION:
+                return R.drawable.recreation_blue;
+            case MEDICATION:
+                return R.drawable.medication_blue;
+            case EATING:
+                return R.drawable.eating_blue;
+            case CLOTHING:
+                return R.drawable.clothing_blue;
+            case TRAVELLING:
+                return R.drawable.transfer_blue;
+            case EDUCATION:
+                return R.drawable.education_blue;
+            case TRAFFIC:
+                return R.drawable.traffic_blue;
+            //其他
+            default:
+                if (in)
+                    return R.drawable.ellipsis_yellow;
+                else
+                    return R.drawable.ellipsis_blue;
+        }
     }
 
     public int getTime() {

@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -189,7 +190,7 @@ public class BillEditActivity extends AppCompatActivity implements Transluncy {
             @Override
             public void onClick(View v) {
                 inTV.setTextColor(Color.parseColor("#C8C8C8"));
-                outTV.setTextColor(Color.parseColor("#185ADB"));
+                outTV.setTextColor(Color.parseColor("#FF2195F3"));
                 isIn = false;
                 typeRg1.setVisibility(View.INVISIBLE);
                 typeRg2.setVisibility(View.VISIBLE);
@@ -197,49 +198,35 @@ public class BillEditActivity extends AppCompatActivity implements Transluncy {
             }
         });
 
-        editAmount.addTextChangedListener(new TextWatcher() {
+        editAmount.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mAmountStr = s.toString();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
+            public void onClick(View v) {
+                editAmount.setFocusable(true);
+                editAmount.setFocusableInTouchMode(true);
+                editAmount.requestFocus();
+                editAmount.requestFocusFromTouch();
             }
         });
 
-        editContent.addTextChangedListener(new TextWatcher() {
+        editContent.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                content = s.toString();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
+            public void onClick(View v) {
+                editContent.setFocusable(true);
+                editContent.setFocusableInTouchMode(true);
+                editContent.requestFocus();
+                editContent.requestFocusFromTouch();
             }
         });
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mBill.setAmount(Double.parseDouble(mAmountStr));
+                mBill.setAmount(Double.parseDouble(editAmount.getText().toString()));
                 mBill.setIn(isIn);
                 mBill.setType(typeSelectGroup.getType());
-                mBill.setContent(content);
+                mBill.setContent(editContent.getText().toString());
                 billEngine.updateBills(mBill);
-                onBackPressed();
+                popupEditBill.dismiss();
             }
         });
 
@@ -267,10 +254,13 @@ public class BillEditActivity extends AppCompatActivity implements Transluncy {
                 R.drawable.round_outline, null));
         popupEditBill.setOutsideTouchable(true);//点击其它退出
         popupEditBill.setFocusable(true);//可编辑todo
-        popupEditBill.setAnimationStyle(R.style.popupWindow_anim_style);//设置动画
+        popupEditBill.setAnimationStyle(R.style.popupBill_anim_style);//设置动画
         initPop();
         setPopupListener();
-        popupEditBill.showAtLocation(rl, Gravity.BOTTOM, 0, -10000);
+        int mHeightPixels = new DisplayMetrics().heightPixels;
+        int popHeight = popupEditBill.getContentView().getMeasuredHeight();
+        popupEditBill.showAtLocation(rl, Gravity.BOTTOM, 0, -500);
+
 
         //淡化背景
         backgroundAlpha(0.5f);

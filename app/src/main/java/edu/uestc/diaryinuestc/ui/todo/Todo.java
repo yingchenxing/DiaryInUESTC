@@ -18,6 +18,7 @@ public class Todo {
     public Todo(String content) {
         this.content = content;
         this.selected = false;
+        this.ddl = 0;
     }
 
     public String getContent() {

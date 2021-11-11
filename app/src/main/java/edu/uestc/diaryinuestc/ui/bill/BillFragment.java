@@ -149,6 +149,7 @@ public class BillFragment extends Fragment {
                     break;
                 }
             }
+            i--;
             billDayList.add(billDay);
         }
 

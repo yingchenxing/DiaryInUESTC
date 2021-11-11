@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -32,12 +33,14 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> im
         CardView cardView;
         CheckBox todoContent;
         LinearLayout linearLayout;
+        TextView todoDate;
 
         public ViewHolder(View view) {
             super(view);
             linearLayout = (LinearLayout) view;
             cardView = view.findViewById(R.id.todo_cardview);
             todoContent = view.findViewById(R.id.todo_content);
+            todoDate = view.findViewById(R.id.todo_date);
         }
     }
 
@@ -82,6 +85,10 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> im
         //生成item
         holder.todoContent.setText(todo.getContent());
         holder.todoContent.setChecked(todo.getSelected());
+        if (todo.getDdl() != 0)
+            holder.todoDate.setText(todo.getDdl());
+        else
+            holder.todoDate.setText(null);
     }
 
     @Override
@@ -93,15 +100,15 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> im
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
         //在数据库中换位
-        Todo todo1= mTodoList.get(fromPosition);
+        Todo todo1 = mTodoList.get(fromPosition);
         Todo todo2 = mTodoList.get(toPosition);
         int tempID = todo1.getTodoID();
         todo1.setTodoID(todo2.getTodoID());
         todo2.setTodoID(tempID);
-        todoEngine.updateTodos(todo1,todo2);
+        todoEngine.updateTodos(todo1, todo2);
         //在UI中换位
         Collections.swap(mTodoList, fromPosition, toPosition);
-        notifyItemMoved(fromPosition,toPosition);
+        notifyItemMoved(fromPosition, toPosition);
     }
 
     //item左右拖动实现删除、编辑效果

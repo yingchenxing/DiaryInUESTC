@@ -5,14 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.bill.BillAddCardview"
-    android:windowSoftInputMode= "stateHidden">
+    android:fitsSystemWindows="true">
 
 
     <FrameLayout
         android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:paddingTop="70dp">
+        android:layout_centerInParent="true">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_add_bill"
@@ -20,10 +19,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
-            app:cardBackgroundColor="#2ea67f"
+            app:cardBackgroundColor="@color/light_green"
             app:cardCornerRadius="6dp"
-            app:cardElevation="3dp"
-            app:cardUseCompatPadding="true">
+            app:cardElevation="3dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -34,7 +32,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:paddingTop="20dp"
+                    android:paddingTop="10dp"
                     app:arcLabelText="花了0元"
                     app:arcLabelTextColor="@color/theme_4"
                     app:arcNormalColor="@color/theme_1"
@@ -113,10 +111,11 @@
                         android:id="@+id/edit_amount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:minWidth="5dp"
                         android:background="@null"
                         android:gravity="center_horizontal"
-                        android:inputType="numberDecimal" />
+                        android:inputType="numberDecimal"
+                        android:minWidth="5dp"
+                        android:windowSoftInputMode="stateAlwaysHidden" />
 
                     <TextView
                         android:layout_width="wrap_content"

@@ -31,7 +31,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="支出"
-                android:textColor="#185ADB"
+                android:textColor="@color/theme_5"
                 android:textSize="20sp" />
 
             <TextView
@@ -49,7 +49,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="100"
-            android:textSize="50sp"
+            android:drawableLeft="@drawable/rmb"
+            android:textSize="30sp"
             android:inputType="number|numberDecimal"
             android:focusable="false"
             app:layout_constraintTop_toBottomOf="@+id/inOutRadioGroup" />
@@ -551,8 +552,10 @@
             android:id="@+id/save_bill_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/theme_2"
+            android:background="@color/light_green"
             android:text="保存修改"
+            android:textStyle="bold"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

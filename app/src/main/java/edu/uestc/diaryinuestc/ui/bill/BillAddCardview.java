@@ -315,54 +315,56 @@ public class BillAddCardview extends AppCompatActivity {
                 editAmount.requestFocusFromTouch();
             }
         });
-        editAmount.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mAmountStr = s.toString();
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+//        editAmount.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                mAmountStr = s.toString();
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//            }
+//        });
 
         //手动输入备注
-        editBillContent.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mBillContent = s.toString();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+//        editBillContent.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                mBillContent = s.toString();
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//            }
+//        });
 
 //        //提交按钮
         addBillBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mAmountStr.length() != 0) {
-                    mAmount = Double.parseDouble(mAmountStr);
-                } else {
-                    mAmount = 0;
-                }
-
+//                if (mAmountStr.length() != 0) {
+//                    mAmount = Double.parseDouble(editAmount.getText().toString());
+//                } else {
+//                    mAmount = 0;
+//                }
+                if (!editAmount.getText().toString().isEmpty())
+                    mAmount = Double.parseDouble(editAmount.getText().toString());
                 if (mAmount != 0) {
                     billType = typeSelectGroup.getType();
+                    mBillContent = editBillContent.getText().toString();
 
                     java.util.Calendar calendar = java.util.Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
                     int year = calendar.get(java.util.Calendar.YEAR);
