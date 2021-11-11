@@ -7,10 +7,12 @@
     android:theme="@style/whiteTheme">
 
     <LinearLayout
+        android:id="@+id/pop_select_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@drawable/round_outline_top"
+        android:gravity="bottom"
         android:orientation="vertical">
 
 
@@ -30,7 +32,6 @@
             android:textSize="20sp"
             app:drawableLeftCompat="@drawable/ic_icons_camera" />
 
-
         <TextView
             android:id="@+id/pop_album"
             android:layout_width="match_parent"
@@ -46,32 +47,15 @@
             android:textSize="20sp"
             app:drawableLeftCompat="@drawable/ic_photo_album" />
 
-
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/pop_photo_cancel"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="20dp"
-            android:background="@color/white_F0"
-            android:backgroundTint="@color/background_to_cardcolor"
-            android:gravity="center"
-            app:cardCornerRadius="20dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:text="@string/cancel"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
-
-        </androidx.cardview.widget.CardView>
-
+            android:layout_height="60dp"
+            android:layout_margin="20dp"
+            android:backgroundTint="@color/jewelry_blue"
+            android:stateListAnimator="@null"
+            android:text="@string/cancel"
+            android:textColor="@color/white"
+            app:cornerRadius="30dp" />
     </LinearLayout>
 </RelativeLayout>

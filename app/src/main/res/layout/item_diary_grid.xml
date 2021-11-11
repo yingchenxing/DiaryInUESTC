@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/diary_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:elevation="20dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:transitionName="diary_card"
+        app:cardCornerRadius="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.shehuan.niv.NiceImageView
+                android:id="@+id/diary_cover"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"
+                android:transitionName="transition_diary_cover"
+                app:corner_top_left_radius="20dp"
+                app:corner_top_right_radius="20dp" />
+
+            <LinearLayout
+                android:id="@+id/diary_preview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/diary_preview_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/round_font"
+                    android:maxLines="1"
+                    android:paddingStart="20dp"
+                    android:paddingTop="20dp"
+                    android:paddingEnd="20dp"
+                    android:text="title我是标题我是标题我是标题我是标题我是标题我是标题"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:transitionName="transition_diary_title" />
+
+                <TextView
+                    android:id="@+id/diary_preview_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:ellipsize="end"
+                    android:lineSpacingMultiplier="1.4"
+                    android:maxLines="4"
+                    android:paddingStart="20dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="20dp"
+                    android:paddingBottom="10dp"
+                    android:text="aaaaaa"
+                    android:textSize="16sp"
+                    android:transitionName="transition_diary_content" />
+
+
+                <TextView
+                    android:id="@+id/diary_preview_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="2020年9月9日 凌晨00：00"
+                    android:textSize="11sp"
+                    android:transitionName="transition_diary_title" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
