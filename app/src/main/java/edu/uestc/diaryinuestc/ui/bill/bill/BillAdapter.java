@@ -12,14 +12,13 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.DecimalFormat;
 import java.util.List;
 
 import edu.uestc.diaryinuestc.R;
 import edu.uestc.diaryinuestc.ui.bill.BillEditActivity;
 
 public class BillAdapter extends RecyclerView.Adapter<BillAdapter.ViewHolder> {
-    private List<Bill> mBillList;
+    private final List<Bill> mBillList;
     private Context mContext;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -54,9 +53,6 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.ViewHolder> {
         }
         View view = LayoutInflater.from(mContext).inflate(R.layout.bill_item, parent, false);
         BillAdapter.ViewHolder holder = new BillAdapter.ViewHolder(view);
-
-
-
         return holder;
     }
 
@@ -66,6 +62,7 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.ViewHolder> {
         if (position == getItemCount()-1) {
             holder.bound.setVisibility(View.GONE);
         }
+
         //判断收入还是支出
         if (bill.isIn())
             holder.billAmount.setText("+" + String.format("%.2f", bill.getAmount()));

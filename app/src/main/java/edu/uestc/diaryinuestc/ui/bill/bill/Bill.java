@@ -55,17 +55,6 @@ public class Bill implements Comparable<Bill> {
         this.content = content;
     }
 
-//    public Bill (int year, int month, int day1, int day2, int type, double amount, boolean in, String content) {
-//        this.year = year;
-//        this.month = month;
-//        this.day1 = day1;
-//        this.day2 = day2;
-//        this.type = type;
-//        this.amount = amount;
-//        this.in = in;
-//        this.content = content;
-//    }
-
     public int getYear() {
         return year;
     }
@@ -174,7 +163,7 @@ public class Bill implements Comparable<Bill> {
             case MEDICATION:
                 return "医疗";
             case EATING:
-                return "吃喝";
+                return "餐饮";
             case CLOTHING:
                 return "衣物";
             case TRAVELLING:

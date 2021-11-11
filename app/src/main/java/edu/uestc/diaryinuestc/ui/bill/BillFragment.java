@@ -11,6 +11,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -62,6 +63,7 @@ public class BillFragment extends Fragment {
     private TextView outToolbar;
     private TextView inToolbar;
     private Calendar calendar;
+    private Button staticBtn;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -71,17 +73,7 @@ public class BillFragment extends Fragment {
         View root = binding.getRoot();
         initView();
 
-        //设置fab
-        addBillFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getWindow().setExitTransition(null);
-                getActivity().getWindow().setEnterTransition(null);
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), addBillFab, addBillFab.getTransitionName());
-                startActivity(new Intent(getContext(), BillAddCardview.class), options.toBundle());
-            }
-        });
-
+        setListener();
 
         //加载todo的recyclerView
         initBillList();
@@ -95,6 +87,28 @@ public class BillFragment extends Fragment {
         initToolbar();
 
         return root;
+    }
+
+    public void setListener() {
+        //设置fab
+        addBillFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getWindow().setExitTransition(null);
+                getActivity().getWindow().setEnterTransition(null);
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), addBillFab, addBillFab.getTransitionName());
+                startActivity(new Intent(getContext(), BillAddCardview.class), options.toBundle());
+            }
+        });
+
+        //设置统计图按钮
+        staticBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), BillStaticActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initToolbar() {
@@ -116,6 +130,7 @@ public class BillFragment extends Fragment {
 
     //初始化变量
     private void initView() {
+        staticBtn = binding.staticBtn;
         billEngine = new BillEngine(getContext());
         recyclerView = binding.billDayRv;
         addBillFab = binding.fab;

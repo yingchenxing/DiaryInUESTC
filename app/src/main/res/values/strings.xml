@@ -76,5 +76,7 @@
     <string name="skin">皮肤</string>
     <string name="more">更多</string>
     <string name="setting">Setting</string>
+    <string name="bill_out">支出</string>
+    <string name="bill_in">收入</string>
 
 </resources>

@@ -9,10 +9,7 @@ import androidx.cardview.widget.CardView;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.view.View;
@@ -20,18 +17,15 @@ import android.view.ViewAnimationUtils;
 import android.view.Window;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.king.view.arcseekbar.ArcSeekBar;
 
-import java.sql.Time;
 import java.util.Calendar;
 import java.util.TimeZone;
 
@@ -39,7 +33,6 @@ import edu.uestc.diaryinuestc.MRadioGroup;
 import edu.uestc.diaryinuestc.R;
 import edu.uestc.diaryinuestc.ui.bill.bill.Bill;
 import edu.uestc.diaryinuestc.ui.bill.database.BillEngine;
-import edu.uestc.diaryinuestc.ui.todo.database.TodoEngine;
 
 public class BillAddCardview extends AppCompatActivity {
     private FloatingActionButton addBillFab;

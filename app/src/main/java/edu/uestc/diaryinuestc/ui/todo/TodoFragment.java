@@ -2,9 +2,6 @@ package edu.uestc.diaryinuestc.ui.todo;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -97,10 +94,6 @@ public class TodoFragment extends Fragment implements Transluncy {
         Collections.reverse(todoList);//将新的todo排在前面
     }
 
-//    public void refreshTodo() {
-//        adapter.notifyDataSetChanged();
-//    }
-
     public void load_popupWindow() {
         View popView = getLayoutInflater().inflate(R.layout.cardview_add_todo, null);
         popupTodoAdd = new PopupWindow(popView, (int) (binding.getRoot().getWidth() * 0.8),
@@ -113,22 +106,6 @@ public class TodoFragment extends Fragment implements Transluncy {
 
         //设置点击事件
         EditText editText = popView.findViewById(R.id.todo_edit);
-//        editText.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                Log.d("todo content", charSequence.toString());
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//
-//            }
-//        });
 
         Button button = popView.findViewById(R.id.add_todo_button);
 

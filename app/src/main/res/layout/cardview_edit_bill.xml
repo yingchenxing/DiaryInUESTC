@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="支出"
+                android:text="@string/bill_out"
                 android:textColor="@color/theme_5"
                 android:textSize="20sp" />
 
@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="收入"
+                android:text="@string/bill_in"
                 android:textSize="20sp" />
         </RadioGroup>
 
