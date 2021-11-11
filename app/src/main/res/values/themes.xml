@@ -30,14 +30,16 @@
     </style>
 
 
-    <style name="PhotoSelectorCenter" parent="Theme.AppCompat.Dialog">
+    <style name="PhotoSelectorCenter" parent="Theme.MaterialComponents.DialogWhenLarge">
         <item name="android:windowFrame">@null</item>
         ;!-- 边框 -->
-        <item name="android:windowIsFloating">true</item>
+<!--        <item name="android:windowIsFloating">true</item>-->
         <item name="android:windowMinWidthMajor">100%</item>
         <item name="android:windowMinWidthMinor">100%</item>
         <item name="android:windowContentOverlay">@null</item>
         ;!-- 是否浮现在activity之上 (google的恶趣味tmd浮现就离谱)-->
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowIsTranslucent">true</item>
         ;!-- 半透明 -->
         <item name="android:windowNoTitle">true</item>

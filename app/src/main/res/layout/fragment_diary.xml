@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?backgroundColor"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:paddingBottom="56dp">
 
     <com.scwang.smart.refresh.layout.SmartRefreshLayout
         android:id="@+id/diary_refresh_layout"
+        app:srlPrimaryColor="?mainColor"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.scwang.smart.refresh.header.WaveSwipeHeader
+        <com.scwang.smart.refresh.header.BezierCircleHeader
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -19,6 +20,7 @@
             android:id="@+id/diary_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:spanCount="2"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
@@ -27,12 +29,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="80dp"
-        android:backgroundTint="?mainColor"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/jewelry_blue"
         android:elevation="8dp"
         android:scaleType="center"
-        android:src="@drawable/add"
+        android:transitionName="transition_diary_fab"
+        android:src="@drawable/ic_add_32"
         app:fabSize="normal" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
