@@ -114,6 +114,8 @@
                         android:background="@null"
                         android:gravity="center_horizontal"
                         android:inputType="numberDecimal"
+                        android:maxEms="5"
+                        android:maxLength="8"
                         android:minWidth="5dp"
                         android:windowSoftInputMode="stateAlwaysHidden" />
 
@@ -197,10 +199,10 @@
 
                             <RadioButton
                                 android:id="@+id/bill_type1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
                                 android:layout_gravity="center_horizontal"
-                                android:background="@drawable/redbag_background"
+                                android:background="@drawable/background_bill_recreation"
                                 android:button="@null"
                                 android:minWidth="5dp"
                                 android:minHeight="5dp" />
@@ -221,10 +223,10 @@
 
                             <RadioButton
                                 android:id="@+id/bill_type2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
                                 android:layout_gravity="center_horizontal"
-                                android:background="@drawable/redbag_background"
+                                android:background="@drawable/background_bill_medication"
                                 android:button="@null"
                                 android:minWidth="5dp"
                                 android:minHeight="5dp" />
@@ -245,10 +247,10 @@
 
                             <RadioButton
                                 android:id="@+id/bill_type3"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
                                 android:layout_gravity="center_horizontal"
-                                android:background="@drawable/redbag_background"
+                                android:background="@drawable/background_bill_eating"
                                 android:button="@null"
                                 android:minWidth="5dp"
                                 android:minHeight="5dp" />
@@ -270,10 +272,10 @@
 
                             <RadioButton
                                 android:id="@+id/bill_type4"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
                                 android:layout_gravity="center_horizontal"
-                                android:background="@drawable/redbag_background"
+                                android:background="@drawable/background_bill_clothing"
                                 android:button="@null"
                                 android:minWidth="5dp"
                                 android:minHeight="5dp" />
@@ -294,10 +296,10 @@
 
                             <RadioButton
                                 android:id="@+id/bill_type5"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
                                 android:layout_gravity="center_horizontal"
-                                android:background="@drawable/redbag_background"
+                                android:background="@drawable/background_bill_travelling"
                                 android:button="@null"
                                 android:minWidth="5dp"
                                 android:minHeight="5dp" />
@@ -332,10 +334,10 @@
 
                             <RadioButton
                                 android:id="@+id/bill_type6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
                                 android:layout_gravity="center_horizontal"
-                                android:background="@drawable/redbag_background"
+                                android:background="@drawable/background_bill_education"
                                 android:button="@null"
                                 android:minWidth="5dp"
                                 android:minHeight="5dp" />
@@ -357,10 +359,10 @@
 
                             <RadioButton
                                 android:id="@+id/bill_type7"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
                                 android:layout_gravity="center_horizontal"
-                                android:background="@drawable/redbag_background"
+                                android:background="@drawable/background_bill_traffic"
                                 android:button="@null"
                                 android:minWidth="5dp"
                                 android:minHeight="5dp" />
@@ -382,10 +384,10 @@
 
                             <RadioButton
                                 android:id="@+id/bill_type8"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
                                 android:layout_gravity="center_horizontal"
-                                android:background="@drawable/redbag_background"
+                                android:background="@drawable/background_bill_redbag_out"
                                 android:button="@null"
                                 android:minWidth="5dp"
                                 android:minHeight="5dp" />
@@ -407,10 +409,10 @@
 
                             <RadioButton
                                 android:id="@+id/bill_type15"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
                                 android:layout_gravity="center_horizontal"
-                                android:background="@drawable/redbag_background"
+                                android:background="@drawable/background_bill_other_out"
                                 android:button="@null"
                                 android:minWidth="5dp"
                                 android:minHeight="5dp" />
@@ -462,10 +464,10 @@
 
                             <RadioButton
                                 android:id="@+id/bill_type9"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
                                 android:layout_gravity="center_horizontal"
-                                android:background="@drawable/redbag_background"
+                                android:background="@drawable/background_bill_payment"
                                 android:button="@null"
                                 android:minWidth="5dp"
                                 android:minHeight="5dp" />
@@ -486,10 +488,10 @@
 
                             <RadioButton
                                 android:id="@+id/bill_type10"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
                                 android:layout_gravity="center_horizontal"
-                                android:background="@drawable/redbag_background"
+                                android:background="@drawable/background_bill_bonus"
                                 android:button="@null"
                                 android:minWidth="5dp"
                                 android:minHeight="5dp" />
@@ -510,10 +512,10 @@
 
                             <RadioButton
                                 android:id="@+id/bill_type11"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
                                 android:layout_gravity="center_horizontal"
-                                android:background="@drawable/background_bill_redbag"
+                                android:background="@drawable/background_bill_favor"
                                 android:button="@null"
                                 android:minWidth="5dp"
                                 android:minHeight="5dp" />
@@ -535,10 +537,10 @@
 
                             <RadioButton
                                 android:id="@+id/bill_type12"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
                                 android:layout_gravity="center_horizontal"
-                                android:background="@drawable/background_bill_redbag"
+                                android:background="@drawable/background_bill_redbag_in"
                                 android:button="@null"
                                 android:minWidth="5dp"
                                 android:minHeight="5dp" />
@@ -559,10 +561,10 @@
 
                             <RadioButton
                                 android:id="@+id/bill_type13"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
                                 android:layout_gravity="center_horizontal"
-                                android:background="@drawable/background_bill_redbag"
+                                android:background="@drawable/background_bill_transfer_out"
                                 android:button="@null"
                                 android:minWidth="5dp"
                                 android:minHeight="5dp" />
@@ -595,10 +597,10 @@
 
                             <RadioButton
                                 android:id="@+id/bill_type14"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
                                 android:layout_gravity="center_horizontal"
-                                android:background="@drawable/redbag_background"
+                                android:background="@drawable/background_bill_other_in"
                                 android:button="@null"
                                 android:minWidth="5dp"
                                 android:minHeight="5dp" />

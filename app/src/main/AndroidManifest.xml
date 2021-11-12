@@ -19,8 +19,7 @@
         android:theme="@style/Theme.ActionBar">
         <activity
             android:name=".ui.bill.BillStaticActivity"
-            android:exported="false"
-            android:theme="@style/BillPopupWindow"/>
+            android:exported="false"/>
         <activity
             android:name=".ui.bill.BillEditActivity"
             android:exported="false"
@@ -47,9 +46,6 @@
             android:name=".ui.PhotoSelectorPopupWindow"
             android:exported="true"
             android:theme="@style/PhotoSelectorCenter" />
-        <activity
-            android:name=".ui.diary.AddDiaryActivity"
-            android:exported="true" />
         <activity
             android:name=".ui.me.ThemeSelectActivity"
             android:exported="true"

@@ -59,7 +59,7 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Bill bill = mBillList.get(position);
-        if (position == getItemCount()-1) {
+        if (position == getItemCount() - 1) {
             holder.bound.setVisibility(View.GONE);
         }
 
@@ -69,7 +69,18 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.ViewHolder> {
         else
             holder.billAmount.setText("-" + String.format("%.2f", bill.getAmount()));
         holder.billType.setText(bill.getTypeName());
-        holder.billContent.setText(bill.getHour()+":"+bill.getMin()+"|"+bill.getContent());
+
+        if (bill.getContent() != null && !bill.getContent().isEmpty()) {
+            if (bill.getMin() < 10)
+                holder.billContent.setText(bill.getHour() + ":0" + bill.getMin() + " | " + bill.getContent());
+            else
+                holder.billContent.setText(bill.getHour() + ":" + bill.getMin() + " | " + bill.getContent());
+        } else {
+            if (bill.getMin() < 10)
+                holder.billContent.setText(bill.getHour() + ":0" + bill.getMin());
+            else
+                holder.billContent.setText(bill.getHour() + ":" + bill.getMin());
+        }
         holder.billImage.setImageResource(bill.getImgId());
 
         //添加进入编辑界面事件
