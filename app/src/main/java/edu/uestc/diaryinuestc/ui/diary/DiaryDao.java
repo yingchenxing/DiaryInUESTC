@@ -15,8 +15,11 @@ public interface DiaryDao {
     @Query("SELECT * FROM diary")
     LiveData<List<Diary>> getAllDiaries();
 
+    @Query("SELECT * FROM diary ORDER BY millis DESC")
+    LiveData<List<Diary>> getOrderDiaries();
+
     @Query("SELECT * FROM diary WHERE uid=:diaryId")
-    LiveData<Diary> getDiary(long diaryId);
+    Diary getDiary(long diaryId);
 
     @Insert
     long insert(Diary diary);

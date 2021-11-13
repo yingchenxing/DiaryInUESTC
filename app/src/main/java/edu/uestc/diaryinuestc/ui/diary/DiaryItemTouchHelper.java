@@ -38,17 +38,17 @@ class DiaryItemTouchHelper extends ItemTouchHelper.Callback {
 
     @Override
     public boolean isLongPressDragEnabled() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isItemViewSwipeEnabled() {
-        return true;
+        return false;
     }
 
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-        adapter.onItemDismiss(viewHolder.getAdapterPosition());
+//        adapter.onItemDismiss(viewHolder.getAdapterPosition());
     }
 
 

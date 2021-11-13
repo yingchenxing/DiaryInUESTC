@@ -2,17 +2,21 @@ package edu.uestc.diaryinuestc.ui.diary;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import java.io.File;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import edu.uestc.diaryinuestc.utils.AppPathUtils;
+
 public class DiaryViewModel extends AndroidViewModel {
 
-    private String TAG = this.getClass().getSimpleName();
+    private final String TAG = this.getClass().getSimpleName();
     private DiaryDao diaryDao;
     private DiaryDataBase diaryDB;
     private LiveData<List<Diary>> mAllDiary;
@@ -22,36 +26,51 @@ public class DiaryViewModel extends AndroidViewModel {
 
         diaryDB = DiaryDataBase.getInstance(application);
         diaryDao = diaryDB.diaryDao();
-        mAllDiary = diaryDao.getAllDiaries();
+        mAllDiary = diaryDao.getOrderDiaries();
     }
 
-    public long insert(Diary diary) {
+    public Long insert(Diary diary) {
         try {
             return new InsertAsyncTack(diaryDao).execute(diary).get();
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
-        return 0;
+        Log.e(TAG, "fail to insert a instance diary:"+diary.toString());
+        return null;
     }
 
-    LiveData<List<Diary>> getAllDiary() {
+    public LiveData<List<Diary>> getAllDiary() {
         return mAllDiary;
     }
 
-    LiveData<Diary> getDiary(long uid) {
+    public Diary getDiary(Long uid) {
+        if (uid == null) {
+            Log.e(TAG, "获取失败 getDiary from a null uid");
+            return null;
+        }
         return diaryDB.diaryDao().getDiary(uid);
     }
 
     public void update(Diary diary) {
+        if (diary.getUid() == null){
+            Log.e(TAG, "更新失败 update from a null uid" + diary.toString());
+            return;
+        }
         new UpdateAsyncTack(diaryDao).execute(diary);
     }
 
     public void delete(Diary diary) {
+        if (diary.getUid() == null){
+            Log.e(TAG, "删除失败 delete from a null uid" + diary.toString());
+            return;
+        }
         new DeleteAsyncTack(diaryDao).execute(diary);
+        //delete all res data]
+        File coverFile = AppPathUtils.getDiaryFile(getApplication(), diary.getUid(), "");
+        AppPathUtils.delete(coverFile.getPath());
     }
 
-
-    private class InsertAsyncTack extends AsyncTask<Diary, Void, Long> {
+    private static class InsertAsyncTack extends AsyncTask<Diary, Void, Long> {
         DiaryDao mAsyncTaskDao;
 
         public InsertAsyncTack(DiaryDao diaryDao) {
@@ -64,7 +83,7 @@ public class DiaryViewModel extends AndroidViewModel {
         }
     }
 
-    private class OperationsAsyncTask extends AsyncTask<Diary, Void, Void> {
+    private static class OperationsAsyncTask extends AsyncTask<Diary, Void, Void> {
 
         DiaryDao mAsyncTaskDao;
 
@@ -78,7 +97,7 @@ public class DiaryViewModel extends AndroidViewModel {
         }
     }
 
-    private class UpdateAsyncTack extends OperationsAsyncTask {
+    private static class UpdateAsyncTack extends OperationsAsyncTask {
         public UpdateAsyncTack(DiaryDao diaryDao) {
             super(diaryDao);
         }
@@ -90,7 +109,7 @@ public class DiaryViewModel extends AndroidViewModel {
         }
     }
 
-    private class DeleteAsyncTack extends OperationsAsyncTask {
+    private static class DeleteAsyncTack extends OperationsAsyncTask {
         public DeleteAsyncTack(DiaryDao diaryDao) {
             super(diaryDao);
         }
