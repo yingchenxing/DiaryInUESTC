@@ -564,7 +564,7 @@
                                 android:layout_width="36dp"
                                 android:layout_height="36dp"
                                 android:layout_gravity="center_horizontal"
-                                android:background="@drawable/background_bill_transfer_out"
+                                android:background="@drawable/background_bill_transfer_in"
                                 android:button="@null"
                                 android:minWidth="5dp"
                                 android:minHeight="5dp" />

@@ -15,6 +15,7 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.view.Window;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -26,6 +27,7 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import edu.uestc.diaryinuestc.R;
@@ -42,6 +44,8 @@ public class BillStaticActivity extends AppCompatActivity {
     private double outAmount;
     List<PieEntry> outPieEntries;
     List<PieEntry> inPieEntries;
+    private TextView tittle;
+    private Calendar calendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,11 +61,15 @@ public class BillStaticActivity extends AppCompatActivity {
     }
 
     private void initAll() {
+        calendar = Calendar.getInstance();
+        tittle = findViewById(R.id.static_tittle);
+        tittle.setText(calendar.get(Calendar.MONTH)+1+"月收支情况");
         outPieEntries = new ArrayList<>();
         inPieEntries = new ArrayList<>();
         billEngine = new BillEngine(BillStaticActivity.this);
         billList = billEngine.queryAllBills();
         amount = new double[16];
+
     }
 
     private void show() {
