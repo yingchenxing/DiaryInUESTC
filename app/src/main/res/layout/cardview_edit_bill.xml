@@ -71,218 +71,6 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <RadioGroup
-            android:id="@+id/editRG1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/save_bill_btn"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-                tools:layout_editor_absoluteX="-59dp">
-
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <RadioButton
-                        android:id="@+id/edit_bill_type9"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:background="@drawable/redbag_background"
-                        android:button="@null"
-                        android:minWidth="5dp"
-                        android:minHeight="5dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="工资"
-                        android:textSize="10sp" />
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <RadioButton
-                        android:id="@+id/edit_bill_type10"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:background="@drawable/redbag_background"
-                        android:button="@null"
-                        android:minWidth="5dp"
-                        android:minHeight="5dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="奖金"
-                        android:textSize="10sp" />
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <RadioButton
-                        android:id="@+id/edit_bill_type11"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:background="@drawable/redbag_background"
-                        android:button="@null"
-                        android:minWidth="5dp"
-                        android:minHeight="5dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:button="@null"
-                        android:text="人情"
-                        android:textSize="10sp" />
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <RadioButton
-                        android:id="@+id/edit_bill_type12"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:background="@drawable/redbag_background"
-                        android:button="@null"
-                        android:minWidth="5dp"
-                        android:minHeight="5dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="红包"
-                        android:textSize="10sp" />
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <RadioButton
-                        android:id="@+id/edit_bill_type13"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:background="@drawable/redbag_background"
-                        android:button="@null"
-                        android:minWidth="5dp"
-                        android:minHeight="5dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="转账"
-                        android:textSize="10sp" />
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@+id/button"
-                tools:layout_editor_absoluteX="-71dp">
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <RadioButton
-                        android:id="@+id/edit_bill_type14"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:background="@drawable/redbag_background"
-                        android:button="@null"
-                        android:minWidth="5dp"
-                        android:minHeight="5dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="其它"
-                        android:textSize="10sp" />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-            </LinearLayout>
-        </RadioGroup>
-
-        <RadioGroup
             android:id="@+id/editRG2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -310,10 +98,10 @@
 
                     <RadioButton
                         android:id="@+id/edit_bill_type1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:layout_gravity="center_horizontal"
-                        android:background="@drawable/redbag_background"
+                        android:background="@drawable/background_bill_recreation"
                         android:button="@null"
                         android:minWidth="5dp"
                         android:minHeight="5dp" />
@@ -334,10 +122,10 @@
 
                     <RadioButton
                         android:id="@+id/edit_bill_type2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:layout_gravity="center_horizontal"
-                        android:background="@drawable/redbag_background"
+                        android:background="@drawable/background_bill_medication"
                         android:button="@null"
                         android:minWidth="5dp"
                         android:minHeight="5dp" />
@@ -358,10 +146,10 @@
 
                     <RadioButton
                         android:id="@+id/edit_bill_type3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:layout_gravity="center_horizontal"
-                        android:background="@drawable/redbag_background"
+                        android:background="@drawable/background_bill_eating"
                         android:button="@null"
                         android:minWidth="5dp"
                         android:minHeight="5dp" />
@@ -383,10 +171,10 @@
 
                     <RadioButton
                         android:id="@+id/edit_bill_type4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:layout_gravity="center_horizontal"
-                        android:background="@drawable/redbag_background"
+                        android:background="@drawable/background_bill_clothing"
                         android:button="@null"
                         android:minWidth="5dp"
                         android:minHeight="5dp" />
@@ -407,10 +195,10 @@
 
                     <RadioButton
                         android:id="@+id/edit_bill_type5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:layout_gravity="center_horizontal"
-                        android:background="@drawable/redbag_background"
+                        android:background="@drawable/background_bill_travelling"
                         android:button="@null"
                         android:minWidth="5dp"
                         android:minHeight="5dp" />
@@ -445,10 +233,10 @@
 
                     <RadioButton
                         android:id="@+id/edit_bill_type6"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:layout_gravity="center_horizontal"
-                        android:background="@drawable/redbag_background"
+                        android:background="@drawable/background_bill_education"
                         android:button="@null"
                         android:minWidth="5dp"
                         android:minHeight="5dp" />
@@ -470,10 +258,10 @@
 
                     <RadioButton
                         android:id="@+id/edit_bill_type7"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:layout_gravity="center_horizontal"
-                        android:background="@drawable/redbag_background"
+                        android:background="@drawable/background_bill_traffic"
                         android:button="@null"
                         android:minWidth="5dp"
                         android:minHeight="5dp" />
@@ -495,10 +283,10 @@
 
                     <RadioButton
                         android:id="@+id/edit_bill_type8"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:layout_gravity="center_horizontal"
-                        android:background="@drawable/redbag_background"
+                        android:background="@drawable/background_bill_redbag_out"
                         android:button="@null"
                         android:minWidth="5dp"
                         android:minHeight="5dp" />
@@ -520,10 +308,10 @@
 
                     <RadioButton
                         android:id="@+id/edit_bill_type15"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:layout_gravity="center_horizontal"
-                        android:background="@drawable/redbag_background"
+                        android:background="@drawable/background_bill_other_out"
                         android:button="@null"
                         android:minWidth="5dp"
                         android:minHeight="5dp" />
@@ -534,6 +322,218 @@
                         android:layout_gravity="center_horizontal"
                         android:text="其它"
                         android:textSize="10sp" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </LinearLayout>
+        </RadioGroup>
+
+        <RadioGroup
+            android:id="@+id/editRG1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/save_bill_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+                tools:layout_editor_absoluteX="-59dp">
+
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:id="@+id/edit_bill_type9"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/background_bill_payment"
+                        android:button="@null"
+                        android:minWidth="5dp"
+                        android:minHeight="5dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="工资"
+                        android:textSize="10sp" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:id="@+id/edit_bill_type10"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/background_bill_bonus"
+                        android:button="@null"
+                        android:minWidth="5dp"
+                        android:minHeight="5dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="奖金"
+                        android:textSize="10sp" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:id="@+id/edit_bill_type11"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/background_bill_favor"
+                        android:button="@null"
+                        android:minWidth="5dp"
+                        android:minHeight="5dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:button="@null"
+                        android:text="人情"
+                        android:textSize="10sp" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:id="@+id/edit_bill_type12"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/background_bill_redbag_in"
+                        android:button="@null"
+                        android:minWidth="5dp"
+                        android:minHeight="5dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="红包"
+                        android:textSize="10sp" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:id="@+id/edit_bill_type13"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/background_bill_transfer_in"
+                        android:button="@null"
+                        android:minWidth="5dp"
+                        android:minHeight="5dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="转账"
+                        android:textSize="10sp" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@+id/button"
+                tools:layout_editor_absoluteX="-71dp">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:id="@+id/edit_bill_type14"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/background_bill_other_in"
+                        android:button="@null"
+                        android:minWidth="5dp"
+                        android:minHeight="5dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="其它"
+                        android:textSize="10sp" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 

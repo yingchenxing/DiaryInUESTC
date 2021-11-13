@@ -227,6 +227,7 @@ public class BillEditActivity extends AppCompatActivity implements Transluncy {
                 mBill.setContent(editContent.getText().toString());
                 billEngine.updateBills(mBill);
                 popupEditBill.dismiss();
+                setText();
             }
         });
 
@@ -350,9 +351,5 @@ public class BillEditActivity extends AppCompatActivity implements Transluncy {
         window.setAttributes(lp);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        setText();
-    }
+
 }

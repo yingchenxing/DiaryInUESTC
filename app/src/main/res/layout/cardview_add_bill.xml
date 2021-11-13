@@ -103,6 +103,7 @@
                     app:layout_constraintTop_toTopOf="@+id/seek_bar">
 
                     <TextView
+                        android:id="@+id/add_bill_type_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="共消费" />

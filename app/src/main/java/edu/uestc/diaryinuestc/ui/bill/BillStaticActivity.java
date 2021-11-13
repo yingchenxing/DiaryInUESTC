@@ -69,7 +69,6 @@ public class BillStaticActivity extends AppCompatActivity {
         billEngine = new BillEngine(BillStaticActivity.this);
         billList = billEngine.queryAllBills();
         amount = new double[16];
-
     }
 
     private void show() {

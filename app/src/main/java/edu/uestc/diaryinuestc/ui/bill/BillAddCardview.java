@@ -69,6 +69,7 @@ public class BillAddCardview extends AppCompatActivity {
     private String mBillContent = null;
     private BillEngine billEngine;
     private String mAmountStr;
+    private TextView billTypeTv;
 
 
     @Override
@@ -108,6 +109,7 @@ public class BillAddCardview extends AppCompatActivity {
         initTypeSelectGroup();
         editBillContent = findViewById(R.id.add_bill_content);
         addBillBtn = findViewById(R.id.add_bill_button);
+        billTypeTv = findViewById(R.id.add_bill_type_tv);
     }
 
     public void initTypeSelectGroup() {
@@ -261,6 +263,7 @@ public class BillAddCardview extends AppCompatActivity {
                 typeRadioGroup1.setVisibility(View.INVISIBLE);
                 typeRadioGroup2.setVisibility(View.VISIBLE);
                 typeSelectGroup.clearCheck();
+                billTypeTv.setText("共收入");
             }
         });
         outTV.setOnClickListener(new View.OnClickListener() {
@@ -272,6 +275,7 @@ public class BillAddCardview extends AppCompatActivity {
                 typeRadioGroup1.setVisibility(View.VISIBLE);
                 typeRadioGroup2.setVisibility(View.INVISIBLE);
                 typeSelectGroup.clearCheck();
+                billTypeTv.setText("共消费");
             }
         });
 
