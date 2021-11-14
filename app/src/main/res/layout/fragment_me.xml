@@ -12,7 +12,7 @@
     <com.scwang.smart.refresh.header.StoreHouseHeader
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:shhText="UESTC" />
+        app:shhText="DiaryInUESTC" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

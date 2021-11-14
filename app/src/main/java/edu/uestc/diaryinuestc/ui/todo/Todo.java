@@ -3,8 +3,6 @@ package edu.uestc.diaryinuestc.ui.todo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import edu.uestc.diaryinuestc.ui.Date;
-
 @Entity
 public class Todo {
     @PrimaryKey(autoGenerate = true)

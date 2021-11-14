@@ -165,9 +165,9 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/text_body"
-                android:background="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@color/white">
 
                 <EditText
                     android:id="@+id/diary_edit_title"
@@ -175,8 +175,10 @@
                     android:layout_height="wrap_content"
                     android:autofillHints="null"
                     android:background="@color/white"
+                    android:fontFamily="@font/roundfont"
                     android:hint="@string/diary_title"
                     android:inputType="textMultiLine"
+                    android:lineSpacingMultiplier="1.5"
                     android:padding="15dp"
                     android:paddingStart="30dp"
                     android:paddingEnd="30dp"
@@ -195,9 +197,11 @@
                     android:layout_height="wrap_content"
                     android:autofillHints="null"
                     android:background="@color/white"
+                    android:fontFamily="@font/roundfont"
                     android:gravity="start"
                     android:hint="@string/edit_hint"
                     android:inputType="textMultiLine"
+                    android:lineSpacingMultiplier="1.5"
                     android:padding="15dp"
                     android:paddingStart="30dp"
                     android:paddingEnd="30dp"
@@ -211,9 +215,21 @@
 
         </androidx.core.widget.NestedScrollView>
 
-        <com.scwang.smartrefresh.layout.footer.FalsifyFooter
+        <LinearLayout
+            android:id="@+id/diary_footer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:padding="10dp"
+                android:gravity="center"
+                android:text="@string/diary_footer"
+                android:fontFamily="@font/roundfont"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </TextView>
+        </LinearLayout>
 
     </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 

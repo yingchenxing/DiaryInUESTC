@@ -12,22 +12,13 @@ import androidx.core.app.SharedElementCallback;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.Point;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -36,12 +27,10 @@ import android.transition.Fade;
 import android.transition.TransitionSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -417,18 +406,22 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 for (View view : list)
                     height += view.getHeight();
 
-                Bitmap b = Bitmap.createBitmap(binding.getRoot().getWidth() + 100, height + 200, Bitmap.Config.ARGB_4444);
+                int extraBorder = 50;
+                int extraHeight = 200;
+                Bitmap b = Bitmap.createBitmap(binding.getRoot().getWidth() + 2 * extraBorder, height + extraBorder + extraHeight, Bitmap.Config.ARGB_4444);
 
                 Canvas c = new Canvas(b);
                 c.drawColor(getResources().getColor(R.color.white));
 
                 int y = 0;
-                c.translate(50, 50);
+                c.translate(extraBorder, extraBorder);
                 for (View view : list) {
                     c.translate(0, y);
                     view.draw(c);
                     y = view.getHeight();
                 }
+                c.translate(0, y + extraHeight - binding.diaryFooter.getHeight());
+                binding.diaryFooter.draw(c);
 
                 Intent shareIntent = new Intent();
                 shareIntent.setAction(Intent.ACTION_SEND);
