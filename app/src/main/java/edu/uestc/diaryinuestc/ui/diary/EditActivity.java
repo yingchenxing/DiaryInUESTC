@@ -5,41 +5,50 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.app.SharedElementCallback;
-import androidx.core.content.FileProvider;
-import androidx.core.util.Pair;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Activity;
-import android.app.ActivityOptions;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.Point;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.transition.Fade;
-import android.transition.Slide;
 import android.transition.TransitionSet;
-import android.transition.Visibility;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
-import com.scwang.smart.refresh.layout.api.RefreshLayout;
-import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.skydoves.powermenu.MenuAnimation;
 import com.skydoves.powermenu.OnMenuItemClickListener;
 import com.skydoves.powermenu.PowerMenu;
@@ -53,9 +62,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import edu.uestc.diaryinuestc.BuildConfig;
 import edu.uestc.diaryinuestc.R;
 import edu.uestc.diaryinuestc.databinding.ActivityEditBinding;
+import edu.uestc.diaryinuestc.databinding.ShareDiaryDialogBinding;
 import edu.uestc.diaryinuestc.ui.PhotoSelectorPopupWindow;
 import edu.uestc.diaryinuestc.ui.me.ThemeSelectActivity;
 import edu.uestc.diaryinuestc.utils.AppPathUtils;
@@ -101,8 +110,6 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
         isNew = getIntent().getBooleanExtra(NEW_TAG, true);
 
-        postponeEnterTransition();
-
         initTransition();
 
         //set 0.618
@@ -116,7 +123,10 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         //load diary
         if (!isNew)
             loadDiary();
-
+        else {
+            postponeEnterTransition();
+            startPostponedEnterTransition();
+        }
         //edittext change listen
         binding.diaryEditTitle.addTextChangedListener(textWatcher);
         binding.richEdit.addTextChangedListener(textWatcher);
@@ -131,7 +141,6 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 //        binding.richEdit.setMovementMethod(null);
         binding.editBody.autoRefresh(START_DUR);
 
-        startPostponedEnterTransition();
     }
 
     private void initID() {
@@ -319,14 +328,28 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     private void loadCover() {
         initID();
         if (diary_id == null) return;
+        postponeEnterTransition();
 
         Bitmap cover = new Diary(diary_id).requireCover(this);
         if (cover != null) {
             Glide.with(this)
                     .load(cover)
-//                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            startPostponedEnterTransition();
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            startPostponedEnterTransition();
+                            return false;
+                        }
+                    })
                     .into(binding.diaryCover);
         }
+        startPostponedEnterTransition();
     }
 
     /**
@@ -348,6 +371,75 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         diaryViewModel.update(diary);
 
         Log.d(TAG, "更新数据" + diary.getUid() + ":" + diary.getTitle() + " " + diary.getContent());
+    }
+
+    private void shareDiary() {
+        ShareDiaryDialogBinding shareBinding = ShareDiaryDialogBinding.inflate(getLayoutInflater());
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(shareBinding.getRoot())
+                .create();
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.round_outline_top);
+        dialog.show();
+        //设置在show之后生效,啊这我服了
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        shareBinding.shareCancel.setOnClickListener(v -> dialog.dismiss());
+        shareBinding.shareText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent shareIntent = new Intent();
+                shareIntent.setAction(Intent.ACTION_SEND);
+                String title = binding.diaryEditTitle.getText().toString();
+                String content = binding.richEdit.getText().toString();
+                StringBuilder out = new StringBuilder();
+                if (title.length() != 0)
+                    out.append(title);
+                if (content.length() != 0) {
+                    out.append('\n');
+                    out.append(content);
+                }
+                shareIntent.putExtra(Intent.EXTRA_TEXT, out.toString());
+                shareIntent.setType("text/plain");
+                startActivity(Intent.createChooser(shareIntent, "分享到"));
+                dialog.dismiss();
+            }
+        });
+        shareBinding.shareImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<View> list = new ArrayList<>();
+                if (binding.diaryCover.getDrawable() != null)
+                    list.add(binding.diaryCover);
+                list.add(binding.extraInfo);
+                list.add(binding.textBody);
+
+                int height = 0;
+                for (View view : list)
+                    height += view.getHeight();
+
+                Bitmap b = Bitmap.createBitmap(binding.getRoot().getWidth() + 100, height + 200, Bitmap.Config.ARGB_4444);
+
+                Canvas c = new Canvas(b);
+                c.drawColor(getResources().getColor(R.color.white));
+
+                int y = 0;
+                c.translate(50, 50);
+                for (View view : list) {
+                    c.translate(0, y);
+                    view.draw(c);
+                    y = view.getHeight();
+                }
+
+                Intent shareIntent = new Intent();
+                shareIntent.setAction(Intent.ACTION_SEND);
+                Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), b,
+                        binding.diaryEditTitle.getText().toString(), "diary_share"));
+                shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                shareIntent.setType("image/*");
+                startActivity(Intent.createChooser(shareIntent, "分享到"));
+                dialog.dismiss();
+            }
+        });
     }
 
     @NonNull
@@ -385,9 +477,10 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(@NonNull View v) {
         if (v.getId() == R.id.skin) {
-            Toast.makeText(this, "选择皮肤", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "选择皮肤", Toast.LENGTH_SHORT).show();
         } else if (v.getId() == R.id.share) {
-            Toast.makeText(this, "分享日记", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "分享日记", Toast.LENGTH_SHORT).show();
+            shareDiary();
         } else if (v.getId() == R.id.more) {
             moreMenu.showAsDropDown(v, 0, -v.getHeight());
         } else if (v.getId() == R.id.diary_cover) {
