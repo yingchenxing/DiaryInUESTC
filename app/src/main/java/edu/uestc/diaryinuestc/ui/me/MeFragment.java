@@ -177,7 +177,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         popupPhotoSelectorWindow = new PopupWindow(popView, ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         popupPhotoSelectorWindow.setBackgroundDrawable(ResourcesCompat.getDrawable(getResources(),
-                R.drawable.round_outline, null));
+                R.drawable.round_outline_white, null));
         popupPhotoSelectorWindow.setOutsideTouchable(true);
         popupPhotoSelectorWindow.setFocusable(true);
         popupPhotoSelectorWindow.setAnimationStyle(R.style.popupWindow_anim_style);

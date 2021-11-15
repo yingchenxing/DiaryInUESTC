@@ -12,7 +12,7 @@
         android:layout_centerInParent="true"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-        android:background="@drawable/round_outline"
+        android:background="@drawable/round_outline_white"
         android:orientation="vertical"
         android:theme="@style/whiteTheme">
 
