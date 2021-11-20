@@ -31,7 +31,7 @@ public class DiaryViewModel extends AndroidViewModel {
 
     public Long insert(Diary diary) {
         try {
-            return new InsertAsyncTack(diaryDao).execute(diary).get();
+            return new InsertAsyncTask(diaryDao).execute(diary).get();
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
@@ -70,10 +70,10 @@ public class DiaryViewModel extends AndroidViewModel {
         AppPathUtils.delete(coverFile.getPath());
     }
 
-    private static class InsertAsyncTack extends AsyncTask<Diary, Void, Long> {
+    private static class InsertAsyncTask extends AsyncTask<Diary, Void, Long> {
         DiaryDao mAsyncTaskDao;
 
-        public InsertAsyncTack(DiaryDao diaryDao) {
+        public InsertAsyncTask(DiaryDao diaryDao) {
             mAsyncTaskDao = diaryDao;
         }
 
