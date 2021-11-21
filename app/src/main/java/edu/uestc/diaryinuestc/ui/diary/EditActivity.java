@@ -460,10 +460,12 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
     private void refreshTextCount() {
         int len = 0;
-        if (binding.richEdit.getText() != null)
-            len += binding.richEdit.getText().toString().length();
         if (binding.diaryEditTitle.getText() != null)
-            len += binding.diaryEditTitle.getText().toString().length();
+            len += binding.diaryEditTitle.getText().toString()
+                    .replace(" ","").replace("\n","").length();
+        if (binding.richEdit.getText() != null)
+            len += binding.richEdit.getText().toString()
+                    .replace(" ","").replace("\n","").length();
         binding.diaryTextCount.setText(String.valueOf(len));
     }
 
