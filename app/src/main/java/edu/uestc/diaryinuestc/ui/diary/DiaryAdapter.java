@@ -64,7 +64,6 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.GridViewHold
         mDiaryList.clear();
         mDiaryList.addAll(diaryList);
         notifyDataSetChanged();
-        Log.d(TAG, "change");
     }
 
     @NonNull
@@ -96,6 +95,8 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.GridViewHold
         LoadAsyncTask task = new LoadAsyncTask(mContext, diary, holder, position);
         task.execute();
 
+        holder.binding.diaryCover.setImageDrawable(null);
+        holder.binding.getRoot().setVisibility(View.INVISIBLE);
         holder.binding.getRoot().setAlpha(0);
 
         //set onclick intent
@@ -180,6 +181,7 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.GridViewHold
             //load cover through view model
             if (load != null)
                 load.into(holder.binding.diaryCover);
+            holder.binding.getRoot().setVisibility(View.VISIBLE);
             animator.start();
         }
     }

@@ -74,6 +74,7 @@ public class DiaryFragment extends Fragment {
         binding.diaryRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                adapter.notifyDataSetChanged();
                 ObjectAnimator animator = ObjectAnimator.ofFloat(binding.diaryRecyclerView, "alpha", 1, 0.5F);
                 animator.setDuration(250);
                 animator.setRepeatCount(0);
