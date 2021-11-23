@@ -10,36 +10,43 @@ public class Todo {
 
 
     private String content;
-    private int ddl;
     private boolean selected;
+
+    private int Year=-1;
+    private int Month=-1;
+    private int Day=-1;
+
+    private int Hour=-1;
+    private int Min=-1;
+
+    public Todo(String content, int year, int month, int day, int hour, int min) {
+        this.content = content;
+        Year = year;
+        Month = month;
+        Day = day;
+        Hour = hour;
+        Min = min;
+    }
 
     public Todo(String content) {
         this.content = content;
         this.selected = false;
-        this.ddl = 0;
     }
 
     public String getContent() {
         return content;
     }
 
-    public int getDdl() {
-        return ddl;
-    }
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public void setDdl(int ddl) {
-        this.ddl = ddl;
     }
 
     public boolean getSelected() {
         return selected;
     }
 
-    public void setSelected(boolean b){
+    public void setSelected(boolean b) {
         this.selected = b;
     }
 
@@ -49,5 +56,47 @@ public class Todo {
 
     public void setTodoID(int todoID) {
         this.todoID = todoID;
+    }
+
+
+
+    public int getYear() {
+        return Year;
+    }
+
+    public void setYear(int year) {
+        Year = year;
+    }
+
+    public int getMonth() {
+        return Month;
+    }
+
+    public void setMonth(int month) {
+        Month = month;
+    }
+
+    public int getDay() {
+        return Day;
+    }
+
+    public void setDay(int day) {
+        Day = day;
+    }
+
+    public int getHour() {
+        return Hour;
+    }
+
+    public void setHour(int hour) {
+        Hour = hour;
+    }
+
+    public int getMin() {
+        return Min;
+    }
+
+    public void setMin(int min) {
+        Min = min;
     }
 }

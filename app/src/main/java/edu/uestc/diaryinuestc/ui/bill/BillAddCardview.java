@@ -2,7 +2,6 @@ package edu.uestc.diaryinuestc.ui.bill;
 
 import static android.graphics.Paint.FAKE_BOLD_TEXT_FLAG;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -242,9 +241,6 @@ public class BillAddCardview extends AppCompatActivity {
                         rb3.getPaint().setFlags(FAKE_BOLD_TEXT_FLAG);
                         rb2.getPaint().setFlags(0);
                         rb1.getPaint().setFlags(0);
-                        break;
-                    default:
-                        return;
                 }
             }
         });
@@ -254,29 +250,23 @@ public class BillAddCardview extends AppCompatActivity {
     public void setEditAmount() {
 
         //添加选择账单种类动态颜色变换
-        inTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                inTV.setTextColor(Color.parseColor("#efb336"));
-                outTV.setTextColor(Color.parseColor("#C8C8C8"));
-                isIn = true;
-                typeRadioGroup1.setVisibility(View.INVISIBLE);
-                typeRadioGroup2.setVisibility(View.VISIBLE);
-                typeSelectGroup.clearCheck();
-                billTypeTv.setText("共收入");
-            }
+        inTV.setOnClickListener(v -> {
+            inTV.setTextColor(Color.parseColor("#efb336"));
+            outTV.setTextColor(Color.parseColor("#C8C8C8"));
+            isIn = true;
+            typeRadioGroup1.setVisibility(View.INVISIBLE);
+            typeRadioGroup2.setVisibility(View.VISIBLE);
+            typeSelectGroup.clearCheck();
+            billTypeTv.setText("共收入");
         });
-        outTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                inTV.setTextColor(Color.parseColor("#C8C8C8"));
-                outTV.setTextColor(Color.parseColor("#185ADB"));
-                isIn = false;
-                typeRadioGroup1.setVisibility(View.VISIBLE);
-                typeRadioGroup2.setVisibility(View.INVISIBLE);
-                typeSelectGroup.clearCheck();
-                billTypeTv.setText("共消费");
-            }
+        outTV.setOnClickListener(v -> {
+            inTV.setTextColor(Color.parseColor("#C8C8C8"));
+            outTV.setTextColor(Color.parseColor("#185ADB"));
+            isIn = false;
+            typeRadioGroup1.setVisibility(View.VISIBLE);
+            typeRadioGroup2.setVisibility(View.INVISIBLE);
+            typeSelectGroup.clearCheck();
+            billTypeTv.setText("共消费");
         });
 
         //圆形seekBar设置
@@ -303,90 +293,59 @@ public class BillAddCardview extends AppCompatActivity {
             }
         });
         //手动输入
-        editAmount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editAmount.setFocusable(true);
-                editAmount.setFocusableInTouchMode(true);
-                editAmount.requestFocus();
-                editAmount.requestFocusFromTouch();
-            }
+        editAmount.setOnClickListener(v -> {
+            editAmount.setFocusable(true);
+            editAmount.setFocusableInTouchMode(true);
+            editAmount.requestFocus();
+            editAmount.requestFocusFromTouch();
         });
-//        editAmount.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                mAmountStr = s.toString();
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//
-//            }
-//        });
-
-        //手动输入备注
-//        editBillContent.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                mBillContent = s.toString();
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//
-//            }
-//        });
 
 //        //提交按钮
-        addBillBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                if (mAmountStr.length() != 0) {
-//                    mAmount = Double.parseDouble(editAmount.getText().toString());
-//                } else {
-//                    mAmount = 0;
-//                }
-                if (!editAmount.getText().toString().isEmpty())
-                    mAmount = Double.parseDouble(editAmount.getText().toString());
-                if (mAmount != 0) {
-                    billType = typeSelectGroup.getType();
-                    mBillContent = editBillContent.getText().toString();
+        addBillBtn.setOnClickListener(v -> {
+            if (!editAmount.getText().toString().isEmpty())
+                mAmount = Double.parseDouble(editAmount.getText().toString());
+            if (mAmount != 0) {
+                billType = typeSelectGroup.getType();
+                mBillContent = editBillContent.getText().toString();
 
-                    java.util.Calendar calendar = java.util.Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
-                    int year = calendar.get(java.util.Calendar.YEAR);
-                    int month = calendar.get(java.util.Calendar.MONTH) + 1;
-                    int day1 = calendar.get(java.util.Calendar.DAY_OF_MONTH);
-                    int day2 = calendar.get(Calendar.DAY_OF_WEEK);
-                    int hour = calendar.get(Calendar.HOUR_OF_DAY);
-                    int min = calendar.get(Calendar.MINUTE);
-                    int second = calendar.get(Calendar.SECOND);
+                Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH) + 1;
+                int day1 = calendar.get(Calendar.DAY_OF_MONTH);
+                int day2 = calendar.get(Calendar.DAY_OF_WEEK);
+                int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                int min = calendar.get(Calendar.MINUTE);
+                int second = calendar.get(Calendar.SECOND);
 
 
-                    mBill = new Bill(year, month, day1, day2, hour, min, second, billType, mAmount, isIn, mBillContent);
+                mBill = new Bill(year, month, day1, day2, hour, min, second, billType, mAmount, isIn, mBillContent);
 
-                    billEngine.insertBill(mBill);
-                    Toast.makeText(BillAddCardview.this, "添加成功！", Toast.LENGTH_SHORT).show();
-                    onBackPressed();
-                } else {
-                    Toast.makeText(BillAddCardview.this, "无法添加数额为0的账单！", Toast.LENGTH_SHORT).show();
-                }
-
-
+                billEngine.insertBill(mBill);
+                Toast.makeText(BillAddCardview.this, "添加成功！", Toast.LENGTH_SHORT).show();
+                onBackPressed();
+            } else {
+                Toast.makeText(BillAddCardview.this, "无法添加数额为0的账单！", Toast.LENGTH_SHORT).show();
             }
         });
 
     }
 
-
+//    public void whiteBoxTest() {
+//        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
+//        int year = calendar.get(Calendar.YEAR);
+//        int month = calendar.get(Calendar.MONTH) + 1;
+//        int day1 = calendar.get(Calendar.DAY_OF_MONTH);
+//        int day2 = calendar.get(Calendar.DAY_OF_WEEK);
+//        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+//        int min = calendar.get(Calendar.MINUTE);
+//        int second = calendar.get(Calendar.SECOND);
+//
+//        mBill = new Bill(year, month, day1, day2, hour, min, second, billType, "这是一个字符串", isIn, "备注");
+//        mBill = new Bill(year, month, day1, day2, hour, min, second, billType, 100, isIn, 123);
+//        mBill = new Bill(year, month, day1, day2, hour, min, second, billType, mAmount, isIn, mBillContent);
+//        mBill = new Bill(year, month, day1, day2, hour, min, second, billType, mAmount, isIn, mBillContent);
+//        mBill = new Bill(year, month, day1, day2, hour, min, second, billType, mAmount, isIn, mBillContent);
+//        mBill = new Bill(year, month, day1, day2, hour, min, second, billType, mAmount, isIn, mBillContent);
+//        mBill = new Bill(year, month, day1, day2, hour, min, second, billType, mAmount, isIn, mBillContent);
+//    }
 }

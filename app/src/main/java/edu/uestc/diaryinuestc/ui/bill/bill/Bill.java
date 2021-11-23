@@ -218,7 +218,7 @@ public class Bill implements Comparable<Bill> {
             case CLOTHING:
                 return R.drawable.clothing_blue;
             case TRAVELLING:
-                return R.drawable.transfer_blue;
+                return R.drawable.travel_blue;
             case EDUCATION:
                 return R.drawable.education_blue;
             case TRAFFIC:

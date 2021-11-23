@@ -85,8 +85,14 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> im
         //生成item
         holder.todoContent.setText(todo.getContent());
         holder.todoContent.setChecked(todo.getSelected());
-        if (todo.getDdl() != 0)
-            holder.todoDate.setText(todo.getDdl());
+        if (todo.getYear() != -1 && todo.getHour() != -1 && todo.getMin() > 10)
+            holder.todoDate.setText(todo.getMonth() + "月" + todo.getDay() + "日  " + todo.getHour() + ":" + todo.getMin());
+        else if (todo.getYear() != -1 && todo.getHour() != -1 && todo.getMin() < 10)
+            holder.todoDate.setText(todo.getMonth() + "月" + todo.getDay() + "日  " + todo.getHour() + ":0" + todo.getMin());
+        else if (todo.getYear() == -1 && todo.getHour() != -1 && todo.getMin() > 10)
+            holder.todoDate.setText(todo.getHour() + ":" + todo.getMin());
+        else if (todo.getYear() == -1 && todo.getHour() != -1 && todo.getMin() < 10)
+            holder.todoDate.setText(todo.getHour() + ":0" + todo.getMin());
         else
             holder.todoDate.setText(null);
     }
