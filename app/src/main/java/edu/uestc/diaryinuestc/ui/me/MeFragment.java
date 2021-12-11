@@ -117,6 +117,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         binding.mineSetting.setOnClickListener(this);
         binding.mineAbout.setOnClickListener(this);
         binding.mineSetting.setOnClickListener(this);
+        binding.mineTheme.setOnClickListener(this);
     }
 
     @Override
@@ -136,24 +137,24 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         if (v.getId() == binding.userAvatar.getId()) {
             popAvatarSelectorWindow();
         } else if (v.getId() == binding.userName.getId()) {
-            startActivity(new Intent(activity, MyInfoActivity.class).putExtra("open","name"));
-        } else if (v.getId() == binding.theme.getId()) {
-            Intent intent = new Intent(activity, ThemeSelectActivity.class);
+            startActivity(new Intent(activity, MyInfoActivity.class).putExtra("open", "name"));
+        } else if (v.getId() == binding.theme.getId() || v.getId() == binding.mineTheme.getId()) {
+            Intent intent = new Intent(activity, ThemeSelectActivity.class).putExtra(ThemeSelectActivity.FRAGMENT_KEY, 4);
             startActivity(intent);
-        } else if (v.getId() == binding.mySign.getId()){
-            startActivity(new Intent(activity, MyInfoActivity.class).putExtra("open","sign"));
-        } else if (v.getId() == binding.genderIc.getId()){
-            startActivity(new Intent(activity, MyInfoActivity.class).putExtra("open","gender"));
+        } else if (v.getId() == binding.mySign.getId()) {
+            startActivity(new Intent(activity, MyInfoActivity.class).putExtra("open", "sign"));
+        } else if (v.getId() == binding.genderIc.getId()) {
+            startActivity(new Intent(activity, MyInfoActivity.class).putExtra("open", "gender"));
         } else if (v.getId() == binding.myInfo.getId()) {
 //            startActivity(new Intent(activity, PhotoSelectorPopupWindow.class).putExtra("isBottom", false));
             startActivity(new Intent(activity, MyInfoActivity.class));
         } else if (v.getId() == binding.mineHelp.getId()) {
-            Toast.makeText(getContext(), "请使用 关于 跳转github获取帮助",Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "请使用 关于 跳转github获取帮助", Toast.LENGTH_LONG).show();
         } else if (v.getId() == binding.mineSetting.getId()) {
             AlertDialog dialog = new AlertDialog.Builder(activity)
                     .setMessage("暂无进阶设置\n皮肤通过 \"右上角服装按钮\" 切换\n个人信息通过 \"我的信息\" 修改")
                     .create();
-            dialog.setButton(Dialog.BUTTON_POSITIVE,"确认", new DialogInterface.OnClickListener() {
+            dialog.setButton(Dialog.BUTTON_POSITIVE, "确认", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
@@ -161,7 +162,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
             });
             dialog.show();
         } else if (v.getId() == binding.mineAbout.getId()) {
-            Toast.makeText(getContext(), "点击图标访问网站\n通过右下角按键进入GitHub",Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "点击图标访问网站\n通过右下角按键进入GitHub", Toast.LENGTH_LONG).show();
             startActivity(new Intent(activity, AboutActivity.class));
         } else if (v.getId() == R.id.pop_camera) {
             popupPhotoSelectorWindow.dismiss();

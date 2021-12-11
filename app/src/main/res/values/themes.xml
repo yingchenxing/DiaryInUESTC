@@ -13,6 +13,12 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="android:textColorHint">@color/gray_CC</item>
+        <!-- for preview-->
+        <item name="backgroundColor">@color/white_E5</item>
+        <item name="textColor">@color/black</item>
+        <item name="mainColor">@color/white</item>
+        <item name="cardColor">@color/white</item>
+        <item name="cardTextColor">@color/black</item>
     </style>
 
     <style name="Theme.ActionBar" parent="Theme.MaterialComponents.DayNight">
@@ -33,7 +39,7 @@
     <style name="PhotoSelectorCenter" parent="Theme.MaterialComponents.DialogWhenLarge">
         <item name="android:windowFrame">@null</item>
         ;!-- 边框 -->
-<!--        <item name="android:windowIsFloating">true</item>-->
+        <!--        <item name="android:windowIsFloating">true</item>-->
         <item name="android:windowMinWidthMajor">100%</item>
         <item name="android:windowMinWidthMinor">100%</item>
         <item name="android:windowContentOverlay">@null</item>

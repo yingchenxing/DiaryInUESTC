@@ -12,7 +12,7 @@
     <com.scwang.smart.refresh.header.StoreHouseHeader
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:shhText="DiaryInUESTC" />
+        app:shhText="UESTC" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -48,7 +48,7 @@
                     android:clickable="true"
                     android:contentDescription="@string/user_avatar_description"
                     android:focusable="true"
-                    android:src="@drawable/ic_baseline_person_24"
+                    android:src="@drawable/ic_person"
                     app:civ_border_color="?mainColor"
                     app:civ_border_width="3dp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -74,7 +74,7 @@
                     android:id="@+id/gender_ic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_boy"
+                    android:src="@drawable/ic_boygirl"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -219,6 +219,47 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:text="@string/mine_setting"
+                        android:textColor="?cardTextColor"
+                        android:textSize="15sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="10dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/ic_baseline_keyboard_arrow_right_24" />
+
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/mine_theme"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginTop="8dp"
+                android:background="?cardColor"
+                android:backgroundTint="@color/cardcolor_to_background"
+                android:clickable="true"
+                android:focusable="true">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="@string/mine_theme"
                         android:textColor="?cardTextColor"
                         android:textSize="15sp" />
                 </RelativeLayout>

@@ -35,6 +35,7 @@ public class ThemeSelectActivity extends AppCompatActivity implements View.OnCli
     private static final String TAG = "ThemeSelectActivity";
     public static final String THEME_KEY = "DiaryInUESTCTheme";
     public static final String COLOR_KEY = "DiaryInUESTCThemeColor";
+    public static final String FRAGMENT_KEY = "fragment";
 
     private static int colorCode = 0;
     private static ConstraintLayout[] groups;
@@ -82,7 +83,6 @@ public class ThemeSelectActivity extends AppCompatActivity implements View.OnCli
 
         //操作click
         setOnClickListener();
-
     }
 
 
@@ -104,7 +104,10 @@ public class ThemeSelectActivity extends AppCompatActivity implements View.OnCli
             editor.putInt(COLOR_KEY, colorCode);
             editor.commit();
             //刷新界面
-            startActivity(new Intent(this, ThemeSelectActivity.class));
+            Intent intent = new Intent(this, ThemeSelectActivity.class);
+            intent.putExtra(FRAGMENT_KEY, getIntent().getIntExtra(FRAGMENT_KEY, 4));
+//            intent.putExtras(getIntent().getExtras());
+            startActivity(intent);
             overridePendingTransition(R.anim.fadein, R.anim.fadeout);
             this.finish();
         }
@@ -112,9 +115,10 @@ public class ThemeSelectActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == KeyEvent.KEYCODE_BACK){
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            int fragment = getIntent().getIntExtra(FRAGMENT_KEY, 4);
             TaskStackBuilder.create(ThemeSelectActivity.this)
-                    .addNextIntent(new Intent(ThemeSelectActivity.this, MainActivity.class).putExtra("Fragment", 4))
+                    .addNextIntent(new Intent(ThemeSelectActivity.this, MainActivity.class).putExtra("Fragment", fragment))
                     .startActivities();
             finish();
         }
