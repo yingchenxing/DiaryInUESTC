@@ -12,9 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.scwang.smart.refresh.header.BezierCircleHeader
+        <com.scwang.smart.refresh.header.StoreHouseHeader
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:shhText="UESTC" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/diary_recycler_view"

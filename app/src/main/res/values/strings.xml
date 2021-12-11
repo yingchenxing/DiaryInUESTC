@@ -11,6 +11,7 @@
     <string name="my_info">我的信息</string>
     <string name="mine_help">帮助</string>
     <string name="mine_setting">设置</string>
+    <string name="mine_theme">更换主题</string>
     <string name="mine_about">关于</string>
     <string name="cancel">取消</string>
     <string name="delete">删除</string>
@@ -82,8 +83,12 @@
     <string name="diary_cover_tint">日记封面</string>
     <string name="diary_cover_tint_text">日 记 封 面 \n····\nDiary Cover</string>
     <string name="diary_footer">成电微记\n····</string>
+    <string name="somewhere">某处过往</string>
+    <string name="edit_location">编辑位置</string>
+    <string name="submit">确认</string>
 
     <!-- Strings used for Bill -->
     <string name="bill_out">支出</string>
     <string name="bill_in">收入</string>
+
 </resources>

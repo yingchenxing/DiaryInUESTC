@@ -23,6 +23,8 @@ public class Diary {
     private Long uid;
     @ColumnInfo(name = "date")
     private String date;
+    @ColumnInfo(name = "location")
+    private String location;
     @ColumnInfo(name = "millis")
     private Long millis;
     @ColumnInfo(name = "title")
@@ -40,7 +42,7 @@ public class Diary {
 
     public String[] requirePreview() {
         String[] preview = {"", ""};
-        if (!checkText()){
+        if (!checkText()) {
             preview[1] = "--万事皆\"空\"~";
             return preview;
         }
@@ -131,7 +133,7 @@ public class Diary {
      */
     public boolean checkText() {
 
-        return !((content == null || content.length() == 0) && (title == null || title.length() == 0));
+        return !((content == null || content.length() == 0) && (title == null || title.length() == 0) && (location == null || location.length() == 0));
     }
 
     public Long getUid() {
@@ -164,6 +166,14 @@ public class Diary {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public Long getMillis() {

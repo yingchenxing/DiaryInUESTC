@@ -84,10 +84,10 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.GridViewHold
         //deal with Diary
         if (diary == null) return;
         if (diary.isEmpty(mContext)) {
-//            Toast.makeText(mContext, "异常数据处理：日记为空但仍存在", Toast.LENGTH_SHORT).show();
-//            Log.e(TAG, "ERROR IN onBindViewHolder with empty diary uid:" + diary.getUid());
-//            diaryViewModel.delete(diary);
-//            notifyItemRemoved(holder.getAdapterPosition());
+            Toast.makeText(mContext, "已自动删除为空日记", Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "ERROR IN onBindViewHolder with empty diary uid:" + diary.getUid());
+            diaryViewModel.delete(diary);
+
             Log.d(TAG, "empty not load" + diary.getUid());
             return;
         }

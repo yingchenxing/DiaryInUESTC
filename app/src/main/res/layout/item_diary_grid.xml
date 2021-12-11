@@ -12,6 +12,7 @@
         android:elevation="20dp"
         android:foreground="?android:attr/selectableItemBackground"
         android:transitionName="diary_card"
+        app:cardBackgroundColor="?cardColor"
         app:cardCornerRadius="20dp">
 
         <LinearLayout
@@ -47,7 +48,7 @@
                     android:paddingTop="20dp"
                     android:paddingEnd="20dp"
                     android:text="title我是标题我是标题我是标题我是标题我是标题我是标题"
-                    android:textColor="@color/black"
+                    android:textColor="?cardTextColor"
                     android:textSize="18sp"
                     android:transitionName="transition_diary_title" />
 
@@ -64,6 +65,7 @@
                     android:paddingEnd="20dp"
                     android:paddingBottom="10dp"
                     android:text="aaaaaa"
+                    android:textColor="?cardTextColor"
                     android:textSize="16sp"
                     android:transitionName="transition_diary_content" />
 
@@ -77,6 +79,7 @@
                     android:layout_marginEnd="20dp"
                     android:layout_marginBottom="10dp"
                     android:text="2020年9月9日 凌晨00：00"
+                    android:textColor="?textColor"
                     android:textSize="11sp"
                     android:transitionName="transition_diary_title" />
 

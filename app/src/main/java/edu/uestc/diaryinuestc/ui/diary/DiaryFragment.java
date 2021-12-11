@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
+import android.transition.Transition;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.view.Window;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -20,6 +22,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.transition.Explode;
 
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
@@ -40,6 +43,7 @@ public class DiaryFragment extends Fragment {
     LiveData<List<Diary>> liveDiaryList;
     private Activity activity;
     private DiaryViewModel diaryViewModel;
+    List<Diary> diaryListCache;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -65,8 +69,10 @@ public class DiaryFragment extends Fragment {
             @Override
             public void onChanged(List<Diary> diaryList) {
                 adapter.setDiaryList(diaryList);
+                diaryListCache = diaryList;
                 //all change are rely on this observer
 //                liveDiaryList.removeObserver(this);
+                adapter.notifyDataSetChanged();
             }
         });
 
@@ -74,7 +80,13 @@ public class DiaryFragment extends Fragment {
         binding.diaryRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                adapter.notifyDataSetChanged();
+                List<Diary> diaryList = liveDiaryList.getValue();
+                if (diaryList == null)
+                    return;
+                if (!diaryList.equals(diaryListCache)) {
+                    diaryListCache = diaryList;
+                    adapter.setDiaryList(diaryList);
+                }
                 ObjectAnimator animator = ObjectAnimator.ofFloat(binding.diaryRecyclerView, "alpha", 1, 0.5F);
                 animator.setDuration(250);
                 animator.setRepeatCount(0);
@@ -95,7 +107,7 @@ public class DiaryFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(activity, EditActivity.class);
                 intent.putExtra(EditActivity.NEW_TAG, true);
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity) getActivity(), binding.diaryFab, binding.diaryFab.getTransitionName());
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(requireActivity(), binding.diaryFab, binding.diaryFab.getTransitionName());
 
                 startActivity(intent, options.toBundle());
             }
@@ -107,6 +119,11 @@ public class DiaryFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void setSharedElementReturnTransition(@Nullable Object transition) {
+        super.setSharedElementReturnTransition(transition);
     }
 
     @Override
