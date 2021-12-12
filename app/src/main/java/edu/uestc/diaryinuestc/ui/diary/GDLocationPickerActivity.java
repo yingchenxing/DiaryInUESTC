@@ -4,15 +4,22 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.cursoradapter.widget.CursorAdapter;
+import androidx.cursoradapter.widget.SimpleCursorAdapter;
 import androidx.preference.PreferenceManager;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.SearchableInfo;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -26,9 +33,13 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.SearchEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.CursorTreeAdapter;
 import android.widget.Toast;
 
 import com.amap.api.location.AMapLocationClient;
@@ -36,9 +47,14 @@ import com.amap.api.maps.AMap;
 import com.amap.api.maps.MapsInitializer;
 import com.amap.api.maps.UiSettings;
 import com.amap.api.maps.model.BitmapDescriptor;
+import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.amap.api.services.core.AMapException;
 import com.amap.api.services.core.PoiItem;
+import com.amap.api.services.core.SuggestionCity;
+import com.amap.api.services.help.Inputtips;
+import com.amap.api.services.help.InputtipsQuery;
+import com.amap.api.services.help.Tip;
 import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
 
@@ -49,9 +65,12 @@ import java.util.List;
 
 import edu.uestc.diaryinuestc.R;
 import edu.uestc.diaryinuestc.databinding.ActivityGdlocationPickerBinding;
+import edu.uestc.diaryinuestc.databinding.SubmitLocationDialogBinding;
 import edu.uestc.diaryinuestc.ui.me.ThemeSelectActivity;
 
-public class GDLocationPickerActivity extends AppCompatActivity implements PoiSearch.OnPoiSearchListener {
+public class GDLocationPickerActivity extends AppCompatActivity implements
+        PoiSearch.OnPoiSearchListener, View.OnClickListener, Inputtips.InputtipsListener,
+        SearchView.OnQueryTextListener, SearchView.OnSuggestionListener {
 
     private static final String TAG = "GDLocationPicker";
     /**
@@ -82,8 +101,12 @@ public class GDLocationPickerActivity extends AppCompatActivity implements PoiSe
     private static String BACK_LOCATION_PERMISSION = "android.permission.ACCESS_BACKGROUND_LOCATION";
     private ActivityGdlocationPickerBinding binding;
 
+    private AMap aMap;
     private UiSettings mUiSettings;//定义一个UiSettings对象
     private PoiSearch poiSearch;
+    private PoiResult poiResult; // poi返回的结果
+    private PoiSearch.Query query;
+    private int currentPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +137,7 @@ public class GDLocationPickerActivity extends AppCompatActivity implements PoiSe
         privacyCompliance();
 
         binding.map.onCreate(savedInstanceState);
-        AMap aMap = binding.map.getMap();
+        aMap = binding.map.getMap();
 
         aMap.setMapType(AMap.MAP_TYPE_NORMAL);
 
@@ -137,9 +160,52 @@ public class GDLocationPickerActivity extends AppCompatActivity implements PoiSe
         mUiSettings.setMyLocationButtonEnabled(true); //显示默认的定位按钮
 
         aMap.setMyLocationEnabled(true);// 可触发定位并显示当前位置
+        //Marker click
+        aMap.setOnMarkerClickListener(new AMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                String location_str = marker.getTitle();
+                if (location_str == null || location_str.trim().length() == 0) {
+                    Toast.makeText(GDLocationPickerActivity.this, "空的地址", Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "空的地址" + marker.toString());
+                    return false;
+                }
 
+                SubmitLocationDialogBinding binding = SubmitLocationDialogBinding.inflate(getLayoutInflater());
+                AlertDialog dialog = new AlertDialog.Builder(GDLocationPickerActivity.this)
+                        .setView(binding.getRoot())
+                        .create();
+                dialog.getWindow().setGravity(Gravity.BOTTOM);
+                dialog.getWindow().setBackgroundDrawableResource(R.drawable.round_outline_top);
+                dialog.show();
+                //设置在show之后生效,啊这我服了
+                dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                binding.chosenLocation.setText(location_str);
+                binding.cancel.setOnClickListener(v -> dialog.dismiss());
+                binding.submit.setOnClickListener(v -> {
+                    Intent intent = new Intent();
+                    intent.putExtra(EditActivity.LOCATION_KEY, location_str);
+                    setResult(Activity.RESULT_OK, intent);
+                    dialog.dismiss();
+                    Toast.makeText(GDLocationPickerActivity.this, "成功修改地址", Toast.LENGTH_SHORT).show();
+                    finish();
+                });
+                return false;
+            }
+        });
 
+        //search listener
         binding.search.setSubmitButtonEnabled(true);
+        binding.search.setOnSearchClickListener(this);
+        binding.search.setOnQueryTextListener(this);
+        binding.search.setOnSuggestionListener(this);
+        binding.search.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+
+                return true;
+            }
+        });
     }
 
     @Override
@@ -394,16 +460,122 @@ public class GDLocationPickerActivity extends AppCompatActivity implements PoiSe
     }
 
     @Override
-    public void onPoiSearched(PoiResult poiResult, int i) {
-        if (i != 1000) {
-            Toast.makeText(this, "搜索失败", Toast.LENGTH_SHORT).show();
-            return;
+    public void onPoiSearched(PoiResult result, int rCode) {
+        if (rCode == AMapException.CODE_AMAP_SUCCESS) {
+            if (result != null && result.getQuery() != null) {// 搜索poi的结果
+                if (result.getQuery().equals(query)) {// 是否是同一条
+                    poiResult = result;
+                    // 取得搜索到的poi_items有多少页
+                    List<PoiItem> poiItems = poiResult.getPois();// 取得第一页的poiitem数据，页数从数字0开始
+
+                    if (poiItems != null && poiItems.size() > 0) {
+                        aMap.clear();// 清理之前的图标
+                        PoiOverlay poiOverlay = new PoiOverlay(aMap, poiItems);
+                        poiOverlay.removeFromMap();
+                        poiOverlay.addToMap();
+                        poiOverlay.zoomToSpan();
+
+                    } else
+                        Toast.makeText(this, "没有所搜索的位置", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(this, "无搜索结果", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, "服务器返回结果失败 code:" + rCode, Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "服务器返回结果失败 code:" + rCode);
         }
-        Toast.makeText(this, String.valueOf(poiResult.getPois()), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onPoiItemSearched(PoiItem poiItem, int i) {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == binding.search.getId()) {
+        } else {
+            Log.e(TAG, "unhandled onclick listener");
+        }
+    }
+
+    @Override
+    public void onGetInputtips(List<Tip> tipList, int rCode) {
+        if (rCode == AMapException.CODE_AMAP_SUCCESS) {// 正确返回
+            List<String> listString = new ArrayList<>();
+            for (int i = 0; i < tipList.size(); i++) {
+                listString.add(tipList.get(i).getName());
+            }
+//            ArrayAdapter<String> aAdapter = new ArrayAdapter<>(
+//                    getApplicationContext(),
+//                    R.layout.route_inputs, listString);
+            String[] columnNames = {"_id", "text"};
+            MatrixCursor cursor = new MatrixCursor(columnNames);
+            int id = 0;
+            for (String item : listString) {
+                String[] temp = new String[2];
+                temp[0] = String.valueOf(id++);
+                temp[1] = item;
+                cursor.addRow(temp);
+            }
+            String[] from = {"text"};
+            int[] to = {R.id.online_user_list_item_textview};
+            SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.route_inputs, cursor, from, to, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+            binding.search.setSuggestionsAdapter(adapter);
+            adapter.notifyDataSetChanged();
+        } else {
+            Log.e(TAG, "error in onGetInput_tips code:" + rCode);
+        }
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String kewWord) {
+//        Toast.makeText(GDLocationPickerActivity.this, query, Toast.LENGTH_SHORT).show();
+        if (kewWord == null || kewWord.trim().length() == 0) {
+            Toast.makeText(this, "请输入搜索内容", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        currentPage = 0;
+        query = new PoiSearch.Query(kewWord, "", "");// 第一个参数表示搜索字符串，第二个参数表示poi搜索类型，第三个参数表示poi搜索区域（空字符串代表全国）
+        query.setPageSize(30);// 设置每页最多返回多少条poiitem
+        query.setPageNum(currentPage);// 设置查第一页
+
+        try {
+            poiSearch = new PoiSearch(this, query);
+            poiSearch.setOnPoiSearchListener(this);
+            poiSearch.searchPOIAsyn();
+        } catch (AMapException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        if (newText == null) return false;
+        newText = newText.trim();
+        if (newText.length() == 0) return false;
+        InputtipsQuery inputtipsQuery = new InputtipsQuery(newText, "");//全国范围搜索
+        Inputtips inputTips = new Inputtips(GDLocationPickerActivity.this, inputtipsQuery);
+        inputTips.setInputtipsListener(this);
+        inputTips.requestInputtipsAsyn();
+        return false;
+    }
+
+    @Override
+    public boolean onSuggestionSelect(int position) {
+        return false;
+    }
+
+    @Override
+    public boolean onSuggestionClick(int position) {
+        CursorAdapter c = binding.search.getSuggestionsAdapter();
+        Cursor cursor = c.getCursor();
+        cursor.moveToPosition(position);
+        String value = cursor.getString(1);
+        binding.search.setQuery(value, false);
+        return false;
     }
 }

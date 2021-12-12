@@ -68,6 +68,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     private static final String TAG = "EditActivity";
     public static final String NEW_TAG = "isNew";
     public static final String DIARY_ID = "uid";
+    public static final String LOCATION_KEY = "location";
     public static final int START_DUR = 200;
     private boolean isNew;
     private Long diary_id = null;
@@ -276,6 +277,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                                         .withEndAction(() -> binding.diaryCover.setImageDrawable(null))
                                         .setDuration(250)
                                         .start();
+                                saveDiary();
                             }
                         } else if (item.equals(location)) {
                             //choose location
@@ -344,6 +346,29 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         coverChangeLauncher.launch(intent);
     }
 
+    ActivityResultLauncher<Intent> location_launcher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        if (data != null) {
+                            String location = data.getStringExtra(LOCATION_KEY);
+                            if (location == null || location.trim().length() == 0) {
+                                Toast.makeText(EditActivity.this, "空的location值", Toast.LENGTH_SHORT).show();
+                                Log.e(TAG, "空的location值");
+                                return;
+                            }
+                            binding.location.setText(location);
+                            saveDiary();
+                        } else {
+                            Toast.makeText(EditActivity.this, "空的intent传递", Toast.LENGTH_SHORT).show();
+                            Log.e(TAG, "空的intent传递");
+                        }
+                    }
+                }
+            });
+
     private void chooseLocation() {
         ChooseLocationDialogBinding locationBinding = ChooseLocationDialogBinding.inflate(getLayoutInflater());
         AlertDialog dialog = new AlertDialog.Builder(this)
@@ -396,7 +421,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(EditActivity.this, GDLocationPickerActivity.class);
-                startActivity(intent);
+                location_launcher.launch(intent);
                 dialog.dismiss();
             }
         });
