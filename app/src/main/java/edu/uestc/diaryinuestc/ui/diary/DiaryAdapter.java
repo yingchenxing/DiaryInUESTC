@@ -105,10 +105,7 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.GridViewHold
             intent.putExtra(EditActivity.DIARY_ID, diary.getUid());
             intent.putExtra(EditActivity.NEW_TAG, false);
 
-//            holder.binding.
-
             Pair<View, String> pairCover = new Pair<>(holder.binding.diaryCover, holder.binding.diaryCover.getTransitionName());
-            Pair<View, String> pairCard = new Pair<>(holder.binding.diaryCard, holder.binding.diaryCard.getTransitionName());
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity) mContext, pairCover);
 
             mContext.startActivity(intent, options.toBundle());
