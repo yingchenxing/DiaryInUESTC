@@ -91,4 +91,8 @@
     <string name="bill_out">支出</string>
     <string name="bill_in">收入</string>
 
+    <!-- Strings used for GDLocationPickerActivity -->
+    <string name="change_location_sure">选择地址</string>
+    <string name="location_info">地址信息</string>
+
 </resources>

@@ -42,7 +42,6 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.skydoves.powermenu.MenuAnimation;
-import com.skydoves.powermenu.OnMenuItemClickListener;
 import com.skydoves.powermenu.PowerMenu;
 import com.skydoves.powermenu.PowerMenuItem;
 
@@ -68,6 +67,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     private static final String TAG = "EditActivity";
     public static final String NEW_TAG = "isNew";
     public static final String DIARY_ID = "uid";
+    public static final String LOCATION_KEY = "location";
     public static final int START_DUR = 200;
     private boolean isNew;
     private Long diary_id = null;
@@ -148,21 +148,6 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initTransition() {
-//        if (isNew) {
-//            MaterialContainerTransform enterTransition = new MaterialContainerTransform();
-//            enterTransition.setEndView(binding.getRoot());
-//            enterTransition.setDuration(START_DUR);
-//
-//            getWindow().setEnterTransition(enterTransition);
-//        } else {
-//            Fade fadein = new Fade();
-//            fadein.excludeTarget(android.R.id.navigationBarBackground, true);
-//            fadein.excludeTarget(android.R.id.statusBarBackground, true);
-//            fadein.setMode(Visibility.MODE_IN);
-//
-//            getWindow().setEnterTransition(fadein);
-//        }
-
         TransitionSet outTran = new TransitionSet();
 
         Fade fade = new Fade();
@@ -170,14 +155,6 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         fade.excludeTarget(android.R.id.statusBarBackground, true);
         fade.excludeTarget(binding.diaryCover, true);
 
-//        Slide slide = new Slide();
-//        slide.setDuration(getResources().getInteger(R.integer.reply_motion_duration_large));
-//        slide.addTarget(binding.editBody);
-//        slide.excludeTarget(android.R.id.statusBarBackground, true);
-//        slide.setSlideEdge(Gravity.BOTTOM);
-//        slide.setMode(Visibility.MODE_OUT);
-
-//        outTran.addTransition(slide);
         outTran.addTransition(fade);
 
         getWindow().setReturnTransition(fade);
@@ -254,33 +231,31 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 .setAnimation(MenuAnimation.SHOWUP_TOP_RIGHT)
 //                .setSelectedMenuColor(ContextCompat.getColor(this, R.color.colorPrimary))
                 .setAutoDismiss(true)
-                .setOnMenuItemClickListener(new OnMenuItemClickListener<PowerMenuItem>() {
-                    @Override
-                    public void onItemClick(int position, PowerMenuItem item) {
-                        if (item.equals(delete)) {
-                            //delete diary
-                            deleteDialog();
-                        } else if (item.equals(skin)) {
-                            //change cover
-                            changeCover();
-                        } else if (item.equals(delete_skin)) {
-                            File coverFile = AppPathUtils.getDiaryFile(getApplication(), diary_id, "");
-                            if (diary_id == null || !coverFile.exists()) {
-                                Toast.makeText(EditActivity.this, "封面图片未设置", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                            if (AppPathUtils.delete(coverFile.getPath())) {
-                                Toast.makeText(EditActivity.this, "封面删除成功", Toast.LENGTH_SHORT).show();
-                                binding.diaryCover.animate()
-                                        .alpha(0)
-                                        .withEndAction(() -> binding.diaryCover.setImageDrawable(null))
-                                        .setDuration(250)
-                                        .start();
-                            }
-                        } else if (item.equals(location)) {
-                            //choose location
-                            chooseLocation();
+                .setOnMenuItemClickListener((position, item) -> {
+                    if (item.equals(delete)) {
+                        //delete diary
+                        deleteDialog();
+                    } else if (item.equals(skin)) {
+                        //change cover
+                        changeCover();
+                    } else if (item.equals(delete_skin)) {
+                        File coverFile = AppPathUtils.getDiaryFile(getApplication(), diary_id, "");
+                        if (diary_id == null || !coverFile.exists()) {
+                            Toast.makeText(EditActivity.this, "封面图片未设置", Toast.LENGTH_SHORT).show();
+                            return;
                         }
+                        if (AppPathUtils.delete(coverFile.getPath())) {
+                            Toast.makeText(EditActivity.this, "封面删除成功", Toast.LENGTH_SHORT).show();
+                            binding.diaryCover.animate()
+                                    .alpha(0)
+                                    .withEndAction(() -> binding.diaryCover.setImageDrawable(null))
+                                    .setDuration(250)
+                                    .start();
+                            saveDiary();
+                        }
+                    } else if (item.equals(location)) {
+                        //choose location
+                        chooseLocation();
                     }
                 })
                 .build();
@@ -338,11 +313,32 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent(this, PhotoSelectorPopupWindow.class);
         intent.putExtra("isBottom", true);
         //let it generate a cache file
-//        intent.putExtra(PhotoSelectorPopupWindow.PATH,
-//                AppPathUtils.getDiaryFile(this, diary_id, Diary.COVER_PNG).getPath());
         intent.putExtra(PhotoSelectorPopupWindow.ASPECT_RATIO, 1.618);
         coverChangeLauncher.launch(intent);
     }
+
+    ActivityResultLauncher<Intent> location_launcher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        if (data != null) {
+                            String location = data.getStringExtra(LOCATION_KEY);
+                            if (location == null || location.trim().length() == 0) {
+                                Toast.makeText(EditActivity.this, "空的location值", Toast.LENGTH_SHORT).show();
+                                Log.e(TAG, "空的location值");
+                                return;
+                            }
+                            binding.location.setText(location);
+                            saveDiary();
+                        } else {
+                            Toast.makeText(EditActivity.this, "空的intent传递", Toast.LENGTH_SHORT).show();
+                            Log.e(TAG, "空的intent传递");
+                        }
+                    }
+                }
+            });
 
     private void chooseLocation() {
         ChooseLocationDialogBinding locationBinding = ChooseLocationDialogBinding.inflate(getLayoutInflater());
@@ -355,50 +351,36 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         //设置在show之后生效,啊这我服了
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         locationBinding.cancel.setOnClickListener(v -> dialog.dismiss());
-        locationBinding.editManual.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ManualLocationEditorBinding editBinding = ManualLocationEditorBinding.inflate(getLayoutInflater());
-                Diary diary = diaryViewModel.getDiary(diary_id);
-                editBinding.locationEdit.setText(diary.getLocation());
+        locationBinding.editManual.setOnClickListener(v -> {
+            ManualLocationEditorBinding editBinding = ManualLocationEditorBinding.inflate(getLayoutInflater());
+            Diary diary = diaryViewModel.getDiary(diary_id);
+            editBinding.locationEdit.setText(diary.getLocation());
 
-                AlertDialog editDialog = new AlertDialog.Builder(EditActivity.this)
-                        .setView(editBinding.getRoot())
-                        .create();
-                editDialog.getWindow().setGravity(Gravity.CENTER);
-                editDialog.getWindow().setBackgroundDrawableResource(R.drawable.round_outline);
-                editDialog.show();
-                dialog.dismiss();
+            AlertDialog editDialog = new AlertDialog.Builder(EditActivity.this)
+                    .setView(editBinding.getRoot())
+                    .create();
+            editDialog.getWindow().setGravity(Gravity.CENTER);
+            editDialog.getWindow().setBackgroundDrawableResource(R.drawable.round_outline);
+            editDialog.show();
+            dialog.dismiss();
 
-                editBinding.cancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        editDialog.dismiss();
-                    }
-                });
-                editBinding.submit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String location = editBinding.locationEdit.getText().toString().trim();
-                        if (location.equals(diary.getLocation())) {
-                            editDialog.dismiss();
-                            return;
-                        }
-                        binding.location.setText(location);
-                        saveDiary();
-                        Toast.makeText(EditActivity.this, "修改位置成功", Toast.LENGTH_SHORT).show();
-                        editDialog.dismiss();
-                    }
-                });
-            }
+            editBinding.cancel.setOnClickListener(v1 -> editDialog.dismiss());
+            editBinding.submit.setOnClickListener(v12 -> {
+                String location = editBinding.locationEdit.getText().toString().trim();
+                if (location.equals(diary.getLocation())) {
+                    editDialog.dismiss();
+                    return;
+                }
+                binding.location.setText(location);
+                saveDiary();
+                Toast.makeText(EditActivity.this, "修改位置成功", Toast.LENGTH_SHORT).show();
+                editDialog.dismiss();
+            });
         });
-        locationBinding.openMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(EditActivity.this, GDLocationPickerActivity.class);
-                startActivity(intent);
-                dialog.dismiss();
-            }
+        locationBinding.openMap.setOnClickListener(v -> {
+            Intent intent = new Intent(EditActivity.this, GDLocationPickerActivity.class);
+            location_launcher.launch(intent);
+            dialog.dismiss();
         });
     }
 
@@ -466,66 +448,60 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         //设置在show之后生效,啊这我服了
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         shareBinding.shareCancel.setOnClickListener(v -> dialog.dismiss());
-        shareBinding.shareText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent shareIntent = new Intent();
-                shareIntent.setAction(Intent.ACTION_SEND);
-                String title = binding.diaryEditTitle.getText().toString();
-                String content = binding.richEdit.getText().toString();
-                StringBuilder out = new StringBuilder();
-                if (title.length() != 0)
-                    out.append(title);
-                if (content.length() != 0) {
-                    out.append('\n');
-                    out.append(content);
-                }
-                shareIntent.putExtra(Intent.EXTRA_TEXT, out.toString());
-                shareIntent.setType("text/plain");
-                startActivity(Intent.createChooser(shareIntent, "分享到"));
-                dialog.dismiss();
+        shareBinding.shareText.setOnClickListener(v -> {
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            String title = binding.diaryEditTitle.getText().toString();
+            String content = binding.richEdit.getText().toString();
+            StringBuilder out = new StringBuilder();
+            if (title.length() != 0)
+                out.append(title);
+            if (content.length() != 0) {
+                out.append('\n');
+                out.append(content);
             }
+            shareIntent.putExtra(Intent.EXTRA_TEXT, out.toString());
+            shareIntent.setType("text/plain");
+            startActivity(Intent.createChooser(shareIntent, "分享到"));
+            dialog.dismiss();
         });
-        shareBinding.shareImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                List<View> list = new ArrayList<>();
-                if (binding.diaryCover.getDrawable() != null)
-                    list.add(binding.diaryCover);
-                list.add(binding.extraInfo);
-                list.add(binding.textBody);
+        shareBinding.shareImage.setOnClickListener(v -> {
+            List<View> list = new ArrayList<>();
+            if (binding.diaryCover.getDrawable() != null)
+                list.add(binding.diaryCover);
+            list.add(binding.extraInfo);
+            list.add(binding.textBody);
 
-                int height = 0;
-                for (View view : list)
-                    height += view.getHeight();
+            int height = 0;
+            for (View view : list)
+                height += view.getHeight();
 
-                int extraBorder = 50;
-                int extraHeight = 200;
-                Bitmap b = Bitmap.createBitmap(binding.getRoot().getWidth() + 2 * extraBorder, height + extraBorder + extraHeight, Bitmap.Config.ARGB_4444);
+            int extraBorder = 50;
+            int extraHeight = 200;
+            Bitmap b = Bitmap.createBitmap(binding.getRoot().getWidth() + 2 * extraBorder, height + extraBorder + extraHeight, Bitmap.Config.ARGB_4444);
 
-                Canvas c = new Canvas(b);
-                binding.diaryCover.setCornerRadius(20);
-                c.drawColor(ThemeSelectActivity.getThemeColor(EditActivity.this));
+            Canvas c = new Canvas(b);
+            binding.diaryCover.setCornerRadius(20);
+            c.drawColor(ThemeSelectActivity.getThemeColor(EditActivity.this));
 
-                int y = 0;
-                c.translate(extraBorder, extraBorder);
-                for (View view : list) {
-                    c.translate(0, y);
-                    view.draw(c);
-                    y = view.getHeight();
-                }
-                c.translate(0, y + extraHeight - binding.diaryFooter.getHeight());
-                binding.diaryFooter.draw(c);
-
-                Intent shareIntent = new Intent();
-                shareIntent.setAction(Intent.ACTION_SEND);
-                Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), b,
-                        binding.diaryEditTitle.getText().toString(), "diary_share"));
-                shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
-                shareIntent.setType("image/*");
-                startActivity(Intent.createChooser(shareIntent, "分享到"));
-                dialog.dismiss();
+            int y = 0;
+            c.translate(extraBorder, extraBorder);
+            for (View view : list) {
+                c.translate(0, y);
+                view.draw(c);
+                y = view.getHeight();
             }
+            c.translate(0, y + extraHeight - binding.diaryFooter.getHeight());
+            binding.diaryFooter.draw(c);
+
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), b,
+                    binding.diaryEditTitle.getText().toString(), "diary_share"));
+            shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+            shareIntent.setType("image/*");
+            startActivity(Intent.createChooser(shareIntent, "分享到"));
+            dialog.dismiss();
         });
     }
 

@@ -1,57 +1,60 @@
 package edu.uestc.diaryinuestc.ui.diary;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.preference.PreferenceManager;
-
 import android.Manifest;
 import android.annotation.TargetApi;
-import android.content.DialogInterface;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcel;
 import android.os.PersistableBundle;
 import android.provider.Settings;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
-import android.view.Menu;
-import android.view.SearchEvent;
-import android.view.View;
+import android.view.Gravity;
+import android.view.ViewGroup;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.cursoradapter.widget.CursorAdapter;
+import androidx.cursoradapter.widget.SimpleCursorAdapter;
+import androidx.preference.PreferenceManager;
 
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.MapsInitializer;
 import com.amap.api.maps.UiSettings;
-import com.amap.api.maps.model.BitmapDescriptor;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.amap.api.services.core.AMapException;
 import com.amap.api.services.core.PoiItem;
+import com.amap.api.services.help.Inputtips;
+import com.amap.api.services.help.InputtipsQuery;
+import com.amap.api.services.help.Tip;
 import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import edu.uestc.diaryinuestc.R;
 import edu.uestc.diaryinuestc.databinding.ActivityGdlocationPickerBinding;
+import edu.uestc.diaryinuestc.databinding.SubmitLocationDialogBinding;
 import edu.uestc.diaryinuestc.ui.me.ThemeSelectActivity;
 
-public class GDLocationPickerActivity extends AppCompatActivity implements PoiSearch.OnPoiSearchListener {
+public class GDLocationPickerActivity extends AppCompatActivity implements
+        PoiSearch.OnPoiSearchListener, Inputtips.InputtipsListener,
+        SearchView.OnQueryTextListener, SearchView.OnSuggestionListener {
 
     private static final String TAG = "GDLocationPicker";
     /**
@@ -79,11 +82,15 @@ public class GDLocationPickerActivity extends AppCompatActivity implements PoiSe
     //是否需要检测后台定位权限，设置为true时，如果用户没有给予后台定位权限会弹窗提示
     private boolean needCheckBackLocation = false;
     //如果设置了target > 28，需要增加这个权限，否则不会弹出"始终允许"这个选择框
-    private static String BACK_LOCATION_PERMISSION = "android.permission.ACCESS_BACKGROUND_LOCATION";
+    private static final String BACK_LOCATION_PERMISSION = "android.permission.ACCESS_BACKGROUND_LOCATION";
     private ActivityGdlocationPickerBinding binding;
 
+    private AMap aMap;
     private UiSettings mUiSettings;//定义一个UiSettings对象
     private PoiSearch poiSearch;
+    private PoiResult poiResult; // poi返回的结果
+    private PoiSearch.Query query;
+    private int currentPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +121,7 @@ public class GDLocationPickerActivity extends AppCompatActivity implements PoiSe
         privacyCompliance();
 
         binding.map.onCreate(savedInstanceState);
-        AMap aMap = binding.map.getMap();
+        aMap = binding.map.getMap();
 
         aMap.setMapType(AMap.MAP_TYPE_NORMAL);
 
@@ -137,9 +144,42 @@ public class GDLocationPickerActivity extends AppCompatActivity implements PoiSe
         mUiSettings.setMyLocationButtonEnabled(true); //显示默认的定位按钮
 
         aMap.setMyLocationEnabled(true);// 可触发定位并显示当前位置
+        //Marker click
+        aMap.setOnMarkerClickListener(marker -> {
+            String location_str = marker.getTitle();
+            if (location_str == null || location_str.trim().length() == 0) {
+                Toast.makeText(GDLocationPickerActivity.this, "空的地址", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "空的地址" + marker.toString());
+                return false;
+            }
 
+            SubmitLocationDialogBinding binding = SubmitLocationDialogBinding.inflate(getLayoutInflater());
+            AlertDialog dialog = new AlertDialog.Builder(GDLocationPickerActivity.this)
+                    .setView(binding.getRoot())
+                    .create();
+            dialog.getWindow().setGravity(Gravity.BOTTOM);
+            dialog.getWindow().setBackgroundDrawableResource(R.drawable.round_outline_top);
+            dialog.show();
+            //设置在show之后生效,啊这我服了
+            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            binding.chosenLocation.setText(location_str);
+            binding.cancel.setOnClickListener(v -> dialog.dismiss());
+            binding.submit.setOnClickListener(v -> {
+                Intent intent = new Intent();
+                intent.putExtra(EditActivity.LOCATION_KEY, location_str);
+                setResult(Activity.RESULT_OK, intent);
+                dialog.dismiss();
+                Toast.makeText(GDLocationPickerActivity.this, "成功修改地址", Toast.LENGTH_SHORT).show();
+                finish();
+            });
+            return false;
+        });
 
+        //search listener
         binding.search.setSubmitButtonEnabled(true);
+        binding.search.setOnQueryTextListener(this);
+        binding.search.setOnSuggestionListener(this);
+        binding.search.setOnCloseListener(() -> true);
     }
 
     @Override
@@ -180,35 +220,26 @@ public class GDLocationPickerActivity extends AppCompatActivity implements PoiSe
         if (agree) return;
         SpannableStringBuilder spannable = new SpannableStringBuilder("\"感谢您使用成电微记！在定位功能中我们必须按照最新监管《隐私权政策》向用户提出声明，特向您说明如下\n1.为向您提供基本功能，我们会收集、使用必要的信息仅用于本地；\n2.基于您的明示授权，我们可能会获取您的位置（为您提供附近的商品、店铺及优惠资讯等）等信息，您有权拒绝或取消授权；\n3.我们会采取业界先进的安全措施保护您的信息安全；\n4.未经您同意，我们不会从第三方处获取、共享或向提供您的信息；\n");
         spannable.setSpan(new ForegroundColorSpan(Color.BLUE), 27, 33, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        AlertDialog requestDialog = new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this)
                 .setTitle("温馨提示(使用高德SDK定位功能权限声明)")
                 .setMessage(spannable)
-                .setPositiveButton("同意", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        agree = true;
-                        defaultPreferences.edit().putBoolean(GDLocationPickerActivity.AGREE_KEY, true).apply();
-                        MapsInitializer.updatePrivacyAgree(GDLocationPickerActivity.this, true);
-                    }
+                .setPositiveButton("同意", (dialogInterface, i) -> {
+                    agree = true;
+                    defaultPreferences.edit().putBoolean(GDLocationPickerActivity.AGREE_KEY, true).apply();
+                    MapsInitializer.updatePrivacyAgree(GDLocationPickerActivity.this, true);
                 })
-                .setNegativeButton("不同意", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        agree = false;
-                        defaultPreferences.edit().putBoolean(GDLocationPickerActivity.AGREE_KEY, false).apply();
+                .setNegativeButton("不同意", (dialogInterface, i) -> {
+                    agree = false;
+                    defaultPreferences.edit().putBoolean(GDLocationPickerActivity.AGREE_KEY, false).apply();
+                    MapsInitializer.updatePrivacyAgree(GDLocationPickerActivity.this, false);
+                })
+                .setOnDismissListener(dialog -> {
+                    if (agree) {
+                        Toast.makeText(GDLocationPickerActivity.this, "已同意隐私政策", Toast.LENGTH_SHORT).show();
+                    } else {
                         MapsInitializer.updatePrivacyAgree(GDLocationPickerActivity.this, false);
-                    }
-                })
-                .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        if (agree) {
-                            Toast.makeText(GDLocationPickerActivity.this, "已同意隐私政策", Toast.LENGTH_SHORT).show();
-                        } else {
-                            MapsInitializer.updatePrivacyAgree(GDLocationPickerActivity.this, false);
-                            Toast.makeText(GDLocationPickerActivity.this, "未同意隐私政策", Toast.LENGTH_SHORT).show();
-                            finish();
-                        }
+                        Toast.makeText(GDLocationPickerActivity.this, "未同意隐私政策", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
                 })
                 .show();
@@ -240,8 +271,8 @@ public class GDLocationPickerActivity extends AppCompatActivity implements PoiSe
     /**
      * 获取权限集中需要申请权限的列表
      *
-     * @param permissions
-     * @return
+     * @param permissions 权限
+     * @return denied permissions
      */
     @TargetApi(23)
     private List<String> findDeniedPermissions(String[] permissions) {
@@ -271,9 +302,6 @@ public class GDLocationPickerActivity extends AppCompatActivity implements PoiSe
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 return checkSelfPermission(perm);
             }
-//            Method method = getClass().getMethod("checkSelfPermission", String.class);
-//            Integer permissionInt = (Integer) method.invoke(this, perm);
-//            return permissionInt;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -285,9 +313,6 @@ public class GDLocationPickerActivity extends AppCompatActivity implements PoiSe
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 return shouldShowRequestPermissionRationale(perm);
             }
-//            Method method = getClass().getMethod("shouldShowRequestPermissionRationale", new Class[]{String.class});
-//            Boolean permissionInt = (Boolean) method.invoke(this, perm);
-//            return permissionInt;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -297,8 +322,8 @@ public class GDLocationPickerActivity extends AppCompatActivity implements PoiSe
     /**
      * 检测是否说有的权限都已经授权
      *
-     * @param grantResults
-     * @return
+     * @param grantResults 结果
+     * @return verify
      * @since 2.5.0
      */
     private boolean verifyPermissions(int[] grantResults) {
@@ -316,7 +341,7 @@ public class GDLocationPickerActivity extends AppCompatActivity implements PoiSe
 
     @TargetApi(23)
     public void onRequestPermissionsResult(int requestCode,
-                                           String[] permissions, int[] paramArrayOfInt) {
+                                           @NonNull String[] permissions, @NonNull int[] paramArrayOfInt) {
         super.onRequestPermissionsResult(requestCode, permissions, paramArrayOfInt);
         try {
             if (Build.VERSION.SDK_INT >= 23) {
@@ -346,26 +371,20 @@ public class GDLocationPickerActivity extends AppCompatActivity implements PoiSe
 
             // 拒绝, 退出应用
             builder.setNegativeButton("取消",
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            try {
-                                finish();
-                            } catch (Throwable e) {
-                                e.printStackTrace();
-                            }
+                    (dialog, which) -> {
+                        try {
+                            finish();
+                        } catch (Throwable e) {
+                            e.printStackTrace();
                         }
                     });
 
             builder.setPositiveButton("设置",
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            try {
-                                startAppSettings();
-                            } catch (Throwable e) {
-                                e.printStackTrace();
-                            }
+                    (dialog, which) -> {
+                        try {
+                            startAppSettings();
+                        } catch (Throwable e) {
+                            e.printStackTrace();
                         }
                     });
 
@@ -394,16 +413,111 @@ public class GDLocationPickerActivity extends AppCompatActivity implements PoiSe
     }
 
     @Override
-    public void onPoiSearched(PoiResult poiResult, int i) {
-        if (i != 1000) {
-            Toast.makeText(this, "搜索失败", Toast.LENGTH_SHORT).show();
-            return;
+    public void onPoiSearched(PoiResult result, int rCode) {
+        if (rCode == AMapException.CODE_AMAP_SUCCESS) {
+            if (result != null && result.getQuery() != null) {// 搜索poi的结果
+                if (result.getQuery().equals(query)) {// 是否是同一条
+                    poiResult = result;
+                    // 取得搜索到的poi_items有多少页
+                    List<PoiItem> poiItems = poiResult.getPois();// 取得第一页的poiitem数据，页数从数字0开始
+
+                    if (poiItems != null && poiItems.size() > 0) {
+                        aMap.clear();// 清理之前的图标
+                        PoiOverlay poiOverlay = new PoiOverlay(aMap, poiItems);
+                        poiOverlay.removeFromMap();
+                        poiOverlay.addToMap();
+                        poiOverlay.zoomToSpan();
+
+                    } else
+                        Toast.makeText(this, "没有所搜索的位置", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(this, "无搜索结果", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, "服务器返回结果失败 code:" + rCode, Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "服务器返回结果失败 code:" + rCode);
         }
-        Toast.makeText(this, String.valueOf(poiResult.getPois()), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onPoiItemSearched(PoiItem poiItem, int i) {
 
+    }
+
+    @Override
+    public void onGetInputtips(List<Tip> tipList, int rCode) {
+        if (rCode == AMapException.CODE_AMAP_SUCCESS) {// 正确返回
+            List<String> listString = new ArrayList<>();
+            for (int i = 0; i < tipList.size(); i++) {
+                listString.add(tipList.get(i).getName());
+            }
+            String[] columnNames = {"_id", "text"};
+            MatrixCursor cursor = new MatrixCursor(columnNames);
+            int id = 0;
+            for (String item : listString) {
+                String[] temp = new String[2];
+                temp[0] = String.valueOf(id++);
+                temp[1] = item;
+                cursor.addRow(temp);
+            }
+            String[] from = {"text"};
+            int[] to = {R.id.online_user_list_item_textview};
+            SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.route_inputs, cursor, from, to, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+            binding.search.setSuggestionsAdapter(adapter);
+            adapter.notifyDataSetChanged();
+        } else {
+            Log.e(TAG, "error in onGetInput_tips code:" + rCode);
+        }
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String kewWord) {
+//        Toast.makeText(GDLocationPickerActivity.this, query, Toast.LENGTH_SHORT).show();
+        if (kewWord == null || kewWord.trim().length() == 0) {
+            Toast.makeText(this, "请输入搜索内容", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        currentPage = 0;
+        query = new PoiSearch.Query(kewWord, "", "");// 第一个参数表示搜索字符串，第二个参数表示poi搜索类型，第三个参数表示poi搜索区域（空字符串代表全国）
+        query.setPageSize(30);// 设置每页最多返回多少条poiitem
+        query.setPageNum(currentPage);// 设置查第一页
+
+        try {
+            poiSearch = new PoiSearch(this, query);
+            poiSearch.setOnPoiSearchListener(this);
+            poiSearch.searchPOIAsyn();
+        } catch (AMapException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        if (newText == null) return false;
+        newText = newText.trim();
+        if (newText.length() == 0) return false;
+        InputtipsQuery inputtipsQuery = new InputtipsQuery(newText, "");//全国范围搜索
+        Inputtips inputTips = new Inputtips(GDLocationPickerActivity.this, inputtipsQuery);
+        inputTips.setInputtipsListener(this);
+        inputTips.requestInputtipsAsyn();
+        return false;
+    }
+
+    @Override
+    public boolean onSuggestionSelect(int position) {
+        return false;
+    }
+
+    @Override
+    public boolean onSuggestionClick(int position) {
+        CursorAdapter c = binding.search.getSuggestionsAdapter();
+        Cursor cursor = c.getCursor();
+        cursor.moveToPosition(position);
+        String value = cursor.getString(1);
+        binding.search.setQuery(value, false);
+        return false;
     }
 }
