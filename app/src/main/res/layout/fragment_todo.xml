@@ -5,7 +5,8 @@
     android:id="@+id/fragment_todo"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.todo.TodoFragment">
+    tools:context=".ui.todo.TodoFragment"
+    android:paddingBottom="56dp">
 
     <TextView
         android:id="@+id/add_todo_text"
@@ -26,8 +27,8 @@
         android:id="@+id/todo_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="80dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="20dp"
         android:elevation="8dp"
         android:src="@drawable/add"
         android:backgroundTint="#03A9F4"
