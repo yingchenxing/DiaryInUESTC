@@ -76,7 +76,7 @@ public class BillFragment extends Fragment {
         setListener();
 
         //加载todo的recyclerView
-        initBillList();
+        initBillList(calendar.get(Calendar.MONTH)+1);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true);
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
@@ -140,16 +140,33 @@ public class BillFragment extends Fragment {
         calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
     }
 
+    //输出本月的账单
+    private List<Bill> showBillOfMonth(int month){
+        List<Bill> bills = new ArrayList<>();
+        for(Bill bill :billList){
+            if(bill.getMonth()==month){
+                bills.add(bill);
+            }
+        }
+        return bills;
+    }
 
     //初始化账单组
-    private void initBillList() {
+    private void initBillList(int month) {
         billList = billEngine.queryAllBills();
         Collections.sort(billList);
         billDayList = new ArrayList<>();
 
+
+
+
         for (int i = 0; i < billList.size(); i++) {
             Bill bill = billList.get(i);
-            int month = bill.getMonth();
+
+            month = bill.getMonth();//不根据月份
+//            if(bill.getMonth()!=month)
+//                continue;
+
             int day1 = bill.getDay1();
             int day2 = bill.getDay2();
             BillDay billDay = new BillDay(month, day1, day2);
@@ -184,7 +201,7 @@ public class BillFragment extends Fragment {
         addBillFab.setVisibility(View.VISIBLE);
 
         //重新刷新recyclerView
-        initBillList();
+        initBillList(calendar.get(Calendar.MONTH)+1);
         initToolbar();
 
         adapter = new BillDayAdapter(billDayList);

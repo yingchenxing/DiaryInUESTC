@@ -56,9 +56,9 @@ public class BillDayAdapter extends RecyclerView.Adapter<BillDayAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull BillDayAdapter.ViewHolder holder, int position) {
         BillDay billDay = mBillDayList.get(position);
-        holder.billDate.setText(billDay.getMonth()+"月"+billDay.getDate1()+"日  星期"+billDay.getDate2());
-        holder.billIn.setText(String.format("%.2f",billDay.getInAmount()));
-        holder.billOut.setText(String.format("%.2f",billDay.getOutAmount()));
+        holder.billDate.setText(billDay.getMonth() + "月" + billDay.getDate1() + "日  星期" + billDay.getDate2());
+        holder.billIn.setText(String.format("%.2f", billDay.getInAmount()));
+        holder.billOut.setText(String.format("%.2f", billDay.getOutAmount()));
 
         //加载另一个adapter
         BillAdapter billAdapter = new BillAdapter(mBillDayList.get(position).getBillList());
