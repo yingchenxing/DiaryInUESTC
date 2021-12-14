@@ -1,6 +1,6 @@
 # 成电微记
 
-软件工程大项目
+**电子科技大学 软件工程项目**
 
 
 
@@ -24,6 +24,6 @@
 
 ### 应用截图
 
-<img src="README/image-20211214132612201.png" alt="123" style="zoom:50%;" /><img src="README/image-20211214132728564.png" alt="image-20211214132728564" style="zoom: 50%;" /><img src="README/image-20211214132910522.png" style="zoom:50%;" />
+<img src="README/image-20211214133302852.png" style="zoom:33%;" /><img src="README/image-20211214133340890.png" style="zoom:33%;" /><img src="README/image-20211214133403980.png" style="zoom:33%;" /><img src="README/image-20211214133426440.png" style="zoom:33%;" />
 
-更多相关信息 https://yingchenxing.github.io/categories/%E6%88%90%E7%94%B5%E5%BE%AE%E8%AE%B0/
+[更多相关信息: 我的博客]( https://yingchenxing.github.io/categories/%E6%88%90%E7%94%B5%E5%BE%AE%E8%AE%B0/)
