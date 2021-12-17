@@ -73,7 +73,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> im
                 holder.todoContent.setTextColor(Color.parseColor("#C0C0C0"));
             } else {
                 holder.todoContent.getPaint().setFlags(0);//回复划线
-                holder.todoContent.setTextColor(Color.parseColor("#000000"));
+                holder.todoContent.setTextColor(Color.parseColor("#FF65696E"));
             }
             new TodoEngine(mContext).updateTodos(todo);
             mTodoList.set(i, todo);
