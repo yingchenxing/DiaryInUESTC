@@ -23,6 +23,6 @@
 
 
 ### 应用截图
-<img src="README/image-20211214133302852.png" style="zoom: 50%;" /><img src="README/image-20211214133340890.png" style="zoom: 50%;" /><img src="README/image-20211214133403980.png" style="zoom: 50%;" /><img src="README/image-20211214133426440.png" style="zoom:50%;" /><img src="README/image-20211218003636161.png" style="zoom: 50%;" />
+<img src="README/image-20211218003636161.png" width="300px" /><img src="README/image-20211214133302852.png" width="300px" /><img src="README/image-20211214133340890.png" width="300px" /><img src="README/image-20211214133403980.png" width="300px" /><img src="README/image-20211214133426440.png" width="300px" />
 
 [更多相关信息: 我的博客]( https://yingchenxing.github.io/categories/%E6%88%90%E7%94%B5%E5%BE%AE%E8%AE%B0/)
