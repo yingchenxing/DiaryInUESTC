@@ -63,7 +63,7 @@ public class BillStaticActivity extends AppCompatActivity {
     private void initAll() {
         calendar = Calendar.getInstance();
         tittle = findViewById(R.id.static_tittle);
-        tittle.setText(calendar.get(Calendar.MONTH)+1+"月收支情况");
+        tittle.setText(calendar.get(Calendar.MONTH) + 1 + "月收支情况");
         outPieEntries = new ArrayList<>();
         inPieEntries = new ArrayList<>();
         billEngine = new BillEngine(BillStaticActivity.this);
@@ -234,8 +234,10 @@ public class BillStaticActivity extends AppCompatActivity {
     void getAmount() {
         for (int type = 1; type < 14; type++) {
             for (Bill bill : billList) {
-                if (bill.getType() == type) {
-                    amount[type] += bill.getAmount();
+                if (bill.getMonth() == calendar.get(Calendar.MONTH) + 1) {
+                    if (bill.getType() == type) {
+                        amount[type] += bill.getAmount();
+                    }
                 }
             }
         }
@@ -244,19 +246,21 @@ public class BillStaticActivity extends AppCompatActivity {
         outAmount = 0;
 
         for (Bill bill : billList) {
-            if (bill.getType() > 13 || bill.getType() < 1) {
-                if (bill.isIn()) {
-                    amount[14] += bill.getAmount();
-                    inAmount += bill.getAmount();
+            if (bill.getMonth() == calendar.get(Calendar.MONTH) + 1) {
+                if (bill.getType() > 13 || bill.getType() < 1) {
+                    if (bill.isIn()) {
+                        amount[14] += bill.getAmount();
+                        inAmount += bill.getAmount();
+                    } else {
+                        amount[15] += bill.getAmount();
+                        outAmount += bill.getAmount();
+                    }
                 } else {
-                    amount[15] += bill.getAmount();
-                    outAmount += bill.getAmount();
-                }
-            } else {
-                if (bill.isIn()) {
-                    inAmount += bill.getAmount();
-                } else {
-                    outAmount += bill.getAmount();
+                    if (bill.isIn()) {
+                        inAmount += bill.getAmount();
+                    } else {
+                        outAmount += bill.getAmount();
+                    }
                 }
             }
         }
