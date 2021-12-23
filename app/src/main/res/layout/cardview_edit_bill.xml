@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:text="100"
             android:drawableLeft="@drawable/rmb"
-            android:textSize="30sp"
+            android:textSize="20sp"
             android:inputType="number|numberDecimal"
             android:focusable="false"
             app:layout_constraintTop_toBottomOf="@+id/inOutRadioGroup" />
@@ -547,6 +547,8 @@
 
             </LinearLayout>
         </RadioGroup>
+
+
 
         <Button
             android:id="@+id/save_bill_btn"

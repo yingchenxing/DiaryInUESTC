@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -129,7 +130,10 @@ public class BillEditActivity extends AppCompatActivity implements Transluncy {
         rb13 = popView.findViewById(R.id.edit_bill_type13);
         rb14 = popView.findViewById(R.id.edit_bill_type14);
         rb15 = popView.findViewById(R.id.edit_bill_type15);
+        Drawable drawable = getResources().getDrawable(R.drawable.rmb);
+        drawable.setBounds(0,0,40,40);
         editAmount = popView.findViewById(R.id.edit_pop_amount);
+        editAmount.setCompoundDrawables(drawable,null,null,null);
         editContent = popView.findViewById(R.id.edit_content);
         typeSelectGroup = new MRadioGroup(rb1, rb2, rb3, rb4, rb5, rb6, rb7, rb8, rb9, rb10, rb11, rb12, rb13, rb14, rb15);
         typeRg1 = popView.findViewById(R.id.editRG1);
