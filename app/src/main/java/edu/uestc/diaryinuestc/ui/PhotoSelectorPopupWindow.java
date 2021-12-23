@@ -91,7 +91,7 @@ public class PhotoSelectorPopupWindow extends AppCompatActivity implements View.
         if (isBottom) {
             bindingBottom = PhotoSelectPopBottomBinding.inflate(getLayoutInflater());
             //底部滑入
-            overridePendingTransition(R.anim.fadein,0);
+            overridePendingTransition(R.anim.fadein,R.anim.fadeout);
 
             Slide slide_out = new Slide();
             slide_out.setDuration(getResources().getInteger(R.integer.reply_motion_duration_large));
@@ -108,7 +108,7 @@ public class PhotoSelectorPopupWindow extends AppCompatActivity implements View.
             album = bindingBottom.popAlbum;
             bindingBottom.popPhotoCancel.setOnClickListener(this);
         } else {
-            overridePendingTransition(R.anim.fadein, 0);
+            overridePendingTransition(R.anim.fadein, R.anim.fadeout);
             bindingCenter = PhotoSelectPopCenterBinding.inflate(getLayoutInflater());
             setContentView(bindingCenter.getRoot());
             layout = bindingCenter.photoSelectPopLayout;

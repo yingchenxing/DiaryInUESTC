@@ -268,6 +268,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 .create();
         dialog.getWindow().setGravity(Gravity.BOTTOM);
         dialog.getWindow().setBackgroundDrawableResource(R.drawable.round_outline_top);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnim;
         dialog.show();
         //设置在show之后生效,啊这我服了
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -576,7 +577,12 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            fadeout();
+            if (moreMenu.isShowing()){
+                moreMenu.dismiss();
+            }
+            else{
+                fadeout();
+            }
             return true;
         }
         return super.onKeyDown(keyCode, event);
