@@ -1,3 +1,4 @@
+[🇨🇳 中文](README.md) | [🇬🇧 English](README_EN.md)
 # 成电微记
 
 **电子科技大学 软件工程项目**
