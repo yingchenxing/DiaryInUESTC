@@ -1,6 +1,6 @@
 [🇨🇳 中文](README.md) | [🇬🇧 English](README_EN.md)
 
-# CDE Notes
+# Diary In UESTC
 
 **University of Electronic Science and Technology - Software Engineering Project**
 
