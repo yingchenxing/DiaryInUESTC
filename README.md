@@ -1,4 +1,4 @@
-[🇨🇳 中文](README.md)
+[🇨🇳 中文](README_CN.md) | [English](README.md)
 
 # Diary In UESTC
 
